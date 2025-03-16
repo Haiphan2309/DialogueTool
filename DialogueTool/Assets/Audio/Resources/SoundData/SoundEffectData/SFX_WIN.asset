@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb599853ca90eb04cb6aecb5e3a2ea83, type: 3}
+  m_Name: SFX_WIN
+  m_EditorClassIdentifier: 
+  Id: 404
+  Clips:
+  - {fileID: 8300000, guid: 8f29976918dcbef4a9c6d9edffc5b383, type: 3}
+  IsLoop: 0
+  IsPitch: 0
+  IsAlone: 0
+  IsContinues: 0
+  IsSequence: 0
+  IsLowPriority: 0
+  FadeInTime: 0
+  FadeOutTime: 0
+  SpecificMixerGroup: {fileID: 0}
