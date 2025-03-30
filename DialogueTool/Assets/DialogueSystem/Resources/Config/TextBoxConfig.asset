@@ -12,16 +12,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70dedb5563c56c94db9faa9556386dc7, type: 3}
   m_Name: TextBoxConfig
   m_EditorClassIdentifier: 
+  MinSize: {x: 45, y: 40}
+  MaxSize: {x: 1500, y: 500}
   TextBoxPivotConfigs:
-  - PivotType: 1
+  - TextBoxType: 0
+    PivotType: 1
     DegreeZ: 180
+    PivotSize: 0
     AnchorPos: {x: 0, y: 22}
-  - PivotType: 2
+    AnchorMax: {x: 0.5, y: 1}
+    AnchorMin: {x: 0.5, y: 1}
+  - TextBoxType: 0
+    PivotType: 2
     DegreeZ: 0
+    PivotSize: 0
     AnchorPos: {x: 0, y: -25}
-  - PivotType: 3
+    AnchorMax: {x: 0.5, y: 0}
+    AnchorMin: {x: 0.5, y: 0}
+  - TextBoxType: 0
+    PivotType: 3
     DegreeZ: 270
+    PivotSize: 0
     AnchorPos: {x: -22, y: 0}
-  - PivotType: 4
+    AnchorMax: {x: 0, y: 0.5}
+    AnchorMin: {x: 0, y: 0.5}
+  - TextBoxType: 0
+    PivotType: 4
     DegreeZ: 90
+    PivotSize: 0
     AnchorPos: {x: 22, y: 0}
+    AnchorMax: {x: 1, y: 0.5}
+    AnchorMin: {x: 1, y: 0.5}
+  preferHorizontalConfigs:
+  - MinTextLength: 0
+    HorizontalSize: 1
+  - MinTextLength: 1
+    HorizontalSize: 3

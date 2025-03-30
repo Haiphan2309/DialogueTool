@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GDC.Configuration;
+using DialogueSystem;
 
 namespace GDC.Managers
 {
@@ -9,6 +10,7 @@ namespace GDC.Managers
     {
         public static ConfigManager Instance {get; private set;}
         public SceneConfig SceneConfig;
+        public TextBoxConfig TextBoxConfig;
         //public ItemsConfig ItemsConfig;
         //public MapConfig MapConfig;
         //public StreetPatrolConfig PatrolConfig;

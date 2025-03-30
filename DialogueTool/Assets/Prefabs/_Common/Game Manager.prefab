@@ -1039,6 +1039,7 @@ MonoBehaviour:
   canvasTrans: {fileID: 8855768909925267463}
   blackBgPrefab: {fileID: 3752314380522951951, guid: 7401d05b1eff14240a81ba4e973e8753, type: 3}
   touchOutsideText: {fileID: 3090679385112788002}
+  uiSettingPrefab: {fileID: 0}
 --- !u!1 &7369782133999644144
 GameObject:
   m_ObjectHideFlags: 0
@@ -1251,4 +1252,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SceneConfig: {fileID: 11400000, guid: e0bcd2f4cb355734280b7ee7f0a0b134, type: 2}
-  PatrolConfig: {fileID: 11400000, guid: 975fc7fa0bff1b14bb98dcbcc1de002d, type: 2}
+  TextBoxConfig: {fileID: 11400000, guid: 9a08c6d95c81b874590a78ea47d6d122, type: 2}
