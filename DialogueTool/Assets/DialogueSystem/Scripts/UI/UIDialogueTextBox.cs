@@ -52,15 +52,39 @@ namespace DialogueSystem
             Debug.LogError("Text box is oversize!");
         }
 
+        public bool ConvertWorldPosToLocalRectPos(Vector3 worldPos, RectTransform parentRect, out Vector2 localPos)
+        {
+            localPos = Vector2.zero;
+
+            if (parentRect == null)
+            {
+                return false;
+            }
+
+            Vector2 screenPos = (Vector2)Camera.main.WorldToScreenPoint(worldPos);
+
+            // Convert screen position to local position in canvas
+            return RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                parentRect,
+                screenPos,
+                Camera.main,
+                out localPos
+            );
+        }
+
+        private bool CheckIsObjectAboveScreen(Vector3 objectLocalPos)
+        {
+            RectTransform dialogueContainerRect = transform.parent.GetComponent<RectTransform>();
+            return objectLocalPos.y - m_objectSize > dialogueContainerRect.rect.size.y / 2;
+        }
+
         private bool CheckPosition(Vector3 objectWorldPos, out Vector2 resultPos, out PivotType pivotType)
         {
             RectTransform dialogueContainerRect = transform.parent.GetComponent<RectTransform>();
-            Canvas canvas = GetComponentInParent<Canvas>();
             resultPos = Vector2.zero;
             pivotType = PivotType.NONE;
-            if (m_rectTransform == null || dialogueContainerRect == null || canvas == null)
+            if (!ConvertWorldPosToLocalRectPos(objectWorldPos, dialogueContainerRect, out resultPos))
             {
-                Debug.LogError("Some requirements RectTransform are null!");
                 return false;
             }
 
@@ -100,7 +124,7 @@ namespace DialogueSystem
                 return true;
             }
 
-            if (!isOverSizeRight)
+            if (!isOverSizeRight && !CheckIsObjectAboveScreen(objectLocalPos))
             {
                 resultPos.x = Mathf.Max(objectLocalPos.x + m_objectSize + GetSize().x / 2, minX);
                 //resultPos.y = Mathf.Clamp(objectLocalPos.y, minY, maxY);
@@ -109,7 +133,7 @@ namespace DialogueSystem
                 return true;
             }
 
-            if (!isOverSizeLeft)
+            if (!isOverSizeLeft && !CheckIsObjectAboveScreen(objectLocalPos))
             {
                 resultPos.x = Mathf.Min(objectLocalPos.x - m_objectSize - GetSize().x / 2, maxX);
                 //resultPos.y = Mathf.Clamp(objectLocalPos.y, minY, maxY);
@@ -131,22 +155,18 @@ namespace DialogueSystem
 
         private void SetTextBoxPivot(Vector3 objectWorldPos, PivotType pivotType)
         {
-            Vector2 objectScreenPos = (Vector2)Camera.main.WorldToScreenPoint(objectWorldPos);
-            // Convert screen position to local position in canvas
-            Vector2 objectLocalPos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                m_rectTransform,
-                objectScreenPos,
-                Camera.main,
-                out objectLocalPos
-            );
+            Vector2 objectLocalPos = Vector2.zero;
+            if (!ConvertWorldPosToLocalRectPos(objectWorldPos, m_rectTransform, out objectLocalPos))
+            {
+                return;
+            }
 
-            TextBoxPivotConfig textBoxPivotConfig = ConfigManager.Instance.TextBoxConfig.GetTextBoxPivotConfig(m_textBoxType, pivotType);
-            m_textBoxPivot.rotation = Quaternion.Euler(0, 0, textBoxPivotConfig.DegreeZ);
-            m_textBoxPivot.anchorMax = textBoxPivotConfig.AnchorMax;
-            m_textBoxPivot.anchorMin = textBoxPivotConfig.AnchorMin;
+            TextBoxPivotPositionConfig pivotPositionConfig = ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.GetTextBoxPivotPositionConfig(m_textBoxType, pivotType);
+            m_textBoxPivot.rotation = Quaternion.Euler(0, 0, pivotPositionConfig.DegreeZ);
+            m_textBoxPivot.anchorMax = pivotPositionConfig.AnchorMax;
+            m_textBoxPivot.anchorMin = pivotPositionConfig.AnchorMin;
             objectLocalPos = new Vector2(
-                Mathf.Clamp(objectLocalPos.x, -GetSize().x / 2, GetSize().x / 2), 
+                Mathf.Clamp(objectLocalPos.x, -GetSize().x / 2, GetSize().x / 2),
                 Mathf.Clamp(objectLocalPos.y, -GetSize().y / 2, GetSize().y / 2)
                 );
 
@@ -155,12 +175,12 @@ namespace DialogueSystem
                 case PivotType.DOWN:
                 case PivotType.UP:
                     m_textBoxPivot.gameObject.SetActive(true);
-                    m_textBoxPivot.anchoredPosition = new Vector2(objectLocalPos.x, textBoxPivotConfig.AnchorPos.y);
+                    m_textBoxPivot.anchoredPosition = new Vector2(objectLocalPos.x, pivotPositionConfig.AnchorPos.y);
                     break;
                 case PivotType.LEFT:
                 case PivotType.RIGHT:
                     m_textBoxPivot.gameObject.SetActive(true);
-                    m_textBoxPivot.anchoredPosition = new Vector2(textBoxPivotConfig.AnchorPos.x, objectLocalPos.y);
+                    m_textBoxPivot.anchoredPosition = new Vector2(pivotPositionConfig.AnchorPos.x, objectLocalPos.y);
                     break;
                 default:
                     m_textBoxPivot.gameObject.SetActive(false);

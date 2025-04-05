@@ -8,6 +8,7 @@ namespace DialogueSystem
     {
         NORMAL,
         LOUD,
+        THINKING,
     }
     public enum PivotType
     {
@@ -18,15 +19,35 @@ namespace DialogueSystem
         RIGHT,
     }
     [Serializable]
-    public class TextBoxPivotConfig
+    public class TextBoxPivotPositionConfig
     {
         public TextBoxType TextBoxType;
         public PivotType PivotType;
         public float DegreeZ;
-        public float PivotSize;
         public Vector2 AnchorPos;
-        public Vector2 AnchorMax;
+        public Vector2 AnchorMax; //It's for anchor (neo) in UI canvas
         public Vector2 AnchorMin;
+    }
+
+    [Serializable]
+    public class TextBoxPivotConfig
+    {
+        public List<TextBoxPivotPositionConfig> TextBoxPivotPositionConfigs;
+        public float pivotSize;
+        public Sprite NormalSprite;
+        public Sprite LeanSprite;
+
+        public TextBoxPivotPositionConfig GetTextBoxPivotPositionConfig(TextBoxType textBoxType, PivotType pivotType)
+        {
+            foreach (var config in TextBoxPivotPositionConfigs)
+            {
+                if (config.PivotType == pivotType && config.TextBoxType == textBoxType)
+                {
+                    return config;
+                }
+            }
+            return null;
+        }
     }
 
     [Serializable]
@@ -42,22 +63,13 @@ namespace DialogueSystem
     {
         public Vector2 MinSize;
         public Vector2 MaxSize;
-        [SerializeField] private List<TextBoxPivotConfig> TextBoxPivotConfigs;
+        [SerializeField] private TextBoxPivotConfig textBoxPivotConfig;
+        public TextBoxPivotConfig TextBoxPivotConfig { get; private set; }
 
         [Header("Sort ascending by minTextLength")]
         [SerializeField] private List<PreferHorizontalConfig> preferHorizontalConfigs;
+        public List<PreferHorizontalConfig> PreferHorizontalConfigs { get; private set; }
 
-        public TextBoxPivotConfig GetTextBoxPivotConfig(TextBoxType textBoxType, PivotType pivotType)
-        {
-            foreach(var config in TextBoxPivotConfigs)
-            {
-                if (config.PivotType == pivotType && config.TextBoxType == textBoxType)
-                {
-                    return config;
-                }
-            }
-            return null;
-        }
         public float GetPreferHorizontalSize(string text)
         {
             float result = MinSize.x;
@@ -73,11 +85,6 @@ namespace DialogueSystem
                 }
             }
             return result;
-        }
-
-        public List<PreferHorizontalConfig> GetPreferHorizontalConfigs()
-        {
-            return preferHorizontalConfigs;
         }
     }
 }

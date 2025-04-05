@@ -22,7 +22,7 @@ namespace DialogueSystem
                 EditorGUILayout.HelpBox("MinSize or MaxSize can not be negative!", MessageType.Error);
             }
 
-            if (!CheckAscending(config.GetPreferHorizontalConfigs()))
+            if (!CheckAscending(config.PreferHorizontalConfigs))
             {
                 EditorGUILayout.HelpBox("preferHorizontalConfigs.MinTextLength need to be sort ascending!", MessageType.Warning);
             }
