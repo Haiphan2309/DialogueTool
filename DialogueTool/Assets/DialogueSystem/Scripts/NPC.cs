@@ -2,19 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DialogueSystem;
+using Sirenix.OdinInspector;
 
 public class NPC : MonoBehaviour
 {
-    [SerializeField] private Dialogue dialogue;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private List<Dialogue> dialogues;
 
-    // Update is called once per frame
-    void Update()
+    [Button]
+    public void Talk()
     {
-        
+        DialogueManager.Instance.SetDialogue(dialogues);
     }
 }

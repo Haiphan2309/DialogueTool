@@ -14,19 +14,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MinSize: {x: 45, y: 40}
   MaxSize: {x: 1500, y: 500}
-  textBoxPivotConfig:
-    TextBoxPivotPositionConfigs:
+  m_textBoxPivotConfig:
+    m_textBoxPivotPositionConfigs:
     - TextBoxType: 0
       PivotType: 1
       DegreeZ: 180
       AnchorPos: {x: 0, y: 22}
       AnchorMax: {x: 0.5, y: 1}
       AnchorMin: {x: 0.5, y: 1}
-    pivotSize: 68
-    NormalSprite: {fileID: -1857723500, guid: 3c16d3c98d15f77448b85a99454eed7d, type: 3}
-    LeanSprite: {fileID: 192764378, guid: 3c16d3c98d15f77448b85a99454eed7d, type: 3}
-  preferHorizontalConfigs:
+    - TextBoxType: 0
+      PivotType: 2
+      DegreeZ: 0
+      AnchorPos: {x: 0, y: -25}
+      AnchorMax: {x: 0.5, y: 0}
+      AnchorMin: {x: 0.5, y: 0}
+    - TextBoxType: 0
+      PivotType: 3
+      DegreeZ: 270
+      AnchorPos: {x: -22, y: 0}
+      AnchorMax: {x: 0, y: 0.5}
+      AnchorMin: {x: 0, y: 0.5}
+    - TextBoxType: 0
+      PivotType: 4
+      DegreeZ: 90
+      AnchorPos: {x: 22, y: 0}
+      AnchorMax: {x: 1, y: 0.5}
+      AnchorMin: {x: 1, y: 0.5}
+    m_textBoxPivotSprtieConfigs:
+    - TextBoxType: 0
+      NormalSprite: {fileID: -1857723500, guid: 3c16d3c98d15f77448b85a99454eed7d, type: 3}
+      LeanSprite: {fileID: 192764378, guid: 3c16d3c98d15f77448b85a99454eed7d, type: 3}
+    - TextBoxType: 1
+      NormalSprite: {fileID: -1857723500, guid: 3c16d3c98d15f77448b85a99454eed7d, type: 3}
+      LeanSprite: {fileID: 192764378, guid: 3c16d3c98d15f77448b85a99454eed7d, type: 3}
+    - TextBoxType: 2
+      NormalSprite: {fileID: 2082662012, guid: 3c16d3c98d15f77448b85a99454eed7d, type: 3}
+      LeanSprite: {fileID: 1884362993, guid: 3c16d3c98d15f77448b85a99454eed7d, type: 3}
+    PivotSize: 70
+  m_preferHorizontalConfigs:
   - MinTextLength: 0
-    HorizontalSize: 1
-  - MinTextLength: 1
     HorizontalSize: 3

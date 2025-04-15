@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace DialogueSystem
 {
+    ///////////////////////////////////////////////////////////// Pivot config
     public enum TextBoxType
     {
         NORMAL,
@@ -30,16 +31,23 @@ namespace DialogueSystem
     }
 
     [Serializable]
-    public class TextBoxPivotConfig
+    public class TextBoxPivotSpriteConfig
     {
-        public List<TextBoxPivotPositionConfig> TextBoxPivotPositionConfigs;
-        public float pivotSize;
+        public TextBoxType TextBoxType;
         public Sprite NormalSprite;
         public Sprite LeanSprite;
+    }
+
+    [Serializable]
+    public class TextBoxPivotConfig
+    {
+        [SerializeField] private List<TextBoxPivotPositionConfig> m_textBoxPivotPositionConfigs;
+        [SerializeField] private List<TextBoxPivotSpriteConfig> m_textBoxPivotSprtieConfigs;
+        public float PivotSize;
 
         public TextBoxPivotPositionConfig GetTextBoxPivotPositionConfig(TextBoxType textBoxType, PivotType pivotType)
         {
-            foreach (var config in TextBoxPivotPositionConfigs)
+            foreach (var config in m_textBoxPivotPositionConfigs)
             {
                 if (config.PivotType == pivotType && config.TextBoxType == textBoxType)
                 {
@@ -48,7 +56,21 @@ namespace DialogueSystem
             }
             return null;
         }
+
+        public TextBoxPivotSpriteConfig GetTextBoxPivotSpriteConfig(TextBoxType textBoxType)
+        {
+            foreach (var config in m_textBoxPivotSprtieConfigs)
+            {
+                if (config.TextBoxType == textBoxType)
+                {
+                    return config;
+                }
+            }
+            return null;
+        }
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////// Text box config
 
     [Serializable]
     public class PreferHorizontalConfig //Using for prefer custom size of textbox, not dynamic follow text length
@@ -63,17 +85,25 @@ namespace DialogueSystem
     {
         public Vector2 MinSize;
         public Vector2 MaxSize;
-        [SerializeField] private TextBoxPivotConfig textBoxPivotConfig;
-        public TextBoxPivotConfig TextBoxPivotConfig { get; private set; }
+        [SerializeField] private TextBoxPivotConfig m_textBoxPivotConfig;
+        public TextBoxPivotConfig TextBoxPivotConfig 
+        {
+            get => m_textBoxPivotConfig;
+            private set => m_textBoxPivotConfig = value;
+        }
 
         [Header("Sort ascending by minTextLength")]
-        [SerializeField] private List<PreferHorizontalConfig> preferHorizontalConfigs;
-        public List<PreferHorizontalConfig> PreferHorizontalConfigs { get; private set; }
+        [SerializeField] private List<PreferHorizontalConfig> m_preferHorizontalConfigs;
+        public List<PreferHorizontalConfig> PreferHorizontalConfigs
+        {
+            get => m_preferHorizontalConfigs;
+            private set => m_preferHorizontalConfigs = value;
+        }
 
         public float GetPreferHorizontalSize(string text)
         {
             float result = MinSize.x;
-            foreach (var config in preferHorizontalConfigs)
+            foreach (var config in m_preferHorizontalConfigs)
             {
                 if (text.Length > config.MinTextLength)
                 {

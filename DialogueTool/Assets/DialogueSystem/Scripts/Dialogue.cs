@@ -3,11 +3,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace DialogueSystem
 {
     [Serializable]
-    public class DialogueChoice
+    public struct DialogueChoice
     {
         public int NextIndex;
         public string Text;
@@ -22,14 +23,15 @@ namespace DialogueSystem
         [TextArea] public string Text;
         public List<DialogueChoice> Choices = new List<DialogueChoice>();
         public TextBoxType TextBoxType;
+        //public UnityEvent AfterEvent; //event occur when this node done talk
 
         private bool canEditNextIndex
         {
             get
             {
                 if (DialogueContainer == null) return true;
-                return DialogueContainer.dialogueNodes.Count > 0 &&
-                       DialogueContainer.dialogueNodes[DialogueContainer.dialogueNodes.Count - 1] != this;
+                return DialogueContainer.DialogueNodes.Count > 0 &&
+                       DialogueContainer.DialogueNodes[DialogueContainer.DialogueNodes.Count - 1] != this;
             }
         }
 
@@ -37,9 +39,18 @@ namespace DialogueSystem
     }
 
     [Serializable]
+    public struct DialogueEvent
+    {
+        public UnityEvent Event;
+        public int Index;
+    }
+
+    [Serializable]
     public class Dialogue : ISerializationCallbackReceiver
     {
-        public List<DialogueNode> dialogueNodes = new List<DialogueNode>();
+        public Transform ObjectTransform;
+        public List<DialogueNode> DialogueNodes = new List<DialogueNode>();
+        public List<DialogueEvent> DialogueEvents = new List<DialogueEvent>();
 
         public void OnBeforeSerialize()
         {
@@ -52,14 +63,14 @@ namespace DialogueSystem
 
         private void UpdateIndexes()
         {
-            for (int i = 0; i < dialogueNodes.Count; i++)
+            for (int i = 0; i < DialogueNodes.Count; i++)
             {
-                dialogueNodes[i].Index = i;
-                dialogueNodes[i].DialogueContainer = this;
+                DialogueNodes[i].Index = i;
+                DialogueNodes[i].DialogueContainer = this;
 
-                if (i == dialogueNodes.Count - 1)
+                if (i == DialogueNodes.Count - 1)
                 {
-                    dialogueNodes[i].NextIndex = i + 1;
+                    DialogueNodes[i].NextIndex = i + 1;
                 }
             }
         }
