@@ -52,5 +52,5 @@ MonoBehaviour:
       LeanSprite: {fileID: 1884362993, guid: 3c16d3c98d15f77448b85a99454eed7d, type: 3}
     PivotSize: 70
   m_preferHorizontalConfigs:
-  - MinTextLength: 0
-    HorizontalSize: 3
+  - MinTextLength: 50
+    HorizontalSize: 800

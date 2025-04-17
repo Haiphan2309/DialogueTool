@@ -782,7 +782,8 @@ MonoBehaviour:
     DialogueNodes:
     - Index: 0
       NextIndex: 1
-      Text: afhasfhk jasj ask fhkahsj kas
+      Text: "afhasfhk jasj ask fhkahsj kas\\n kmkm fds fdf sdf ksf kjdsf kjbf ksb
+        fkbsd\n fkbk bk ds ds fdsf fsd dsf fsdf s"
       Choices: []
       TextBoxType: 0
     - Index: 1
@@ -1035,8 +1036,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "This is some example text, it's can have animation,\ndynamic size, even
-    sound effect for dialog and \nmutilple choices!"
+  m_text: This is some example  hbjbh bbk k bkbbk
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1129,9 +1129,6 @@ MonoBehaviour:
   m_backText: {fileID: 1427468579}
   m_frontText: {fileID: 43350339}
   m_objectSize: 100
-  m_objectTrans: {fileID: 1134763822}
-  m_text: 'If we have a long text, Like bla bla bla '
-  m_textBoxType: 0
 --- !u!1 &1549826336
 GameObject:
   m_ObjectHideFlags: 0

@@ -152,7 +152,7 @@ namespace DialogueSystem
             m_dialogueState = DialogueState.TALKING;
             int i = 0;
             string text = "";
-            m_uiDialogueTextBox.SetText(text);
+            m_uiDialogueTextBox.UpdateText(text);
             foreach (char letter in node.Text.ToCharArray())
             {
                 if (letter == '&')
@@ -172,7 +172,7 @@ namespace DialogueSystem
                     else
                         yield return new WaitForSecondsRealtime(sec);
                 }
-                m_uiDialogueTextBox.SetText(text);
+                m_uiDialogueTextBox.UpdateText(text);
                 i++;
             }
             m_dialogueState = DialogueState.PAUSE;

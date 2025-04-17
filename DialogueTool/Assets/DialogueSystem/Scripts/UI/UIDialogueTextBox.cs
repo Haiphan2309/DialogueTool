@@ -17,28 +17,17 @@ namespace DialogueSystem
 
         [SerializeField] private float m_objectSize = 300;
 
-        [SerializeField] private Transform m_objectTrans;
-        [SerializeField] private string m_text;
-        [SerializeField] private TextBoxType m_textBoxType;
-#if UNITY_EDITOR
-        //[Button]
-        //public void TestSetup()
-        //{
-        //    Setup(objectTrans.position);
-        //}
-
-        private void Update()
-        {
-            Setup(m_text, m_textBoxType, m_objectTrans.position);
-            m_frontText.text = m_backText.text;
-        }
-#endif
+        private TextBoxType m_textBoxType;
+        private Vector3 m_objectWorldPos;
 
         public void Setup(string text, TextBoxType textBoxType, Vector3 objectWorldPos)
         {
             m_rectTransform = GetComponent<RectTransform>();
+            m_textBoxType = textBoxType;
+            m_objectWorldPos = objectWorldPos;
 
-            //TODO: caculate text length for textbox size
+            m_backText.text = text;
+            m_frontText.text = text;
 
             Vector2 resultPos = Vector2.zero;
             PivotType pivotType = PivotType.NONE;
@@ -50,13 +39,17 @@ namespace DialogueSystem
                 return;
             }
 
-            Debug.LogError("Text box is oversize!");
+            Debug.Log("Text box is oversize! can't spawn!");
         }
 
-        public void SetText(string text)
+        public void UpdateText(string text)
         {
-            m_backText.text = text;
-            m_frontText.text = m_backText.text;
+            Setup(text, m_textBoxType, m_objectWorldPos);
+        }
+
+        public void UpdateText(string text, Vector3 objectWorldPos)
+        {
+            Setup(text, m_textBoxType, objectWorldPos);
         }
 
         public bool ConvertWorldPosToLocalRectPos(Vector3 worldPos, RectTransform parentRect, out Vector2 localPos)
