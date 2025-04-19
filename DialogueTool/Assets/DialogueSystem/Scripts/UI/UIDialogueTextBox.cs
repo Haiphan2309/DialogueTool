@@ -1,9 +1,6 @@
 using GDC.Managers;
-using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
+using GDC.Utils;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,88 +10,83 @@ namespace DialogueSystem
     {
         private RectTransform m_rectTransform;
         [SerializeField] private RectTransform m_textBoxPivot;
-        [SerializeField] private TMP_Text m_backText, m_frontText;
-
-        [SerializeField] private float m_objectSize = 300;
+        [SerializeField] private TMP_Text m_text;
 
         private TextBoxType m_textBoxType;
-        private Vector3 m_objectWorldPos;
+        private float m_objectSize;
 
-        public void Setup(string text, TextBoxType textBoxType, Vector3 objectWorldPos)
+        public void Setup(string text, TextBoxType textBoxType, Vector3 objectWorldPos, float objectSize = 150f)
         {
             m_rectTransform = GetComponent<RectTransform>();
             m_textBoxType = textBoxType;
-            m_objectWorldPos = objectWorldPos;
+            m_objectSize = objectSize;
 
-            m_backText.text = text;
-            m_frontText.text = text;
+            SetText(text);
 
             Vector2 resultPos = Vector2.zero;
             PivotType pivotType = PivotType.NONE;
             bool isPivotOverlapObject = false;
-            if (CheckPosition(objectWorldPos, out resultPos, ref pivotType, ref isPivotOverlapObject))
+            if (TrySetPosition(objectWorldPos, objectSize, out resultPos, ref pivotType, ref isPivotOverlapObject))
             {
                 m_rectTransform.anchoredPosition = resultPos;
-                SetTextBoxPivot(objectWorldPos, textBoxType, pivotType, isPivotOverlapObject);
+                TrySetTextBoxPivot(objectWorldPos, objectSize, textBoxType, pivotType, isPivotOverlapObject);
+                Show();
                 return;
             }
 
             Debug.Log("Text box is oversize! can't spawn!");
+            Hide();
         }
 
-        public void UpdateText(string text)
+        public void UpdatePos(Vector3 objectWorldPos)
         {
-            Setup(text, m_textBoxType, m_objectWorldPos);
+            if (gameObject.activeSelf == false)
+            {
+                return;
+            }
+
+            Vector2 resultPos = Vector2.zero;
+            PivotType pivotType = PivotType.NONE;
+            bool isPivotOverlapObject = false;
+            if (TrySetPosition(objectWorldPos, m_objectSize, out resultPos, ref pivotType, ref isPivotOverlapObject))
+            {
+                m_rectTransform.anchoredPosition = resultPos;
+                TrySetTextBoxPivot(objectWorldPos, m_objectSize, m_textBoxType, pivotType, isPivotOverlapObject);
+                Show();
+            }
         }
 
-        public void UpdateText(string text, Vector3 objectWorldPos)
+        public void Show()
         {
-            Setup(text, m_textBoxType, objectWorldPos);
+            gameObject.SetActive(true);
         }
 
-        public bool ConvertWorldPosToLocalRectPos(Vector3 worldPos, RectTransform parentRect, out Vector2 localPos)
+        public void Hide()
         {
-            localPos = Vector2.zero;
+            gameObject.SetActive(false);
+        }
 
-            if (parentRect == null)
+        public void SetText(string text)
+        {
+            m_text.text = text;
+        }
+
+        private bool TrySetPosition(Vector3 objectWorldPos, float objectSize, out Vector2 resultPos, ref PivotType pivotType, ref bool isPivotOverlapObject)
+        {
+            resultPos = Vector2.zero;
+
+            RectTransform dialogueContainerRect = transform.parent.GetComponent<RectTransform>();          
+            Vector2 objectLocalPos = Vector2.zero;
+            if (!UIUtils.ConvertWorldPosToLocalRectPos(objectWorldPos, dialogueContainerRect, out objectLocalPos))
             {
                 return false;
             }
-
-            Vector2 screenPos = (Vector2)Camera.main.WorldToScreenPoint(worldPos);
-
-            // Convert screen position to local position in canvas
-            return RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                parentRect,
-                screenPos,
-                Camera.main,
-                out localPos
-            );
-        }
-
-        private bool CheckPosition(Vector3 objectWorldPos, out Vector2 resultPos, ref PivotType pivotType, ref bool isPivotOverlapObject)
-        {
-            RectTransform dialogueContainerRect = transform.parent.GetComponent<RectTransform>();
-            if (!ConvertWorldPosToLocalRectPos(objectWorldPos, dialogueContainerRect, out resultPos))
-            {
-                return false;
-            }
-
-            Vector2 objectScreenPos = (Vector2)Camera.main.WorldToScreenPoint(objectWorldPos);
-            // Convert screen position to local position in canvas
-            Vector2 objectLocalPos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                dialogueContainerRect,
-                objectScreenPos,
-                Camera.main,
-                out objectLocalPos
-            );
 
             Vector2 containerSize = dialogueContainerRect.rect.size; //Smaller than canvas size a little
-            bool isOverSizeUp = objectLocalPos.y + m_objectSize + GetSize().y > containerSize.y / 2;
-            bool isOverSizeDown = objectLocalPos.y - m_objectSize - GetSize().y < -containerSize.y / 2;
-            bool isOverSizeRight = objectLocalPos.x + m_objectSize + GetSize().x > containerSize.x / 2;
-            bool isOverSizeLeft = objectLocalPos.x - m_objectSize - GetSize().x < -containerSize.x / 2;
+            bool isOverSizeUp = objectLocalPos.y + objectSize + GetSize().y > containerSize.y / 2;
+            bool isOverSizeDown = objectLocalPos.y - objectSize - GetSize().y < -containerSize.y / 2;
+            bool isOverSizeRight = objectLocalPos.x + objectSize + GetSize().x > containerSize.x / 2;
+            bool isOverSizeLeft = objectLocalPos.x - objectSize - GetSize().x < -containerSize.x / 2;
 
             if (isOverSizeUp && isOverSizeDown && isOverSizeLeft && isOverSizeDown
                 || GetSize().x > containerSize.x
@@ -103,9 +95,9 @@ namespace DialogueSystem
                 return false;
             }
 
-            bool isObjectPassTopBorder = objectLocalPos.y - m_objectSize > dialogueContainerRect.rect.size.y / 2;
-            bool isObjectPassLeftBorder = objectLocalPos.x + m_objectSize < -dialogueContainerRect.rect.size.x / 2;
-            bool isObjectPassRightBorder = objectLocalPos.x - m_objectSize > dialogueContainerRect.rect.size.x / 2;
+            bool isObjectPassTopBorder = objectLocalPos.y - objectSize > dialogueContainerRect.rect.size.y / 2;
+            bool isObjectPassLeftBorder = objectLocalPos.x + objectSize < -dialogueContainerRect.rect.size.x / 2;
+            bool isObjectPassRightBorder = objectLocalPos.x - objectSize > dialogueContainerRect.rect.size.x / 2;
 
             float minX = -containerSize.x / 2 + GetSize().x / 2;
             float maxX = containerSize.x / 2 - GetSize().x / 2;
@@ -116,8 +108,8 @@ namespace DialogueSystem
 
             if (!isOverSizeUp && !isObjectPassLeftBorder && !isObjectPassRightBorder)
             {
-                isPivotOverlapObject = objectLocalPos.y + m_objectSize + pivotSize + GetSize().y > containerSize.y / 2;
-                resultPos.y = objectLocalPos.y + m_objectSize + GetSize().y / 2;
+                isPivotOverlapObject = objectLocalPos.y + objectSize + pivotSize + GetSize().y > containerSize.y / 2;
+                resultPos.y = objectLocalPos.y + objectSize + GetSize().y / 2;
                 resultPos.y = Mathf.Max(isPivotOverlapObject ? resultPos.y : resultPos.y + pivotSize, minY);
                 resultPos.x = Mathf.Clamp(objectLocalPos.x, minX, maxX);
                 pivotType = PivotType.DOWN;
@@ -126,8 +118,8 @@ namespace DialogueSystem
 
             if (!isOverSizeRight && !isObjectPassTopBorder)
             {
-                isPivotOverlapObject = objectLocalPos.x + m_objectSize + pivotSize + GetSize().x > containerSize.x / 2;
-                resultPos.x = objectLocalPos.x + m_objectSize + GetSize().x / 2;
+                isPivotOverlapObject = objectLocalPos.x + objectSize + pivotSize + GetSize().x > containerSize.x / 2;
+                resultPos.x = objectLocalPos.x + objectSize + GetSize().x / 2;
                 resultPos.x = Mathf.Max(isPivotOverlapObject ? resultPos.x : resultPos.x + pivotSize, minX);
                 resultPos.y = Mathf.Clamp(objectLocalPos.y, minY, maxY);
                 pivotType = PivotType.LEFT;
@@ -136,8 +128,8 @@ namespace DialogueSystem
 
             if (!isOverSizeLeft && !isObjectPassTopBorder)
             {
-                isPivotOverlapObject = objectLocalPos.x - m_objectSize - pivotSize - GetSize().x < -containerSize.x / 2;
-                resultPos.x = objectLocalPos.x - m_objectSize - GetSize().x / 2;
+                isPivotOverlapObject = objectLocalPos.x - objectSize - pivotSize - GetSize().x < -containerSize.x / 2;
+                resultPos.x = objectLocalPos.x - objectSize - GetSize().x / 2;
                 resultPos.x = Mathf.Min(isPivotOverlapObject ? resultPos.x : resultPos.x - pivotSize, maxX);
                 resultPos.y = Mathf.Clamp(objectLocalPos.y, minY, maxY);
                 pivotType = PivotType.RIGHT;
@@ -146,8 +138,8 @@ namespace DialogueSystem
 
             if (!isOverSizeDown)
             {
-                isPivotOverlapObject = objectLocalPos.y - m_objectSize - pivotSize - GetSize().y < -containerSize.y / 2;
-                resultPos.y = objectLocalPos.y - m_objectSize - GetSize().y / 2;
+                isPivotOverlapObject = objectLocalPos.y - objectSize - pivotSize - GetSize().y < -containerSize.y / 2;
+                resultPos.y = objectLocalPos.y - objectSize - GetSize().y / 2;
                 resultPos.y = Mathf.Min(isPivotOverlapObject ? resultPos.y : resultPos.y - pivotSize, maxY);
                 resultPos.x = Mathf.Clamp(objectLocalPos.x, minX, maxX);
                 pivotType = PivotType.UP;
@@ -157,21 +149,22 @@ namespace DialogueSystem
             return false;
         }
 
-        private void SetTextBoxPivot(Vector3 objectWorldPos, TextBoxType textBoxType, PivotType pivotType, bool isPivotOverlapObject)
+        private void TrySetTextBoxPivot(Vector3 objectWorldPos, float objectSize, TextBoxType textBoxType, PivotType pivotType, bool isPivotOverlapObject)
         {
             Vector2 objectLocalPos = Vector2.zero;
-            if (!ConvertWorldPosToLocalRectPos(objectWorldPos, m_rectTransform, out objectLocalPos))
+            if (!UIUtils.ConvertWorldPosToLocalRectPos(objectWorldPos, m_rectTransform, out objectLocalPos))
             {
                 return;
             }
 
-            TextBoxPivotPositionConfig pivotPositionConfig = ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.GetTextBoxPivotPositionConfig(m_textBoxType, pivotType);
+            TextBoxPivotPositionConfig pivotPositionConfig = ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.GetTextBoxPivotPositionConfig(textBoxType, pivotType);
             m_textBoxPivot.rotation = Quaternion.Euler(0, 0, pivotPositionConfig.DegreeZ);
             m_textBoxPivot.anchorMax = pivotPositionConfig.AnchorMax;
             m_textBoxPivot.anchorMin = pivotPositionConfig.AnchorMin;
+            float padding = ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.Padding;
             Vector2 clampLocalPos = new Vector2(
-                Mathf.Clamp(objectLocalPos.x, -GetSize().x / 2, GetSize().x / 2),
-                Mathf.Clamp(objectLocalPos.y, -GetSize().y / 2, GetSize().y / 2)
+                Mathf.Clamp(objectLocalPos.x, -GetSize().x / 2 + padding, GetSize().x / 2 - padding),
+                Mathf.Clamp(objectLocalPos.y, -GetSize().y / 2 + padding, GetSize().y / 2 - padding)
                 );
 
             bool isActive = true;
@@ -181,13 +174,13 @@ namespace DialogueSystem
                 case PivotType.UP:
                     if (isPivotOverlapObject)
                     {
-                        if (GetSize().x - m_objectSize < ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize) //mean not have enough size for text box pivot
+                        if (GetSize().x - objectSize < ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize) //mean not have enough size for text box pivot
                         {
                             isActive = false;
                             break;
                         }
                         bool isObjectNearLeft = objectLocalPos.x < 0;
-                        clampLocalPos.x = Mathf.Clamp(isObjectNearLeft ? objectLocalPos.x + m_objectSize * 1.2f : objectLocalPos.x - m_objectSize * 1.2f, -GetSize().x / 2, GetSize().x / 2);
+                        clampLocalPos.x = Mathf.Clamp(isObjectNearLeft ? objectLocalPos.x + objectSize * 1.2f : objectLocalPos.x - objectSize * 1.2f, -GetSize().x / 2, GetSize().x / 2);
                         m_textBoxPivot.rotation = Quaternion.Euler(0, isObjectNearLeft ? 0 : 180, m_textBoxPivot.rotation.eulerAngles.z); //flip the lean sprite if need
                     }
                     m_textBoxPivot.anchoredPosition = new Vector2(clampLocalPos.x, pivotPositionConfig.AnchorPos.y);
@@ -197,13 +190,13 @@ namespace DialogueSystem
                 case PivotType.RIGHT:
                     if (isPivotOverlapObject)
                     {
-                        if (GetSize().y - m_objectSize < ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize) //mean not have enough size for text box pivot
+                        if (GetSize().y - objectSize < ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize) //mean not have enough size for text box pivot
                         {
                             isActive = false;
                             break;
                         }
                         bool isObjectNearDown = objectLocalPos.x < 0;
-                        clampLocalPos.y = Mathf.Clamp(isObjectNearDown ? objectLocalPos.y + m_objectSize * 1.2f : objectLocalPos.y - m_objectSize * 1.2f, -GetSize().y / 2, GetSize().y / 2);
+                        clampLocalPos.y = Mathf.Clamp(isObjectNearDown ? objectLocalPos.y + objectSize * 1.2f : objectLocalPos.y - objectSize * 1.2f, -GetSize().y / 2, GetSize().y / 2);
                         m_textBoxPivot.rotation = Quaternion.Euler(0, isObjectNearDown ? 0 : 180, m_textBoxPivot.rotation.eulerAngles.z); //flip the lean sprite if need
                     }
                     m_textBoxPivot.anchoredPosition = new Vector2(pivotPositionConfig.AnchorPos.x, clampLocalPos.y);
@@ -220,13 +213,13 @@ namespace DialogueSystem
             m_textBoxPivot.GetComponent<Image>().sprite = isPivotOverlapObject ? spriteConfig.LeanSprite : spriteConfig.NormalSprite;
 
             //Vector2 pivotRectPos = m_textBoxPivot.GetComponent<RectTransform>().anchoredPosition;
-            //bool isPivotOverlapObject = objectLocalPos.x + m_objectSize / 2 < pivotRectPos.x + ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize / 2
-            //    && objectLocalPos.x - m_objectSize / 2 > pivotRectPos.x - ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize / 2
-            //    && objectLocalPos.y + m_objectSize / 2 < pivotRectPos.y + ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize / 2
-            //    && objectLocalPos.y - m_objectSize / 2 > pivotRectPos.y - ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize / 2;
+            //bool isPivotOverlapObject = objectLocalPos.x + objectSize / 2 < pivotRectPos.x + ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize / 2
+            //    && objectLocalPos.x - objectSize / 2 > pivotRectPos.x - ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize / 2
+            //    && objectLocalPos.y + objectSize / 2 < pivotRectPos.y + ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize / 2
+            //    && objectLocalPos.y - objectSize / 2 > pivotRectPos.y - ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize / 2;
         }
 
-        private Vector2 GetSize()
+        public Vector2 GetSize()
         {
             return m_rectTransform.rect.size;
         }

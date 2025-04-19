@@ -22,22 +22,22 @@ namespace DialogueSystem
                 EditorGUILayout.HelpBox("MinSize or MaxSize can not be negative!", MessageType.Error);
             }
 
-            if (!CheckAscending(config.PreferHorizontalConfigs))
-            {
-                EditorGUILayout.HelpBox("preferHorizontalConfigs.MinTextLength need to be sort ascending!", MessageType.Warning);
-            }
+            //if (!CheckAscending(config.PreferHorizontalConfigs))
+            //{
+            //    EditorGUILayout.HelpBox("preferHorizontalConfigs.MinTextLength need to be sort ascending!", MessageType.Warning);
+            //}
         }
 
-        private bool CheckAscending(List<PreferHorizontalConfig> preferHorizontalConfigs)
-        {
-            for (int i = 1; i < preferHorizontalConfigs.Count; i++)
-            {
-                if (preferHorizontalConfigs[i].MinTextLength < preferHorizontalConfigs[i - 1].MinTextLength)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        //private bool CheckAscending(List<PreferHorizontalConfig> preferHorizontalConfigs)
+        //{
+        //    for (int i = 1; i < preferHorizontalConfigs.Count; i++)
+        //    {
+        //        if (preferHorizontalConfigs[i].MinTextLength < preferHorizontalConfigs[i - 1].MinTextLength)
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    return true;
+        //}
     }
 }

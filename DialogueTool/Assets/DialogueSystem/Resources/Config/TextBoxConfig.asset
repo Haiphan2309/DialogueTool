@@ -51,6 +51,6 @@ MonoBehaviour:
       NormalSprite: {fileID: 2082662012, guid: 3c16d3c98d15f77448b85a99454eed7d, type: 3}
       LeanSprite: {fileID: 1884362993, guid: 3c16d3c98d15f77448b85a99454eed7d, type: 3}
     PivotSize: 70
-  m_preferHorizontalConfigs:
-  - MinTextLength: 50
-    HorizontalSize: 800
+    Padding: 40
+  m_choosingTextBoxConfig:
+    UITextBoxChoicePrefab: {fileID: 1687323253785181340, guid: 73639a8777210be4daa2d1ffc4b5c89f, type: 3}

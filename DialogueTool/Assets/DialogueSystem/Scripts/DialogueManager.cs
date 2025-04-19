@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DialogueSystem
 {
@@ -9,6 +11,7 @@ namespace DialogueSystem
         FINISH,
         TALKING,
         PAUSE,
+        CHOOSING,
     }
 
     public class DialogueManager : MonoBehaviour
@@ -16,7 +19,7 @@ namespace DialogueSystem
         public static DialogueManager Instance { get; private set; }
 
         private DialogueState m_dialogueState;
-        public DialogueState DialogueState 
+        public DialogueState DialogueState
         {
             get => m_dialogueState;
             private set => m_dialogueState = value;
@@ -27,14 +30,14 @@ namespace DialogueSystem
         private int m_currentDialogueIndex;
         private int m_currentNodeIndex; //current dialogue node index
         [SerializeField] private UIDialogueTextBox m_uiDialogueTextBox;
+        [SerializeField] private UIChoosingTextBox m_uiChoosingTextBox;
 
         [SerializeField] private Color m_nameColor;
 
         private Coroutine m_talkCor;
 
-        float sec;
-        bool isChoosingBranch1, isBranchDialogue, isBlackChoosingText;
         bool m_isTalkingSpeedUp;
+        bool m_isSkipTalking;
 
         private void Awake()
         {
@@ -46,32 +49,52 @@ namespace DialogueSystem
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F) && m_dialogueState != DialogueState.TALKING)
+            switch (m_dialogueState)
             {
-                //SoundManager.Instance.PlaySound(AudioPlayer.SoundID.SFX_INTERACT);
-                DisplayDialogue();
+                case DialogueState.TALKING:
+                    if (Input.GetKeyDown(KeyCode.F)) //watch out this case, it's might be call right after SetDialogue()
+                    {
+                        SkipTalking();
+                    }
+                    if (Input.GetKey(KeyCode.F))
+                    {
+                        m_isTalkingSpeedUp = true;
+                    }
+                    if (Input.GetKeyUp(KeyCode.F))
+                    {
+                        m_isTalkingSpeedUp = false;
+                    }
+                    break;
+                case DialogueState.CHOOSING:
+                    if (Input.GetKeyDown(KeyCode.W))
+                    {
+                        m_uiChoosingTextBox.ActiveUpChoice();
+                    }
+                    if (Input.GetKeyDown(KeyCode.S))
+                    {
+                        m_uiChoosingTextBox.ActiveDownChoice();
+                    }
+                    if (Input.GetKeyDown(KeyCode.F))
+                    {
+                        ChooseChoice();
+                        DisplayDialogue();
+                    }
+                    break;
+                case DialogueState.PAUSE:
+                    if (Input.GetKeyDown(KeyCode.F))
+                    {
+                        DisplayDialogue();
+                    }
+                    break;
+                default:
+                    break;
             }
 
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S))
+            if (m_dialogueState != DialogueState.FINISH)
             {
-                //todo: do choosing stuff
-
-                // if (choosingSymbol.gameObject.activeSelf)
-                //     SoundManager.Instance.PlaySound(AudioPlayer.SoundID.SFX_INTERACT);
-                // isChoosingBranch1 = !isChoosingBranch1;
-                // if (isChoosingBranch1)
-                //     choosingSymbol.rectTransform.anchoredPosition = new Vector2(0,choosingText1.rectTransform.anchoredPosition.y);
-                // else
-                //     choosingSymbol.rectTransform.anchoredPosition = new Vector2(0, choosingText2.rectTransform.anchoredPosition.y);
-            }
-
-            if (Input.GetKey(KeyCode.F))
-            {
-                m_isTalkingSpeedUp = true;
-            }
-            if (Input.GetKeyUp(KeyCode.F))
-            {
-                m_isTalkingSpeedUp = false;
+                int updateDialogueIndex = Mathf.Clamp(m_currentDialogueIndex, 0, m_dialogues.Count - 1); 
+                m_uiChoosingTextBox.UpdatePos(m_dialogues[updateDialogueIndex].ObjectTransform.position);
+                m_uiDialogueTextBox.UpdatePos(m_dialogues[updateDialogueIndex].ObjectTransform.position);
             }
         }
 
@@ -79,7 +102,6 @@ namespace DialogueSystem
         {
             m_dialogues = dialogues;
 
-            sec = 0.02f;
             m_dialogueState = DialogueState.TALKING;
             m_currentDialogueIndex = 0;
             m_currentNodeIndex = 0;
@@ -93,7 +115,6 @@ namespace DialogueSystem
             m_dialogues = new List<Dialogue>();
             m_dialogues.Add(dialogue);
 
-            sec = 0.02f;
             m_dialogueState = DialogueState.TALKING;
             m_currentDialogueIndex = 0;
             m_currentNodeIndex = 0;
@@ -112,75 +133,116 @@ namespace DialogueSystem
 
             DialogueNode node = m_dialogues[m_currentDialogueIndex].DialogueNodes[m_currentNodeIndex];
 
+            m_uiDialogueTextBox.Setup("", node.TextBoxType, m_dialogues[m_currentDialogueIndex].ObjectTransform.position);
+
             if (m_talkCor != null)
             {
                 StopCoroutine(m_talkCor);
             }
-            m_uiDialogueTextBox.Setup(node.Text, node.TextBoxType, m_dialogues[m_currentDialogueIndex].ObjectTransform.position);
             m_talkCor = StartCoroutine(CorTypeSentence(node));
+        }
 
-            m_currentNodeIndex++;
+        private void ToNextNodeIndex()
+        {
+            m_currentNodeIndex = m_dialogues[m_currentDialogueIndex].DialogueNodes[m_currentNodeIndex].NextIndex;
             if (m_currentNodeIndex >= m_dialogues[m_currentDialogueIndex].DialogueNodes.Count)
             {
                 m_currentDialogueIndex++;
                 m_currentNodeIndex = 0;
             }
+        }
 
-            // for (int i = 0; i < eventTalks.Count; i++)
-            // {
-            //     if (eventIndexs[i] == sentenceIndex)
-            //     {
-            //         eventTalks[i]?.Invoke();
-            //     }
-            // }
+        private void CheckDialogueEvent()
+        {
+            foreach (var dialogueEvent in m_dialogues[m_currentDialogueIndex].DialogueEvents)
+            {
+                if (dialogueEvent.Index == m_currentNodeIndex)
+                {
+                    dialogueEvent.Event?.Invoke();
+                    break;
+                }
+            }
+        }
+
+        private void ActiveChoosing(List<DialogueChoice> choices)
+        {
+            m_uiChoosingTextBox.Setup(choices, m_uiDialogueTextBox, m_dialogues[m_currentDialogueIndex].ObjectTransform.position);
+            m_dialogueState = DialogueState.CHOOSING;
+        }
+
+        private void ChooseChoice()
+        {
+            DialogueChoice currentChoice = m_uiChoosingTextBox.GetCurrentChoice();
+            m_currentNodeIndex = currentChoice.NextIndex;
+
+            m_uiChoosingTextBox.OnChooseChoice();
         }
 
         public void EndDialogue()
         {
             m_dialogueState = DialogueState.FINISH;
+            m_uiDialogueTextBox.Hide();
         }
-        void ActiveChoosing()
+
+        private void EndTalking()
         {
-            // choosingText1.gameObject.SetActive(true);
-            // choosingText2.gameObject.SetActive(true);
-            // choosingSymbol.gameObject.SetActive(true);
-            // choosingSymbol.rectTransform.anchoredPosition = new Vector2(0, choosingText1.rectTransform.anchoredPosition.y);
-            // isChoosingBranch1 = true;
+            m_dialogueState = DialogueState.PAUSE;
+
+            List<DialogueChoice> choices = m_dialogues[m_currentDialogueIndex].DialogueNodes[m_currentNodeIndex].Choices;
+            if (choices.Count > 0)
+            {
+                ActiveChoosing(choices);
+            }
+            else
+            {
+                CheckDialogueEvent();
+                ToNextNodeIndex();
+            }
+        }
+
+        private void SkipTalking()
+        {
+            if (m_talkCor != null)
+            {
+                StopCoroutine(m_talkCor);
+                m_talkCor = null;
+            }
+
+            m_uiDialogueTextBox.SetText(m_dialogues[m_currentDialogueIndex].DialogueNodes[m_currentNodeIndex].Text);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(m_uiDialogueTextBox.GetComponent<RectTransform>());
         }
         private IEnumerator CorTypeSentence(DialogueNode node)
         {
             m_dialogueState = DialogueState.TALKING;
-            int i = 0;
-            string text = "";
-            m_uiDialogueTextBox.UpdateText(text);
+            string str = "";
+            m_uiDialogueTextBox.SetText(str);
             foreach (char letter in node.Text.ToCharArray())
             {
                 if (letter == '&')
                 {
                     string hexColor = ColorUtility.ToHtmlStringRGB(m_nameColor);
-                    //text += $"<color=#{hexColor}>{SaveLoadManager.Instance.GameData.PlayerName}</color>";
+                    //str += $"<color=#{hexColor}>{SaveLoadManager.Instance.GameData.PlayerName}</color>";
                 }
                 else
                 {
-                    text += letter;
+                    str += letter;
                 }
 
-                if (m_isTalkingSpeedUp == false || (i % 4 == 0 && m_isTalkingSpeedUp))
+                float sec = 0.02f; //default
+                if (m_isTalkingSpeedUp)
                 {
-                    if (letter == '.' || letter == ',' || letter == '!' || letter == '?')
-                        yield return new WaitForSecondsRealtime(sec * 5);
-                    else
-                        yield return new WaitForSecondsRealtime(sec);
+                    sec = 0.01f;
                 }
-                m_uiDialogueTextBox.UpdateText(text);
-                i++;
-            }
-            m_dialogueState = DialogueState.PAUSE;
 
-            if (node.Choices.Count > 0)
-            {
-                ActiveChoosing();
+                if (letter == '.' || letter == ',' || letter == '!' || letter == '?')
+                    yield return new WaitForSecondsRealtime(sec * 5);
+                else
+                    yield return new WaitForSecondsRealtime(sec);
+
+                m_uiDialogueTextBox.SetText(str);
             }
+
+            EndTalking();
         }
     }
 }
