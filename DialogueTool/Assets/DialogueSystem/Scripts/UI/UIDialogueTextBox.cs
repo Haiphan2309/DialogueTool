@@ -13,13 +13,11 @@ namespace DialogueSystem
         [SerializeField] private TMP_Text m_text;
 
         private TextBoxType m_textBoxType;
-        private float m_objectSize;
 
-        public void Setup(string text, TextBoxType textBoxType, Vector3 objectWorldPos, float objectSize = 150f)
+        public void Setup(string text, TextBoxType textBoxType, Vector3 objectWorldPos, float objectSize)
         {
             m_rectTransform = GetComponent<RectTransform>();
             m_textBoxType = textBoxType;
-            m_objectSize = objectSize;
 
             SetText(text);
 
@@ -38,7 +36,7 @@ namespace DialogueSystem
             Hide();
         }
 
-        public void UpdatePos(Vector3 objectWorldPos)
+        public void UpdatePos(Vector3 objectWorldPos, float objectSize)
         {
             if (gameObject.activeSelf == false)
             {
@@ -48,10 +46,10 @@ namespace DialogueSystem
             Vector2 resultPos = Vector2.zero;
             PivotType pivotType = PivotType.NONE;
             bool isPivotOverlapObject = false;
-            if (TrySetPosition(objectWorldPos, m_objectSize, out resultPos, ref pivotType, ref isPivotOverlapObject))
+            if (TrySetPosition(objectWorldPos, objectSize, out resultPos, ref pivotType, ref isPivotOverlapObject))
             {
                 m_rectTransform.anchoredPosition = resultPos;
-                TrySetTextBoxPivot(objectWorldPos, m_objectSize, m_textBoxType, pivotType, isPivotOverlapObject);
+                TrySetTextBoxPivot(objectWorldPos, objectSize, m_textBoxType, pivotType, isPivotOverlapObject);
                 Show();
             }
         }

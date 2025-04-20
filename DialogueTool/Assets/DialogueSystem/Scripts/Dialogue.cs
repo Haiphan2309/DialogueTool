@@ -46,9 +46,16 @@ namespace DialogueSystem
     }
 
     [Serializable]
-    public class Dialogue : ISerializationCallbackReceiver
+    public struct TalkingObjectData
     {
         public Transform ObjectTransform;
+        public float Size;
+    }
+
+    [Serializable]
+    public class Dialogue : ISerializationCallbackReceiver
+    {
+        public TalkingObjectData TalkingObjectData;
         public List<DialogueNode> DialogueNodes = new List<DialogueNode>();
         public List<DialogueEvent> DialogueEvents = new List<DialogueEvent>();
 

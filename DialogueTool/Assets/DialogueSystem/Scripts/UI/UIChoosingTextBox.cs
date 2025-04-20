@@ -14,14 +14,11 @@ namespace DialogueSystem
         private UIDialogueTextBox m_uiDialogueTextBox;
 
         private int m_currentChoiceIndex;
-        private Vector3 m_objectWorldPos;
-        private float m_objectSize;
 
-        public void Setup(List<DialogueChoice> choices , UIDialogueTextBox uiDialogueTextBox, Vector3 objectWorldPos, float objectSize = 150f)
+        public void Setup(List<DialogueChoice> choices , UIDialogueTextBox uiDialogueTextBox, Vector3 objectWorldPos, float objectSize)
         {
             m_rectTransform = GetComponent<RectTransform>();
             m_uiDialogueTextBox = uiDialogueTextBox;
-            m_objectSize = objectSize;
 
             Vector2 resultPos = Vector2.zero;
             if (TrySetPosition(objectWorldPos, objectSize, out resultPos))
@@ -54,7 +51,7 @@ namespace DialogueSystem
             ActiveChoice(m_currentChoiceIndex);
         }
 
-        public void UpdatePos(Vector3 objectWorldPos)
+        public void UpdatePos(Vector3 objectWorldPos, float objectSize)
         {
             if (gameObject.activeSelf == false)
             {
@@ -62,7 +59,7 @@ namespace DialogueSystem
             }
 
             Vector2 resultPos = Vector2.zero;
-            if (TrySetPosition(objectWorldPos, m_objectSize, out resultPos))
+            if (TrySetPosition(objectWorldPos, objectSize, out resultPos))
             {
                 m_rectTransform.anchoredPosition = resultPos;
             }

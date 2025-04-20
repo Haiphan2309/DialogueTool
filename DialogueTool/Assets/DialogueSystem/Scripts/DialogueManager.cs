@@ -92,9 +92,13 @@ namespace DialogueSystem
 
             if (m_dialogueState != DialogueState.FINISH)
             {
-                int updateDialogueIndex = Mathf.Clamp(m_currentDialogueIndex, 0, m_dialogues.Count - 1); 
-                m_uiChoosingTextBox.UpdatePos(m_dialogues[updateDialogueIndex].ObjectTransform.position);
-                m_uiDialogueTextBox.UpdatePos(m_dialogues[updateDialogueIndex].ObjectTransform.position);
+                int updateDialogueIndex = Mathf.Clamp(m_currentDialogueIndex, 0, m_dialogues.Count - 1);
+                TalkingObjectData talkingObjectData = m_dialogues[updateDialogueIndex].TalkingObjectData;
+                if (talkingObjectData.ObjectTransform)
+                {
+                    m_uiChoosingTextBox.UpdatePos(talkingObjectData.ObjectTransform.position, talkingObjectData.Size);
+                    m_uiDialogueTextBox.UpdatePos(talkingObjectData.ObjectTransform.position, talkingObjectData.Size);
+                }
             }
         }
 
@@ -133,7 +137,9 @@ namespace DialogueSystem
 
             DialogueNode node = m_dialogues[m_currentDialogueIndex].DialogueNodes[m_currentNodeIndex];
 
-            m_uiDialogueTextBox.Setup("", node.TextBoxType, m_dialogues[m_currentDialogueIndex].ObjectTransform.position);
+            TalkingObjectData talkingObjectData = m_dialogues[m_currentDialogueIndex].TalkingObjectData;
+            Vector3 objectPos = talkingObjectData.ObjectTransform ? talkingObjectData.ObjectTransform.position : Vector3.zero;
+            m_uiDialogueTextBox.Setup("", node.TextBoxType, objectPos, talkingObjectData.Size);
 
             if (m_talkCor != null)
             {
@@ -166,7 +172,9 @@ namespace DialogueSystem
 
         private void ActiveChoosing(List<DialogueChoice> choices)
         {
-            m_uiChoosingTextBox.Setup(choices, m_uiDialogueTextBox, m_dialogues[m_currentDialogueIndex].ObjectTransform.position);
+            TalkingObjectData talkingObjectData = m_dialogues[m_currentDialogueIndex].TalkingObjectData;
+            Vector3 objectPos = talkingObjectData.ObjectTransform ? talkingObjectData.ObjectTransform.position : Vector3.zero;
+            m_uiChoosingTextBox.Setup(choices, m_uiDialogueTextBox, objectPos, talkingObjectData.Size);
             m_dialogueState = DialogueState.CHOOSING;
         }
 
@@ -210,6 +218,7 @@ namespace DialogueSystem
 
             m_uiDialogueTextBox.SetText(m_dialogues[m_currentDialogueIndex].DialogueNodes[m_currentNodeIndex].Text);
             LayoutRebuilder.ForceRebuildLayoutImmediate(m_uiDialogueTextBox.GetComponent<RectTransform>());
+            EndTalking();
         }
         private IEnumerator CorTypeSentence(DialogueNode node)
         {

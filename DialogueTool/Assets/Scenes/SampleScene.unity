@@ -1085,7 +1085,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogues:
-  - ObjectTransform: {fileID: 1134763822}
+  - TalkingObjectData:
+      ObjectTransform: {fileID: 1134763822}
+      Size: 150
     DialogueNodes:
     - Index: 0
       NextIndex: 1
