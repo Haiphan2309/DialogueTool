@@ -39,12 +39,20 @@ namespace DialogueSystem
     }
 
     [Serializable]
+    public class TextBoxSpriteConfig
+    {
+        public TextBoxType TextBoxType;
+        public Sprite TextBoxSprite;
+    }
+
+    [Serializable]
     public class TextBoxPivotConfig
     {
         [SerializeField] private List<TextBoxPivotPositionConfig> m_textBoxPivotPositionConfigs;
         [SerializeField] private List<TextBoxPivotSpriteConfig> m_textBoxPivotSprtieConfigs;
         public float PivotSize;
-        public float Padding;
+        public float PaddingBorder;
+        public float MutiplePaddingLeanObject;
 
         public TextBoxPivotPositionConfig GetTextBoxPivotPositionConfig(TextBoxType textBoxType, PivotType pivotType)
         {
@@ -73,19 +81,18 @@ namespace DialogueSystem
 
     ////////////////////////////////////////////////////////////////////////////////////////////// Text box config
 
-    [Serializable]
-    public class PreferHorizontalConfig //Using for prefer custom size of textbox, not dynamic follow text length
-    {
-        public int MinTextLength;
-        public float HorizontalSize;
-    }
+    //[Serializable]
+    //public class PreferHorizontalConfig //Using for prefer custom size of textbox, not dynamic follow text length
+    //{
+    //    public int MinTextLength;
+    //    public float HorizontalSize;
+    //}
 
     [Serializable]
     public class ChoosingTextBoxConfig
     {
         public UITextBoxChoice UITextBoxChoicePrefab;
     }
-
 
     [Serializable]
     [CreateAssetMenu(menuName = "Config/DialogueSystem/TextBoxConfig")]
@@ -106,6 +113,20 @@ namespace DialogueSystem
         {
             get => m_choosingTextBoxConfig;
             private set => m_choosingTextBoxConfig = value;
+        }
+
+        [SerializeField] private List<TextBoxSpriteConfig> m_textBoxSprtieConfigs;
+
+        public TextBoxSpriteConfig GetTextBoxSpriteConfig(TextBoxType textBoxType)
+        {
+            foreach (var config in m_textBoxSprtieConfigs)
+            {
+                if (config.TextBoxType == textBoxType)
+                {
+                    return config;
+                }
+            }
+            return null;
         }
 
         //[Header("Sort ascending by minTextLength")]

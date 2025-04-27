@@ -40,6 +40,54 @@ MonoBehaviour:
       AnchorPos: {x: 22, y: 0}
       AnchorMax: {x: 1, y: 0.5}
       AnchorMin: {x: 1, y: 0.5}
+    - TextBoxType: 1
+      PivotType: 1
+      DegreeZ: 180
+      AnchorPos: {x: 0, y: 2}
+      AnchorMax: {x: 0.5, y: 1}
+      AnchorMin: {x: 0.5, y: 1}
+    - TextBoxType: 1
+      PivotType: 2
+      DegreeZ: 0
+      AnchorPos: {x: 0, y: -6}
+      AnchorMax: {x: 0.5, y: 0}
+      AnchorMin: {x: 0.5, y: 0}
+    - TextBoxType: 1
+      PivotType: 3
+      DegreeZ: 270
+      AnchorPos: {x: -4, y: 0}
+      AnchorMax: {x: 0, y: 0.5}
+      AnchorMin: {x: 0, y: 0.5}
+    - TextBoxType: 1
+      PivotType: 4
+      DegreeZ: 90
+      AnchorPos: {x: 4, y: 0}
+      AnchorMax: {x: 1, y: 0.5}
+      AnchorMin: {x: 1, y: 0.5}
+    - TextBoxType: 2
+      PivotType: 1
+      DegreeZ: 180
+      AnchorPos: {x: 0, y: 22}
+      AnchorMax: {x: 0.5, y: 1}
+      AnchorMin: {x: 0.5, y: 1}
+    - TextBoxType: 2
+      PivotType: 2
+      DegreeZ: 0
+      AnchorPos: {x: 0, y: -25}
+      AnchorMax: {x: 0.5, y: 0}
+      AnchorMin: {x: 0.5, y: 0}
+    - TextBoxType: 2
+      PivotType: 3
+      DegreeZ: 270
+      AnchorPos: {x: -22, y: 0}
+      AnchorMax: {x: 0, y: 0.5}
+      AnchorMin: {x: 0, y: 0.5}
+    - TextBoxType: 2
+      PivotType: 4
+      DegreeZ: 90
+      AnchorPos: {x: 22, y: 0}
+      AnchorMax: {x: 1, y: 0.5}
+      AnchorMin: {x: 1, y: 0.5}
     m_textBoxPivotSprtieConfigs:
     - TextBoxType: 0
       NormalSprite: {fileID: -1857723500, guid: 3c16d3c98d15f77448b85a99454eed7d, type: 3}
@@ -51,6 +99,14 @@ MonoBehaviour:
       NormalSprite: {fileID: 2082662012, guid: 3c16d3c98d15f77448b85a99454eed7d, type: 3}
       LeanSprite: {fileID: 1884362993, guid: 3c16d3c98d15f77448b85a99454eed7d, type: 3}
     PivotSize: 70
-    Padding: 40
+    PaddingBorder: 60
+    MutiplePaddingLeanObject: 1.2
   m_choosingTextBoxConfig:
     UITextBoxChoicePrefab: {fileID: 1687323253785181340, guid: 73639a8777210be4daa2d1ffc4b5c89f, type: 3}
+  m_textBoxSprtieConfigs:
+  - TextBoxType: 0
+    TextBoxSprite: {fileID: 21300000, guid: 09b5c9d6bc493164a8313490de6e4f41, type: 3}
+  - TextBoxType: 1
+    TextBoxSprite: {fileID: 21300000, guid: fcd41447a0f877b48a91e3c917604561, type: 3}
+  - TextBoxType: 2
+    TextBoxSprite: {fileID: 21300000, guid: 09b5c9d6bc493164a8313490de6e4f41, type: 3}

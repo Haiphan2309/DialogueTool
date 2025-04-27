@@ -11,6 +11,7 @@ namespace DialogueSystem
         private RectTransform m_rectTransform;
         [SerializeField] private RectTransform m_textBoxPivot;
         [SerializeField] private TMP_Text m_text;
+        [SerializeField] private Image m_background;
 
         private TextBoxType m_textBoxType;
 
@@ -18,6 +19,9 @@ namespace DialogueSystem
         {
             m_rectTransform = GetComponent<RectTransform>();
             m_textBoxType = textBoxType;
+
+            m_background.sprite = ConfigManager.Instance.TextBoxConfig.GetTextBoxSpriteConfig(textBoxType).TextBoxSprite;
+            m_background.type = Image.Type.Tiled;
 
             SetText(text);
 
@@ -159,10 +163,11 @@ namespace DialogueSystem
             m_textBoxPivot.rotation = Quaternion.Euler(0, 0, pivotPositionConfig.DegreeZ);
             m_textBoxPivot.anchorMax = pivotPositionConfig.AnchorMax;
             m_textBoxPivot.anchorMin = pivotPositionConfig.AnchorMin;
-            float padding = ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.Padding;
+            float paddingBorder = ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PaddingBorder;
+            float mutiplePaddingLeanObject = ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.MutiplePaddingLeanObject;
             Vector2 clampLocalPos = new Vector2(
-                Mathf.Clamp(objectLocalPos.x, -GetSize().x / 2 + padding, GetSize().x / 2 - padding),
-                Mathf.Clamp(objectLocalPos.y, -GetSize().y / 2 + padding, GetSize().y / 2 - padding)
+                Mathf.Clamp(objectLocalPos.x, -GetSize().x / 2 + paddingBorder, GetSize().x / 2 - paddingBorder),
+                Mathf.Clamp(objectLocalPos.y, -GetSize().y / 2 + paddingBorder, GetSize().y / 2 - paddingBorder)
                 );
 
             bool isActive = true;
@@ -172,13 +177,17 @@ namespace DialogueSystem
                 case PivotType.UP:
                     if (isPivotOverlapObject)
                     {
-                        if (GetSize().x - objectSize < ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize) //mean not have enough size for text box pivot
+                        Debug.Log((GetSize().x - objectSize) + " " + (GetSize().x - objectSize < ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize));
+                        if (GetSize().x - objectSize * mutiplePaddingLeanObject < ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize) //mean not have enough size for text box pivot
                         {
                             isActive = false;
                             break;
                         }
                         bool isObjectNearLeft = objectLocalPos.x < 0;
-                        clampLocalPos.x = Mathf.Clamp(isObjectNearLeft ? objectLocalPos.x + objectSize * 1.2f : objectLocalPos.x - objectSize * 1.2f, -GetSize().x / 2, GetSize().x / 2);
+                        clampLocalPos.x = Mathf.Clamp(
+                            isObjectNearLeft ? objectLocalPos.x + objectSize * mutiplePaddingLeanObject : objectLocalPos.x - objectSize * mutiplePaddingLeanObject, 
+                            -GetSize().x / 2 + paddingBorder, 
+                            GetSize().x / 2 - paddingBorder);
                         m_textBoxPivot.rotation = Quaternion.Euler(0, isObjectNearLeft ? 0 : 180, m_textBoxPivot.rotation.eulerAngles.z); //flip the lean sprite if need
                     }
                     m_textBoxPivot.anchoredPosition = new Vector2(clampLocalPos.x, pivotPositionConfig.AnchorPos.y);
@@ -188,13 +197,16 @@ namespace DialogueSystem
                 case PivotType.RIGHT:
                     if (isPivotOverlapObject)
                     {
-                        if (GetSize().y - objectSize < ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize) //mean not have enough size for text box pivot
+                        if (GetSize().y - objectSize * mutiplePaddingLeanObject < ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize) //mean not have enough size for text box pivot
                         {
                             isActive = false;
                             break;
                         }
                         bool isObjectNearDown = objectLocalPos.x < 0;
-                        clampLocalPos.y = Mathf.Clamp(isObjectNearDown ? objectLocalPos.y + objectSize * 1.2f : objectLocalPos.y - objectSize * 1.2f, -GetSize().y / 2, GetSize().y / 2);
+                        clampLocalPos.y = Mathf.Clamp(
+                            isObjectNearDown ? objectLocalPos.y + objectSize * mutiplePaddingLeanObject : objectLocalPos.y - objectSize * mutiplePaddingLeanObject, 
+                            -GetSize().y / 2 + paddingBorder, 
+                            GetSize().y / 2 - paddingBorder);
                         m_textBoxPivot.rotation = Quaternion.Euler(0, isObjectNearDown ? 0 : 180, m_textBoxPivot.rotation.eulerAngles.z); //flip the lean sprite if need
                     }
                     m_textBoxPivot.anchoredPosition = new Vector2(pivotPositionConfig.AnchorPos.x, clampLocalPos.y);
