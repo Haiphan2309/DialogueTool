@@ -11,7 +11,8 @@ namespace DialogueSystem
         LOUD,
         THINKING,
     }
-    public enum PivotType
+
+    public enum ArrowType
     {
         NONE,
         UP,
@@ -19,11 +20,12 @@ namespace DialogueSystem
         LEFT,
         RIGHT,
     }
-    [Serializable]
-    public class TextBoxPivotPositionConfig
+
+    [Serializable] 
+    public class TextBoxArrowPositionConfig
     {
         public TextBoxType TextBoxType;
-        public PivotType PivotType;
+        public ArrowType ArrowType;
         public float DegreeZ;
         public Vector2 AnchorPos;
         public Vector2 AnchorMax; //It's for anchor (neo) in UI canvas
@@ -31,7 +33,7 @@ namespace DialogueSystem
     }
 
     [Serializable]
-    public class TextBoxPivotSpriteConfig
+    public class TextBoxArrowSpriteConfig
     {
         public TextBoxType TextBoxType;
         public Sprite NormalSprite;
@@ -39,26 +41,19 @@ namespace DialogueSystem
     }
 
     [Serializable]
-    public class TextBoxSpriteConfig
+    public class TextBoxArrowConfig
     {
-        public TextBoxType TextBoxType;
-        public Sprite TextBoxSprite;
-    }
-
-    [Serializable]
-    public class TextBoxPivotConfig
-    {
-        [SerializeField] private List<TextBoxPivotPositionConfig> m_textBoxPivotPositionConfigs;
-        [SerializeField] private List<TextBoxPivotSpriteConfig> m_textBoxPivotSprtieConfigs;
-        public float PivotSize;
+        [SerializeField] private List<TextBoxArrowPositionConfig> _textBoxArrowPositionConfigs;
+        [SerializeField] private List<TextBoxArrowSpriteConfig> _textBoxArrowSprtieConfigs;
+        public float ArrowSize;
         public float PaddingBorder;
         public float MutiplePaddingLeanObject;
 
-        public TextBoxPivotPositionConfig GetTextBoxPivotPositionConfig(TextBoxType textBoxType, PivotType pivotType)
+        public TextBoxArrowPositionConfig GetArrowPositionConfig(TextBoxType textBoxType, ArrowType arrowType)
         {
-            foreach (var config in m_textBoxPivotPositionConfigs)
+            foreach (var config in _textBoxArrowPositionConfigs)
             {
-                if (config.PivotType == pivotType && config.TextBoxType == textBoxType)
+                if (config.ArrowType == arrowType && config.TextBoxType == textBoxType)
                 {
                     return config;
                 }
@@ -66,9 +61,9 @@ namespace DialogueSystem
             return null;
         }
 
-        public TextBoxPivotSpriteConfig GetTextBoxPivotSpriteConfig(TextBoxType textBoxType)
+        public TextBoxArrowSpriteConfig GetArrowSpriteConfig(TextBoxType textBoxType)
         {
-            foreach (var config in m_textBoxPivotSprtieConfigs)
+            foreach (var config in _textBoxArrowSprtieConfigs)
             {
                 if (config.TextBoxType == textBoxType)
                 {
@@ -77,6 +72,13 @@ namespace DialogueSystem
             }
             return null;
         }
+    }
+
+    [Serializable]
+    public class TextBoxSpriteConfig
+    {
+        public TextBoxType TextBoxType;
+        public Sprite TextBoxSprite;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////// Text box config
@@ -101,25 +103,23 @@ namespace DialogueSystem
         public Vector2 MinSize;
         public Vector2 MaxSize;
 
-        [SerializeField] private TextBoxPivotConfig m_textBoxPivotConfig;
-        public TextBoxPivotConfig TextBoxPivotConfig 
+        [SerializeField] private TextBoxArrowConfig _textBoxArrowConfig;
+        public TextBoxArrowConfig TextBoxArrowConfig
         {
-            get => m_textBoxPivotConfig;
-            private set => m_textBoxPivotConfig = value;
+            get => _textBoxArrowConfig;
         }
 
-        [SerializeField] private ChoosingTextBoxConfig m_choosingTextBoxConfig;
+        [SerializeField] private ChoosingTextBoxConfig _choosingTextBoxConfig;
         public ChoosingTextBoxConfig ChoosingTextBoxConfig
         {
-            get => m_choosingTextBoxConfig;
-            private set => m_choosingTextBoxConfig = value;
+            get => _choosingTextBoxConfig;
         }
 
-        [SerializeField] private List<TextBoxSpriteConfig> m_textBoxSprtieConfigs;
+        [SerializeField] private List<TextBoxSpriteConfig> _textBoxSprtieConfigs;
 
         public TextBoxSpriteConfig GetTextBoxSpriteConfig(TextBoxType textBoxType)
         {
-            foreach (var config in m_textBoxSprtieConfigs)
+            foreach (var config in _textBoxSprtieConfigs)
             {
                 if (config.TextBoxType == textBoxType)
                 {

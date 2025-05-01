@@ -14,18 +14,29 @@ namespace DialogueSystem
         public string Text;
     }
 
+    public enum TalkingEmotion
+    {
+        IDLE,
+        HAPPY,
+        ANGRY,
+        SAD,
+        SURPRISE,
+        THINKING,
+    }
+
     [Serializable]
     public class DialogueNode
     {
         [ReadOnly] public int Index;
-        [EnableIf(nameof(canEditNextIndex))] public int NextIndex;
+        [EnableIf(nameof(_canEditNextIndex))] public int NextIndex;
 
         [TextArea] public string Text;
         public List<DialogueChoice> Choices = new List<DialogueChoice>();
         public TextBoxType TextBoxType;
+        public TalkingEmotion TalkingEmotion;
         //public UnityEvent AfterEvent; //event occur when this node done talk
 
-        private bool canEditNextIndex
+        private bool _canEditNextIndex
         {
             get
             {
@@ -48,7 +59,8 @@ namespace DialogueSystem
     [Serializable]
     public struct TalkingObjectData
     {
-        public Transform ObjectTransform;
+        public BaseNPC BaseNPC;
+        public Transform CenterTransform;
         public float Size;
     }
 

@@ -8,30 +8,30 @@ namespace DialogueSystem
 {
     public class UIDialogueTextBox : MonoBehaviour
     {
-        private RectTransform m_rectTransform;
-        [SerializeField] private RectTransform m_textBoxPivot;
-        [SerializeField] private TMP_Text m_text;
-        [SerializeField] private Image m_background;
+        private RectTransform _rectTransform;
+        [SerializeField] private RectTransform _textBoxArrow;
+        [SerializeField] private TMP_Text _text;
+        [SerializeField] private Image _background;
 
-        private TextBoxType m_textBoxType;
+        private TextBoxType _textBoxType;
 
         public void Setup(string text, TextBoxType textBoxType, Vector3 objectWorldPos, float objectSize)
         {
-            m_rectTransform = GetComponent<RectTransform>();
-            m_textBoxType = textBoxType;
+            _rectTransform = GetComponent<RectTransform>();
+            _textBoxType = textBoxType;
 
-            m_background.sprite = ConfigManager.Instance.TextBoxConfig.GetTextBoxSpriteConfig(textBoxType).TextBoxSprite;
-            m_background.type = Image.Type.Tiled;
+            _background.sprite = ConfigManager.Instance.TextBoxConfig.GetTextBoxSpriteConfig(textBoxType).TextBoxSprite;
+            _background.type = Image.Type.Tiled;
 
             SetText(text);
 
             Vector2 resultPos = Vector2.zero;
-            PivotType pivotType = PivotType.NONE;
-            bool isPivotOverlapObject = false;
-            if (TrySetPosition(objectWorldPos, objectSize, out resultPos, ref pivotType, ref isPivotOverlapObject))
+            ArrowType arrowType = ArrowType.NONE;
+            bool isArrowOverlapObject = false;
+            if (TrySetPosition(objectWorldPos, objectSize, out resultPos, ref arrowType, ref isArrowOverlapObject))
             {
-                m_rectTransform.anchoredPosition = resultPos;
-                TrySetTextBoxPivot(objectWorldPos, objectSize, textBoxType, pivotType, isPivotOverlapObject);
+                _rectTransform.anchoredPosition = resultPos;
+                TrySetTextBoxArrow(objectWorldPos, objectSize, textBoxType, arrowType, isArrowOverlapObject);
                 Show();
                 return;
             }
@@ -48,12 +48,12 @@ namespace DialogueSystem
             }
 
             Vector2 resultPos = Vector2.zero;
-            PivotType pivotType = PivotType.NONE;
-            bool isPivotOverlapObject = false;
-            if (TrySetPosition(objectWorldPos, objectSize, out resultPos, ref pivotType, ref isPivotOverlapObject))
+            ArrowType arrowType = ArrowType.NONE;
+            bool isArrowOverlapObject = false;
+            if (TrySetPosition(objectWorldPos, objectSize, out resultPos, ref arrowType, ref isArrowOverlapObject))
             {
-                m_rectTransform.anchoredPosition = resultPos;
-                TrySetTextBoxPivot(objectWorldPos, objectSize, m_textBoxType, pivotType, isPivotOverlapObject);
+                _rectTransform.anchoredPosition = resultPos;
+                TrySetTextBoxArrow(objectWorldPos, objectSize, _textBoxType, arrowType, isArrowOverlapObject);
                 Show();
             }
         }
@@ -70,10 +70,10 @@ namespace DialogueSystem
 
         public void SetText(string text)
         {
-            m_text.text = text;
+            _text.text = text;
         }
 
-        private bool TrySetPosition(Vector3 objectWorldPos, float objectSize, out Vector2 resultPos, ref PivotType pivotType, ref bool isPivotOverlapObject)
+        private bool TrySetPosition(Vector3 objectWorldPos, float objectSize, out Vector2 resultPos, ref ArrowType arrowType, ref bool isArrowOverlapObject)
         {
             resultPos = Vector2.zero;
 
@@ -106,79 +106,78 @@ namespace DialogueSystem
             float minY = -containerSize.y / 2 + GetSize().y / 2;
             float maxY = containerSize.y / 2 - GetSize().y / 2;
 
-            float pivotSize = ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize;
+            float arrowSize = ConfigManager.Instance.TextBoxConfig.TextBoxArrowConfig.ArrowSize;
 
             if (!isOverSizeUp && !isObjectPassLeftBorder && !isObjectPassRightBorder)
             {
-                isPivotOverlapObject = objectLocalPos.y + objectSize + pivotSize + GetSize().y > containerSize.y / 2;
+                isArrowOverlapObject = objectLocalPos.y + objectSize + arrowSize + GetSize().y > containerSize.y / 2;
                 resultPos.y = objectLocalPos.y + objectSize + GetSize().y / 2;
-                resultPos.y = Mathf.Max(isPivotOverlapObject ? resultPos.y : resultPos.y + pivotSize, minY);
+                resultPos.y = Mathf.Max(isArrowOverlapObject ? resultPos.y : resultPos.y + arrowSize, minY);
                 resultPos.x = Mathf.Clamp(objectLocalPos.x, minX, maxX);
-                pivotType = PivotType.DOWN;
+                arrowType = ArrowType.DOWN;
                 return true;
             }
 
             if (!isOverSizeRight && !isObjectPassTopBorder)
             {
-                isPivotOverlapObject = objectLocalPos.x + objectSize + pivotSize + GetSize().x > containerSize.x / 2;
+                isArrowOverlapObject = objectLocalPos.x + objectSize + arrowSize + GetSize().x > containerSize.x / 2;
                 resultPos.x = objectLocalPos.x + objectSize + GetSize().x / 2;
-                resultPos.x = Mathf.Max(isPivotOverlapObject ? resultPos.x : resultPos.x + pivotSize, minX);
+                resultPos.x = Mathf.Max(isArrowOverlapObject ? resultPos.x : resultPos.x + arrowSize, minX);
                 resultPos.y = Mathf.Clamp(objectLocalPos.y, minY, maxY);
-                pivotType = PivotType.LEFT;
+                arrowType = ArrowType.LEFT;
                 return true;
             }
 
             if (!isOverSizeLeft && !isObjectPassTopBorder)
             {
-                isPivotOverlapObject = objectLocalPos.x - objectSize - pivotSize - GetSize().x < -containerSize.x / 2;
+                isArrowOverlapObject = objectLocalPos.x - objectSize - arrowSize - GetSize().x < -containerSize.x / 2;
                 resultPos.x = objectLocalPos.x - objectSize - GetSize().x / 2;
-                resultPos.x = Mathf.Min(isPivotOverlapObject ? resultPos.x : resultPos.x - pivotSize, maxX);
+                resultPos.x = Mathf.Min(isArrowOverlapObject ? resultPos.x : resultPos.x - arrowSize, maxX);
                 resultPos.y = Mathf.Clamp(objectLocalPos.y, minY, maxY);
-                pivotType = PivotType.RIGHT;
+                arrowType = ArrowType.RIGHT;
                 return true;
             }
 
             if (!isOverSizeDown)
             {
-                isPivotOverlapObject = objectLocalPos.y - objectSize - pivotSize - GetSize().y < -containerSize.y / 2;
+                isArrowOverlapObject = objectLocalPos.y - objectSize - arrowSize - GetSize().y < -containerSize.y / 2;
                 resultPos.y = objectLocalPos.y - objectSize - GetSize().y / 2;
-                resultPos.y = Mathf.Min(isPivotOverlapObject ? resultPos.y : resultPos.y - pivotSize, maxY);
+                resultPos.y = Mathf.Min(isArrowOverlapObject ? resultPos.y : resultPos.y - arrowSize, maxY);
                 resultPos.x = Mathf.Clamp(objectLocalPos.x, minX, maxX);
-                pivotType = PivotType.UP;
+                arrowType = ArrowType.UP;
                 return true;
             }
 
             return false;
         }
 
-        private void TrySetTextBoxPivot(Vector3 objectWorldPos, float objectSize, TextBoxType textBoxType, PivotType pivotType, bool isPivotOverlapObject)
+        private void TrySetTextBoxArrow(Vector3 objectWorldPos, float objectSize, TextBoxType textBoxType, ArrowType arrowType, bool isArrowOverlapObject)
         {
             Vector2 objectLocalPos = Vector2.zero;
-            if (!UIUtils.ConvertWorldPosToLocalRectPos(objectWorldPos, m_rectTransform, out objectLocalPos))
+            if (!UIUtils.ConvertWorldPosToLocalRectPos(objectWorldPos, _rectTransform, out objectLocalPos))
             {
                 return;
             }
 
-            TextBoxPivotPositionConfig pivotPositionConfig = ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.GetTextBoxPivotPositionConfig(textBoxType, pivotType);
-            m_textBoxPivot.rotation = Quaternion.Euler(0, 0, pivotPositionConfig.DegreeZ);
-            m_textBoxPivot.anchorMax = pivotPositionConfig.AnchorMax;
-            m_textBoxPivot.anchorMin = pivotPositionConfig.AnchorMin;
-            float paddingBorder = ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PaddingBorder;
-            float mutiplePaddingLeanObject = ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.MutiplePaddingLeanObject;
+            TextBoxArrowPositionConfig arrowPositionConfig = ConfigManager.Instance.TextBoxConfig.TextBoxArrowConfig.GetArrowPositionConfig(textBoxType, arrowType);
+            _textBoxArrow.rotation = Quaternion.Euler(0, 0, arrowPositionConfig.DegreeZ);
+            _textBoxArrow.anchorMax = arrowPositionConfig.AnchorMax;
+            _textBoxArrow.anchorMin = arrowPositionConfig.AnchorMin;
+            float paddingBorder = ConfigManager.Instance.TextBoxConfig.TextBoxArrowConfig.PaddingBorder;
+            float mutiplePaddingLeanObject = ConfigManager.Instance.TextBoxConfig.TextBoxArrowConfig.MutiplePaddingLeanObject;
             Vector2 clampLocalPos = new Vector2(
                 Mathf.Clamp(objectLocalPos.x, -GetSize().x / 2 + paddingBorder, GetSize().x / 2 - paddingBorder),
                 Mathf.Clamp(objectLocalPos.y, -GetSize().y / 2 + paddingBorder, GetSize().y / 2 - paddingBorder)
                 );
 
             bool isActive = true;
-            switch (pivotType)
+            switch (arrowType)
             {
-                case PivotType.DOWN:
-                case PivotType.UP:
-                    if (isPivotOverlapObject)
+                case ArrowType.DOWN:
+                case ArrowType.UP:
+                    if (isArrowOverlapObject)
                     {
-                        Debug.Log((GetSize().x - objectSize) + " " + (GetSize().x - objectSize < ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize));
-                        if (GetSize().x - objectSize * mutiplePaddingLeanObject < ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize) //mean not have enough size for text box pivot
+                        if (GetSize().x - objectSize * mutiplePaddingLeanObject < ConfigManager.Instance.TextBoxConfig.TextBoxArrowConfig.ArrowSize) //mean not have enough size for text box arrow
                         {
                             isActive = false;
                             break;
@@ -188,16 +187,16 @@ namespace DialogueSystem
                             isObjectNearLeft ? objectLocalPos.x + objectSize * mutiplePaddingLeanObject : objectLocalPos.x - objectSize * mutiplePaddingLeanObject, 
                             -GetSize().x / 2 + paddingBorder, 
                             GetSize().x / 2 - paddingBorder);
-                        m_textBoxPivot.rotation = Quaternion.Euler(0, isObjectNearLeft ? 0 : 180, m_textBoxPivot.rotation.eulerAngles.z); //flip the lean sprite if need
+                        _textBoxArrow.rotation = Quaternion.Euler(0, isObjectNearLeft ? 0 : 180, _textBoxArrow.rotation.eulerAngles.z); //flip the lean sprite if need
                     }
-                    m_textBoxPivot.anchoredPosition = new Vector2(clampLocalPos.x, pivotPositionConfig.AnchorPos.y);
+                    _textBoxArrow.anchoredPosition = new Vector2(clampLocalPos.x, arrowPositionConfig.AnchorPos.y);
                     break;
 
-                case PivotType.LEFT:
-                case PivotType.RIGHT:
-                    if (isPivotOverlapObject)
+                case ArrowType.LEFT:
+                case ArrowType.RIGHT:
+                    if (isArrowOverlapObject)
                     {
-                        if (GetSize().y - objectSize * mutiplePaddingLeanObject < ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize) //mean not have enough size for text box pivot
+                        if (GetSize().y - objectSize * mutiplePaddingLeanObject < ConfigManager.Instance.TextBoxConfig.TextBoxArrowConfig.ArrowSize) //mean not have enough size for text box arrow
                         {
                             isActive = false;
                             break;
@@ -207,9 +206,9 @@ namespace DialogueSystem
                             isObjectNearDown ? objectLocalPos.y + objectSize * mutiplePaddingLeanObject : objectLocalPos.y - objectSize * mutiplePaddingLeanObject, 
                             -GetSize().y / 2 + paddingBorder, 
                             GetSize().y / 2 - paddingBorder);
-                        m_textBoxPivot.rotation = Quaternion.Euler(0, isObjectNearDown ? 0 : 180, m_textBoxPivot.rotation.eulerAngles.z); //flip the lean sprite if need
+                        _textBoxArrow.rotation = Quaternion.Euler(0, isObjectNearDown ? 0 : 180, _textBoxArrow.rotation.eulerAngles.z); //flip the lean sprite if need
                     }
-                    m_textBoxPivot.anchoredPosition = new Vector2(pivotPositionConfig.AnchorPos.x, clampLocalPos.y);
+                    _textBoxArrow.anchoredPosition = new Vector2(arrowPositionConfig.AnchorPos.x, clampLocalPos.y);
                     break;
 
                 default:
@@ -217,21 +216,15 @@ namespace DialogueSystem
                     break;
             }
 
-            m_textBoxPivot.gameObject.SetActive(isActive);
+            _textBoxArrow.gameObject.SetActive(isActive);
 
-            TextBoxPivotSpriteConfig spriteConfig = ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.GetTextBoxPivotSpriteConfig(textBoxType);
-            m_textBoxPivot.GetComponent<Image>().sprite = isPivotOverlapObject ? spriteConfig.LeanSprite : spriteConfig.NormalSprite;
-
-            //Vector2 pivotRectPos = m_textBoxPivot.GetComponent<RectTransform>().anchoredPosition;
-            //bool isPivotOverlapObject = objectLocalPos.x + objectSize / 2 < pivotRectPos.x + ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize / 2
-            //    && objectLocalPos.x - objectSize / 2 > pivotRectPos.x - ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize / 2
-            //    && objectLocalPos.y + objectSize / 2 < pivotRectPos.y + ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize / 2
-            //    && objectLocalPos.y - objectSize / 2 > pivotRectPos.y - ConfigManager.Instance.TextBoxConfig.TextBoxPivotConfig.PivotSize / 2;
+            TextBoxArrowSpriteConfig spriteConfig = ConfigManager.Instance.TextBoxConfig.TextBoxArrowConfig.GetArrowSpriteConfig(textBoxType);
+            _textBoxArrow.GetComponent<Image>().sprite = isArrowOverlapObject ? spriteConfig.LeanSprite : spriteConfig.NormalSprite;
         }
 
         public Vector2 GetSize()
         {
-            return m_rectTransform.rect.size;
+            return _rectTransform.rect.size;
         }
     }
 }

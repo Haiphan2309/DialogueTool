@@ -5,26 +5,26 @@ namespace DialogueSystem
 {
     public class UITextBoxChoice : MonoBehaviour
     {
-        private RectTransform m_rectTransform;
-        [SerializeField] private RectTransform m_choosingIcon;
-        [SerializeField] private TMP_Text m_text;
-        private DialogueChoice m_choice;
+        private RectTransform _rectTransform;
+        [SerializeField] private RectTransform _choosingIcon;
+        [SerializeField] private TMP_Text _text;
+        private DialogueChoice _choice;
 
         public void Setup(DialogueChoice choice)
         {
-            m_choice = choice;
-            m_text.text = choice.Text;
+            _choice = choice;
+            _text.text = choice.Text;
             ActiveChoice(false);
         }
 
         public void ActiveChoice(bool isActive)
         {
-            m_choosingIcon.gameObject.SetActive(isActive);
+            _choosingIcon.gameObject.SetActive(isActive);
         }
 
         public DialogueChoice GetDialogueChoice()
         {
-            return m_choice;
+            return _choice;
         }
     }
 }

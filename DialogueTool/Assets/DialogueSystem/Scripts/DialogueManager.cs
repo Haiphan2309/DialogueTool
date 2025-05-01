@@ -1,3 +1,4 @@
+using Sirenix.Serialization;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,38 +19,38 @@ namespace DialogueSystem
     {
         public static DialogueManager Instance { get; private set; }
 
-        private DialogueState m_dialogueState;
+        private DialogueState _dialogueState;
         public DialogueState DialogueState
         {
-            get => m_dialogueState;
-            private set => m_dialogueState = value;
+            get => _dialogueState;
+            private set => _dialogueState = value;
         }
 
-        private List<Dialogue> m_dialogues; //1 dialogue is representing for 1 NPC
+        private List<Dialogue> _dialogues; //1 dialogue is representing for 1 NPC
 
-        private int m_currentDialogueIndex;
-        private int m_currentNodeIndex; //current dialogue node index
-        [SerializeField] private UIDialogueTextBox m_uiDialogueTextBox;
-        [SerializeField] private UIChoosingTextBox m_uiChoosingTextBox;
+        private int _currentDialogueIndex;
+        private int _currentNodeIndex; //current dialogue node index
+        [SerializeField] private UIDialogueTextBox _uiDialogueTextBox;
+        [SerializeField] private UIChoosingTextBox _uiChoosingTextBox;
 
-        [SerializeField] private Color m_nameColor;
+        [SerializeField] private Color _nameColor;
 
-        private Coroutine m_talkCor;
+        private Coroutine _talkCor;
 
-        bool m_isTalkingSpeedUp;
-        bool m_isSkipTalking;
+        bool _isTalkingSpeedUp;
+        bool _isSkipTalking;
 
         private void Awake()
         {
             Instance = this;
 
-            m_dialogueState = DialogueState.FINISH;
+            _dialogueState = DialogueState.FINISH;
         }
 
         // Update is called once per frame
         void Update()
         {
-            switch (m_dialogueState)
+            switch (_dialogueState)
             {
                 case DialogueState.TALKING:
                     if (Input.GetKeyDown(KeyCode.F)) //watch out this case, it's might be call right after SetDialogue()
@@ -58,21 +59,21 @@ namespace DialogueSystem
                     }
                     if (Input.GetKey(KeyCode.F))
                     {
-                        m_isTalkingSpeedUp = true;
+                        _isTalkingSpeedUp = true;
                     }
                     if (Input.GetKeyUp(KeyCode.F))
                     {
-                        m_isTalkingSpeedUp = false;
+                        _isTalkingSpeedUp = false;
                     }
                     break;
                 case DialogueState.CHOOSING:
                     if (Input.GetKeyDown(KeyCode.W))
                     {
-                        m_uiChoosingTextBox.ActiveUpChoice();
+                        _uiChoosingTextBox.ActiveUpChoice();
                     }
                     if (Input.GetKeyDown(KeyCode.S))
                     {
-                        m_uiChoosingTextBox.ActiveDownChoice();
+                        _uiChoosingTextBox.ActiveDownChoice();
                     }
                     if (Input.GetKeyDown(KeyCode.F))
                     {
@@ -90,25 +91,30 @@ namespace DialogueSystem
                     break;
             }
 
-            if (m_dialogueState != DialogueState.FINISH)
+            if (_dialogueState != DialogueState.FINISH)
             {
-                int updateDialogueIndex = Mathf.Clamp(m_currentDialogueIndex, 0, m_dialogues.Count - 1);
-                TalkingObjectData talkingObjectData = m_dialogues[updateDialogueIndex].TalkingObjectData;
-                if (talkingObjectData.ObjectTransform)
+                int updateDialogueIndex = Mathf.Clamp(_currentDialogueIndex, 0, _dialogues.Count - 1);
+                TalkingObjectData talkingObjectData = _dialogues[updateDialogueIndex].TalkingObjectData;
+                if (!talkingObjectData.CenterTransform)
                 {
-                    m_uiChoosingTextBox.UpdatePos(talkingObjectData.ObjectTransform.position, talkingObjectData.Size);
-                    m_uiDialogueTextBox.UpdatePos(talkingObjectData.ObjectTransform.position, talkingObjectData.Size);
+                    talkingObjectData.CenterTransform = talkingObjectData.BaseNPC ? talkingObjectData.BaseNPC.transform : null;
+                }
+
+                if (talkingObjectData.CenterTransform)
+                {
+                    _uiChoosingTextBox.UpdatePos(talkingObjectData.CenterTransform.transform.position, talkingObjectData.Size);
+                    _uiDialogueTextBox.UpdatePos(talkingObjectData.CenterTransform.transform.position, talkingObjectData.Size);
                 }
             }
         }
 
         public void SetDialogue(List<Dialogue> dialogues)
         {
-            m_dialogues = dialogues;
+            _dialogues = dialogues;
 
-            m_dialogueState = DialogueState.TALKING;
-            m_currentDialogueIndex = 0;
-            m_currentNodeIndex = 0;
+            _dialogueState = DialogueState.TALKING;
+            _currentDialogueIndex = 0;
+            _currentNodeIndex = 0;
 
             DisplayDialogue();
             //SoundManager.Instance.PlaySound(AudioPlayer.SoundID.SFX_INTERACT);
@@ -116,12 +122,12 @@ namespace DialogueSystem
 
         public void SetDialogue(Dialogue dialogue)
         {
-            m_dialogues = new List<Dialogue>();
-            m_dialogues.Add(dialogue);
+            _dialogues = new List<Dialogue>();
+            _dialogues.Add(dialogue);
 
-            m_dialogueState = DialogueState.TALKING;
-            m_currentDialogueIndex = 0;
-            m_currentNodeIndex = 0;
+            _dialogueState = DialogueState.TALKING;
+            _currentDialogueIndex = 0;
+            _currentNodeIndex = 0;
 
             DisplayDialogue();
             //SoundManager.Instance.PlaySound(AudioPlayer.SoundID.SFX_INTERACT);
@@ -129,40 +135,50 @@ namespace DialogueSystem
 
         public void DisplayDialogue()
         {
-            if (m_currentDialogueIndex >= m_dialogues.Count || m_currentNodeIndex >= m_dialogues[m_currentDialogueIndex].DialogueNodes.Count)
+            //not do first dialog
+            if ((_currentDialogueIndex != 0 || _currentNodeIndex != 0) && _dialogueState != DialogueState.CHOOSING)
+            {
+                ToNextNodeIndex();
+            }
+
+            if (_currentDialogueIndex >= _dialogues.Count || _currentNodeIndex >= _dialogues[_currentDialogueIndex].DialogueNodes.Count)
             {
                 EndDialogue();
                 return;
             }
 
-            DialogueNode node = m_dialogues[m_currentDialogueIndex].DialogueNodes[m_currentNodeIndex];
+            DialogueNode node = _dialogues[_currentDialogueIndex].DialogueNodes[_currentNodeIndex];
 
-            TalkingObjectData talkingObjectData = m_dialogues[m_currentDialogueIndex].TalkingObjectData;
-            Vector3 objectPos = talkingObjectData.ObjectTransform ? talkingObjectData.ObjectTransform.position : Vector3.zero;
-            m_uiDialogueTextBox.Setup("", node.TextBoxType, objectPos, talkingObjectData.Size);
-
-            if (m_talkCor != null)
+            TalkingObjectData talkingObjectData = _dialogues[_currentDialogueIndex].TalkingObjectData;
+            if (!talkingObjectData.CenterTransform)
             {
-                StopCoroutine(m_talkCor);
+                talkingObjectData.CenterTransform = talkingObjectData.BaseNPC ? talkingObjectData.BaseNPC.transform : null;
             }
-            m_talkCor = StartCoroutine(CorTypeSentence(node));
+            Vector3 objectPos = talkingObjectData.CenterTransform ? talkingObjectData.CenterTransform.transform.position : Vector3.zero;
+            _uiDialogueTextBox.Setup("", node.TextBoxType, objectPos, talkingObjectData.Size);
+
+            if (_talkCor != null)
+            {
+                StopCoroutine(_talkCor);
+            }
+            _talkCor = StartCoroutine(CorTypeSentence(node));
         }
 
         private void ToNextNodeIndex()
         {
-            m_currentNodeIndex = m_dialogues[m_currentDialogueIndex].DialogueNodes[m_currentNodeIndex].NextIndex;
-            if (m_currentNodeIndex >= m_dialogues[m_currentDialogueIndex].DialogueNodes.Count)
+            _currentNodeIndex = _dialogues[_currentDialogueIndex].DialogueNodes[_currentNodeIndex].NextIndex;
+            if (_currentNodeIndex >= _dialogues[_currentDialogueIndex].DialogueNodes.Count)
             {
-                m_currentDialogueIndex++;
-                m_currentNodeIndex = 0;
+                _currentDialogueIndex++;
+                _currentNodeIndex = 0;
             }
         }
 
         private void CheckDialogueEvent()
         {
-            foreach (var dialogueEvent in m_dialogues[m_currentDialogueIndex].DialogueEvents)
+            foreach (var dialogueEvent in _dialogues[_currentDialogueIndex].DialogueEvents)
             {
-                if (dialogueEvent.Index == m_currentNodeIndex)
+                if (dialogueEvent.Index == _currentNodeIndex)
                 {
                     dialogueEvent.Event?.Invoke();
                     break;
@@ -172,31 +188,35 @@ namespace DialogueSystem
 
         private void ActiveChoosing(List<DialogueChoice> choices)
         {
-            TalkingObjectData talkingObjectData = m_dialogues[m_currentDialogueIndex].TalkingObjectData;
-            Vector3 objectPos = talkingObjectData.ObjectTransform ? talkingObjectData.ObjectTransform.position : Vector3.zero;
-            m_uiChoosingTextBox.Setup(choices, m_uiDialogueTextBox, objectPos, talkingObjectData.Size);
-            m_dialogueState = DialogueState.CHOOSING;
+            TalkingObjectData talkingObjectData = _dialogues[_currentDialogueIndex].TalkingObjectData;
+            if (!talkingObjectData.CenterTransform)
+            {
+                talkingObjectData.CenterTransform = talkingObjectData.BaseNPC ? talkingObjectData.BaseNPC.transform : null;
+            }
+            Vector3 objectPos = talkingObjectData.CenterTransform ? talkingObjectData.CenterTransform.transform.position : Vector3.zero;
+            _uiChoosingTextBox.Setup(choices, _uiDialogueTextBox, objectPos, talkingObjectData.Size);
+            _dialogueState = DialogueState.CHOOSING;
         }
 
         private void ChooseChoice()
         {
-            DialogueChoice currentChoice = m_uiChoosingTextBox.GetCurrentChoice();
-            m_currentNodeIndex = currentChoice.NextIndex;
+            DialogueChoice currentChoice = _uiChoosingTextBox.GetCurrentChoice();
+            _currentNodeIndex = currentChoice.NextIndex;
 
-            m_uiChoosingTextBox.OnChooseChoice();
+            _uiChoosingTextBox.OnChooseChoice();
         }
 
         public void EndDialogue()
         {
-            m_dialogueState = DialogueState.FINISH;
-            m_uiDialogueTextBox.Hide();
+            _dialogueState = DialogueState.FINISH;
+            _uiDialogueTextBox.Hide();
         }
 
         private void EndTalking()
         {
-            m_dialogueState = DialogueState.PAUSE;
+            _dialogueState = DialogueState.PAUSE;
 
-            List<DialogueChoice> choices = m_dialogues[m_currentDialogueIndex].DialogueNodes[m_currentNodeIndex].Choices;
+            List<DialogueChoice> choices = _dialogues[_currentDialogueIndex].DialogueNodes[_currentNodeIndex].Choices;
             if (choices.Count > 0)
             {
                 ActiveChoosing(choices);
@@ -204,32 +224,31 @@ namespace DialogueSystem
             else
             {
                 CheckDialogueEvent();
-                ToNextNodeIndex();
             }
         }
 
         private void SkipTalking()
         {
-            if (m_talkCor != null)
+            if (_talkCor != null)
             {
-                StopCoroutine(m_talkCor);
-                m_talkCor = null;
+                StopCoroutine(_talkCor);
+                _talkCor = null;
             }
 
-            m_uiDialogueTextBox.SetText(m_dialogues[m_currentDialogueIndex].DialogueNodes[m_currentNodeIndex].Text);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(m_uiDialogueTextBox.GetComponent<RectTransform>());
+            _uiDialogueTextBox.SetText(_dialogues[_currentDialogueIndex].DialogueNodes[_currentNodeIndex].Text);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_uiDialogueTextBox.GetComponent<RectTransform>());
             EndTalking();
         }
         private IEnumerator CorTypeSentence(DialogueNode node)
         {
-            m_dialogueState = DialogueState.TALKING;
+            _dialogueState = DialogueState.TALKING;
             string str = "";
-            m_uiDialogueTextBox.SetText(str);
+            _uiDialogueTextBox.SetText(str);
             foreach (char letter in node.Text.ToCharArray())
             {
                 if (letter == '&')
                 {
-                    string hexColor = ColorUtility.ToHtmlStringRGB(m_nameColor);
+                    string hexColor = ColorUtility.ToHtmlStringRGB(_nameColor);
                     //str += $"<color=#{hexColor}>{SaveLoadManager.Instance.GameData.PlayerName}</color>";
                 }
                 else
@@ -238,17 +257,17 @@ namespace DialogueSystem
                 }
 
                 float sec = 0.02f; //default
-                if (m_isTalkingSpeedUp)
+                if (_isTalkingSpeedUp)
                 {
                     sec = 0.01f;
                 }
 
                 if (letter == '.' || letter == ',' || letter == '!' || letter == '?')
-                    yield return new WaitForSecondsRealtime(sec * 5);
+                    yield return new WaitForSecondsRealtime(sec * 8);
                 else
                     yield return new WaitForSecondsRealtime(sec);
 
-                m_uiDialogueTextBox.SetText(str);
+                _uiDialogueTextBox.SetText(str);
             }
 
             EndTalking();
