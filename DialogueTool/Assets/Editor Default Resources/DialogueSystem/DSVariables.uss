@@ -9,6 +9,7 @@
 	--ds-colors-window-dark-grey-4: #232527;
 	--ds-colors-window-dark-grey-5: #252729;
 	--ds-colors-window-dark-grey-6: #27292C;
+	--ds-colors-window-black: #000000;
 	--ds-colors-window-yellow: #FDD057;
 
 	--ds-metrics-grid-25: 25;
@@ -26,6 +27,7 @@
 	--ds-metrics-window-pixels-120: 120px;
 	--ds-metrics-window-pixels-160: 160px;
 	--ds-metrics-window-pixels-240: 240px;
+	--ds-metrics-window-pixels-330: 330px;
 	--ds-metrics-window-pixels-600: 600px;
 	--ds-metrics-window-pixels-1000: 1000px;
 }

@@ -9,8 +9,11 @@ namespace DialogueSystem.Windows
 {
     public class DSGraphView : GraphView
     {
-        public DSGraphView()
+        private DSEditorWindow _editorWindow;
+        public DSGraphView(DSEditorWindow editorWindow)
         {
+            _editorWindow = editorWindow;
+
             AddGridBackground();
             AddStyle();
             AddManipulators();
@@ -52,6 +55,7 @@ namespace DialogueSystem.Windows
             this.AddManipulator(new RectangleSelector());
 
             this.AddManipulator(CreateNodeContextualMenu());
+            this.AddManipulator(CreateGroupContextualMenu());
         }
 
         private void AddStyle()
@@ -70,7 +74,16 @@ namespace DialogueSystem.Windows
         private IManipulator CreateNodeContextualMenu()
         {
             ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction("Add Node", actionEvent => AddElement(CreateNode(actionEvent.eventInfo.localMousePosition)))
+                menuEvent => menuEvent.menu.AppendAction("Add Node", actionEvent => AddElement(CreateNode(GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))))
+            );
+
+            return contextualMenuManipulator;
+        }
+
+        private IManipulator CreateGroupContextualMenu()
+        {
+            ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
+                menuEvent => menuEvent.menu.AppendAction("Add Group", actionEvent => AddElement(CreateGroup(GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))))
             );
 
             return contextualMenuManipulator;
@@ -84,6 +97,30 @@ namespace DialogueSystem.Windows
             node.Draw();
 
             return node;
+        }
+
+        private Group CreateGroup(Vector2 position)
+        {
+            DSGroup group = new DSGroup();
+
+            group.Setup(position);
+            group.Draw();
+
+            return group;
+        }
+
+        public Vector2 GetLocalMousePosition(Vector2 mousePosition, bool isSearchWindow = false)
+        {
+            Vector2 worldMousePosition = mousePosition;
+
+            if (isSearchWindow)
+            {
+                worldMousePosition = _editorWindow.rootVisualElement.ChangeCoordinatesTo(_editorWindow.rootVisualElement.parent, mousePosition - _editorWindow.position.position);
+            }
+
+            Vector2 localMousePosition = contentViewContainer.WorldToLocal(worldMousePosition);
+
+            return localMousePosition;
         }
     }
 }

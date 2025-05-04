@@ -13,7 +13,7 @@
 
 .ds-node__custom-data-container
 {
-	background-color: var(--ds-colors-window-dark-grey-3);
+	background-color: var(--ds-colors-grid-light-grey-3);
 	border-radius: var(--ds-metrics-window-pixels-4);
 	padding: var(--ds-metrics-window-pixels-8);
 }
@@ -53,9 +53,10 @@
 .ds-node__choice-text-field > .unity-text-field__input
 {
 	font-size: var(--ds-metrics-window-pixels-11);
-	height: var(--ds-metrics-window-pixels-35);
-	max-width: var(--ds-metrics-window-pixels-1000);
-	min-width: var(--ds-metrics-window-pixels-0);
+	height: var(--ds-metrics-window-pixels-25);
+	max-width: var(--ds-metrics-window-pixels-240);
+	min-width: var(--ds-metrics-window-pixels-240);
+	background-color: var(--ds-colors-window-dark-grey-1);
 }
 
 .ds-node__choice-text-field > .unity-text-field__input:focus
@@ -65,14 +66,17 @@
 	padding: var(--ds-metrics-window-pixels-4);
 }
 
+.ds-node__choice-container {
+    flex-direction: column;
+    row-gap: 6px;
+}
+
 .ds-node__quote-text-field > .unity-text-field__input
 {
-	background-color: var(--ds-colors-window-dark-grey-4);
-	border-color: transparent;
-	border-left-color: var(--ds-colors-window-dark-grey-6);
+	background-color: var(--ds-colors-window-dark-grey-1);
 	border-left-width: var(--ds-metrics-window-pixels-4);
-	padding: var(--ds-metrics-window-pixels-16);
-	max-width: var(--ds-metrics-window-pixels-600);
+	padding: var(--ds-metrics-window-pixels-8);
+	max-width: var(--ds-metrics-window-pixels-330);
 }
 
 .ds-node__quote-text-field > .unity-text-field__input:hover
