@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -17,6 +18,26 @@ namespace DialogueSystem.Windows
             AddGridBackground();
             AddStyle();
             AddManipulators();
+
+            deleteSelection = OnDeleteSelection;
+        }
+
+        private void OnDeleteSelection(string operationName, AskUser askUser)
+        {
+            var elementsToRemove = selection.ToList();
+
+            foreach (var element in elementsToRemove)
+            {
+                if (element is Group group)
+                {
+                    foreach (var member in group.containedElements.ToList())
+                    {
+                        group.RemoveElement(member);
+                    }
+                }
+
+                RemoveElement((Group)element);
+            }
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -103,8 +124,17 @@ namespace DialogueSystem.Windows
         {
             DSGroup group = new DSGroup();
 
-            group.Setup(position);
+            group.Setup("New Group", position);
             group.Draw();
+
+            foreach (GraphElement element in selection)
+            {
+                if (element is DSNode)
+                {
+                    DSNode node = (DSNode)element;
+                    group.AddElement(node);
+                }
+            }    
 
             return group;
         }

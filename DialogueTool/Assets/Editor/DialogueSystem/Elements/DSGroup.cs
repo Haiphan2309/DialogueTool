@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class DSGroup : Group
 {
-    public void Setup(Vector2 position)
+    public void Setup(string titleValue, Vector2 position)
     {
+        title = titleValue;
         SetPosition(new Rect(position, Vector2.zero));
     }
 
