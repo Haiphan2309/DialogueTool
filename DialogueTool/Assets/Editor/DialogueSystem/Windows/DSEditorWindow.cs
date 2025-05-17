@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using UnityEngine;
 
 namespace DialogueSystem.Windows
 {
@@ -36,8 +37,14 @@ namespace DialogueSystem.Windows
                 text = "Save"
             };
 
+            Button renameAllElementsButton = new Button(RenameAllElement)
+            {
+                text = "Rename All Elements"
+            };
+
             toolbar.Add(textField);
             toolbar.Add(saveButton);
+            toolbar.Add(renameAllElementsButton);
 
             rootVisualElement.Add(toolbar);
         }
@@ -58,6 +65,19 @@ namespace DialogueSystem.Windows
         private void Save()
         {
             //todo
+        }
+
+        private void RenameAllElement()
+        {
+            foreach (var child in rootVisualElement.Children())
+            {
+                if (child is DSGraphView graphView)
+                {
+                    graphView.RenameAllElement();
+                    return;
+                }
+            }
+            Debug.LogError("Can't find graph view to rename all element!");
         }
     }
 }

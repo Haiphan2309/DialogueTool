@@ -7,11 +7,37 @@ using UnityEngine.UIElements;
 
 namespace DialogueSystem.Windows
 {
-    public class ChoiceData
+    public class DSNodeData
     {
-        public string Text {  get; set; }
+        public int Index { get; set; }
+        public DSNodeData NextNodeData { get; set; }
+        public List<DSChoiceData> ChoiceDatas { get; set; }
+        public string Text { get; set; }
 
-        public ChoiceData(string text)
+        public DSNodeData()
+        {
+            ChoiceDatas = new List<DSChoiceData>();
+        }
+
+        public void AddChoiceData(DSChoiceData choiceData)
+        {
+            Debug.Log("Add choice data " + choiceData);
+            ChoiceDatas.Add(choiceData);
+        }
+
+        public void RemoveChoiceData(DSChoiceData choiceData)
+        {
+            Debug.Log("Remove choice data " + choiceData);
+            ChoiceDatas.Remove(choiceData);
+        }
+
+    }
+    public class DSChoiceData
+    {
+        public string Text { get; set; }
+        public DSNodeData NextNodeData { get; set; }
+
+        public DSChoiceData(string text)
         {
             Text = text;
         }
@@ -19,16 +45,16 @@ namespace DialogueSystem.Windows
     public class DSNode : Node
     {
         public string NodeName { get; set; }
-        public List<ChoiceData> ChoiceDatas { get; set; }
-        public string Text { get; set; }
+        public DSNodeData NodeData { get; set; }
 
         private VisualElement _customDataContainer;
         private VisualElement _choiceContainer;
         public void Setup(Vector2 position)
         {
             NodeName = "NodeName";
-            Text = "This is an example text.";
-            ChoiceDatas = new List<ChoiceData>();
+            NodeData = new DSNodeData();
+            NodeData.Text = "This is an example text.";
+            NodeData.ChoiceDatas = new List<DSChoiceData>();
 
             SetPosition(new Rect(position, Vector2.zero));
             AddStyle();
@@ -41,11 +67,12 @@ namespace DialogueSystem.Windows
         {
             /* Title Container */
 
-            Label nodeNameTextField = new Label(NodeName);
-            nodeNameTextField.AddToClassList("ds-node__text-field");
-            nodeNameTextField.AddToClassList("ds-node__text-field__hidden");
-            nodeNameTextField.AddToClassList("ds-node__filename-text-field");
-            titleContainer.Insert(0, nodeNameTextField);            
+            //Label nodeNameTextField = new Label(NodeName);
+            //nodeNameTextField.AddToClassList("ds-node__text-field");
+            //nodeNameTextField.AddToClassList("ds-node__text-field__hidden");
+            //nodeNameTextField.AddToClassList("ds-node__filename-text-field");
+            //titleContainer.Insert(0, nodeNameTextField);            
+            title = NodeName;
 
             /* Input Container */
 
@@ -71,7 +98,7 @@ namespace DialogueSystem.Windows
 
             TextField textField = new TextField()
             {
-                value = Text,
+                value = NodeData.Text,
                 multiline = true
             };
             //textField.AddToClassList("ds-node__text-field");
@@ -99,10 +126,10 @@ namespace DialogueSystem.Windows
 
         private void AddChoice()
         {
-            ChoiceData choiceData = new ChoiceData("An example choosing text.");
-            ChoiceDatas.Add(choiceData);
+            DSChoiceData choiceData = new DSChoiceData("An example choosing text.");
+            NodeData.AddChoiceData(choiceData);
             Port outputPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
-            outputPort.portName = "Choice " + ChoiceDatas.Count;
+            outputPort.portName = "Choice " + NodeData.ChoiceDatas.Count;
             TextField choiceTextField = new TextField()
             {
                 value = choiceData.Text
@@ -112,9 +139,9 @@ namespace DialogueSystem.Windows
             Button deleteChoiceButton = new Button(()=>
             {
                 _choiceContainer.Remove(outputPort);
-                ChoiceDatas.Remove(choiceData);
+                NodeData.RemoveChoiceData(choiceData);
 
-                if (ChoiceDatas.Count == 0)
+                if (NodeData.ChoiceDatas.Count == 0)
                 {
                     outputContainer.SetEnabled(true);
                 }
@@ -152,6 +179,11 @@ namespace DialogueSystem.Windows
                     index++;
                 }
             }
+        }
+
+        public void ReupdateNameByIndex()
+        {
+            title = "Node " + NodeData.Index;
         }
     }
 }
