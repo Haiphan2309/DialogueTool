@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -10,9 +9,11 @@ namespace DialogueSystem.Windows
     public class DSNodeData
     {
         public int Index { get; set; }
+        public Vector2 Position { get; set; }
         public DSNodeData NextNodeData { get; set; }
         public List<DSChoiceData> ChoiceDatas { get; set; }
         public string Text { get; set; }
+        public DSGroupData GroupData { get; set; }
 
         public DSNodeData()
         {

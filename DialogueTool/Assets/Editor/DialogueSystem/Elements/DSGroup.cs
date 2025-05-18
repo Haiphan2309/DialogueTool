@@ -1,12 +1,15 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace DialogueSystem.Windows
 {
     public class DSGroupData
     {
         public int Index { get; set; }
+        public Vector2 Position { get; set; }
         public List<DSNodeData> NodeDatas { get; private set; }
 
         public DSGroupData() 
@@ -15,13 +18,15 @@ namespace DialogueSystem.Windows
         }
         public void AddNodeData(DSNodeData nodeData)
         {
-            Debug.Log("Add Node data ");
+            Debug.Log("Add Node data " + nodeData.GetHashCode());
+            nodeData.GroupData = this;
             NodeDatas.Add(nodeData);
         }
 
         public void RemoveNodeData(DSNodeData nodeData)
         {
-            Debug.Log("Remove node data ");
+            Debug.Log("Remove node data: " + nodeData.GetHashCode());
+            nodeData.GroupData = null;
             NodeDatas.Remove(nodeData);
         }
     }

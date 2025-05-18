@@ -22,14 +22,14 @@ namespace DialogueSystem.Windows
 
         public void AddUngroupNodeData(DSNodeData nodeData)
         {
-            Debug.Log("Add ungroup node data");
+            Debug.Log("Add ungroup node data: " + nodeData.GetHashCode());
             nodeData.Index = GetNodeCount();
             UngroupNodeDatas.Add(nodeData);
         }
 
         public void RemoveUngroupNodeData(DSNodeData nodeData)
         {
-            Debug.Log("Remove ungroup node data");
+            Debug.Log("Remove ungroup node data: " + nodeData.GetHashCode());
             UngroupNodeDatas.Remove(nodeData);
             ReIndexNodeData();
         }
@@ -163,6 +163,12 @@ namespace DialogueSystem.Windows
 
                     if (selectedElement is DSNode node)
                     {
+                        if (node.NodeData.GroupData != null)
+                        {
+                            DSGroup dsGroup = FindDSGroupBy(node.NodeData.GroupData);
+                            //this dsGroup should not null!
+                            dsGroup.RemoveElement(node);
+                        }
                         Data.RemoveUngroupNodeData(node.NodeData);
                         Data.ReIndexNodeData();
                     }
@@ -209,6 +215,7 @@ namespace DialogueSystem.Windows
 
             this.AddManipulator(CreateNodeContextualMenu());
             this.AddManipulator(CreateGroupContextualMenu());
+            this.AddManipulator(CreateUnGroupContextualMenu());
         }
 
         private void AddStyle()
@@ -236,13 +243,17 @@ namespace DialogueSystem.Windows
         private IManipulator CreateGroupContextualMenu()
         {
             ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction("Add Group", actionEvent =>
-                {
-                    DSGroup group = CreateGroup(GetLocalMousePosition(actionEvent.eventInfo.localMousePosition));
-                    AddElement(group);
-                    Data.AddGroupData(group.GroupData);
-                }
-            ));
+                menuEvent => menuEvent.menu.AppendAction("Add Group", actionEvent => AddElement(CreateGroup(GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))))
+            );
+
+            return contextualMenuManipulator;
+        }
+
+        private IManipulator CreateUnGroupContextualMenu()
+        {
+            ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
+                menuEvent => menuEvent.menu.AppendAction("Ungroup", actionEvent => UnGroup())
+            );
 
             return contextualMenuManipulator;
         }
@@ -254,6 +265,19 @@ namespace DialogueSystem.Windows
             node.Setup(position);
             node.Draw();
 
+            Data.AddUngroupNodeData(node.NodeData);
+
+            foreach (GraphElement element in selection)
+            {
+                if (element is DSGroup)
+                {
+                    DSGroup group = (DSGroup)element;
+                    group.AddElement(node);
+                    group.GroupData.AddNodeData(node.NodeData);
+                    Data.RemoveUngroupNodeData(node.NodeData);
+                }
+            }
+
             return node;
         }
 
@@ -262,6 +286,8 @@ namespace DialogueSystem.Windows
             DSGroup group = new DSGroup();
 
             group.Setup("New Group", position);
+
+            Data.AddGroupData(group.GroupData);
 
             foreach (GraphElement element in selection)
             {
@@ -275,6 +301,19 @@ namespace DialogueSystem.Windows
             }    
 
             return group;
+        }
+
+        private void UnGroup()
+        {
+            foreach (GraphElement element in selection)
+            {
+                if (element is DSNode node && node.NodeData.GroupData != null)
+                {
+                    DSGroup group = FindDSGroupBy(node.NodeData.GroupData);
+                    //group should not be null
+                    group.RemoveElement(node);
+                }
+            }
         }
 
         public Vector2 GetLocalMousePosition(Vector2 mousePosition, bool isSearchWindow = false)
@@ -305,6 +344,30 @@ namespace DialogueSystem.Windows
                     node.ReupdateNameByIndex();
                 }
             }    
+        }
+
+        public DSNode FindDSNodeBy(DSNodeData nodeData)
+        {
+            foreach (var element in graphElements)
+            {
+                if (element is DSNode node && node.NodeData == nodeData)
+                {
+                    return node;
+                }
+            }
+            return null;
+        }
+
+        public DSGroup FindDSGroupBy(DSGroupData groupData)
+        {
+            foreach (var element in graphElements)
+            {
+                if (element is DSGroup group && group.GroupData == groupData)
+                {
+                    return group;
+                }
+            }
+            return null;
         }
     }
 }
