@@ -50,9 +50,24 @@ namespace DialogueSystem.Windows
 
         private VisualElement _customDataContainer;
         private VisualElement _choiceContainer;
-        public void Setup(Vector2 position)
+
+        protected DSGraphView _graphView;
+
+        public DSNode()
         {
-            NodeName = "NodeName";
+            //Do not use this constructor
+        }
+
+        public DSNode(Vector2 position, DSGraphView graphView)
+        {
+            Setup(position, graphView);
+            Draw();
+        }
+        
+        protected void Setup(Vector2 position, DSGraphView graphView)
+        {
+            _graphView = graphView;
+            NodeName = "New Node";
             NodeData = new DSNodeData();
             NodeData.Text = "This is an example text.";
             NodeData.ChoiceDatas = new List<DSChoiceData>();
@@ -64,7 +79,7 @@ namespace DialogueSystem.Windows
             extensionContainer.AddToClassList("ds-node__extension-container");
         }
 
-        public void Draw()
+        protected virtual void Draw()
         {
             /* Title Container */
 
@@ -185,6 +200,35 @@ namespace DialogueSystem.Windows
         public void ReupdateNameByIndex()
         {
             title = "Node " + NodeData.Index;
+        }
+
+        public void DisconnectAllPorts()
+        {
+            DisconnectInputPorts();
+            DisconnectOutputPorts();
+        }
+
+        private void DisconnectInputPorts()
+        {
+            DisconnectPorts(inputContainer);
+        }
+
+        private void DisconnectOutputPorts()
+        {
+            DisconnectPorts(outputContainer);
+        }
+
+        private void DisconnectPorts(VisualElement container)
+        {
+            foreach (Port port in container.Children())
+            {
+                if (!port.connected)
+                {
+                    continue;
+                }
+
+                _graphView.DeleteElements(port.connections);
+            }
         }
     }
 }

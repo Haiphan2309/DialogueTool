@@ -102,6 +102,21 @@ namespace DialogueSystem.Windows
             OnGroupElementsAdded();
             OnGroupElementsRemoved();
             OnElementsDeleted();
+
+            Init();
+        }
+
+        private void Init()
+        {
+            AddElement(new DSStartNode(new Vector2(100, 100), this));
+
+            DSGroup group= CreateGroup(new Vector2(230, 150));
+            AddElement(group);
+
+            DSNode node = CreateNode(new Vector2(230, 150));
+            AddElement(node);
+
+            group.AddElement(node);
         }
 
         private void OnGroupElementsRemoved()
@@ -161,6 +176,12 @@ namespace DialogueSystem.Windows
                         Data.ReIndexGroupData();
                     }
 
+                    if (selectedElement is DSStartNode)
+                    {
+                        continue;
+                        //can't delete start node
+                    }
+
                     if (selectedElement is DSNode node)
                     {
                         if (node.NodeData.GroupData != null)
@@ -171,6 +192,8 @@ namespace DialogueSystem.Windows
                         }
                         Data.RemoveUngroupNodeData(node.NodeData);
                         Data.ReIndexNodeData();
+
+                        node.DisconnectAllPorts();
                     }
 
                     RemoveElement(selectedElement);
@@ -260,10 +283,7 @@ namespace DialogueSystem.Windows
 
         private DSNode CreateNode(Vector2 position)
         {
-            DSNode node = new DSNode();
-
-            node.Setup(position);
-            node.Draw();
+            DSNode node = new DSNode(position, this);
 
             Data.AddUngroupNodeData(node.NodeData);
 
@@ -283,9 +303,7 @@ namespace DialogueSystem.Windows
 
         private DSGroup CreateGroup(Vector2 position)
         {
-            DSGroup group = new DSGroup();
-
-            group.Setup("New Group", position);
+            DSGroup group = new DSGroup(position, this);
 
             Data.AddGroupData(group.GroupData);
 
@@ -337,6 +355,11 @@ namespace DialogueSystem.Windows
                 if (element is DSGroup group)
                 {
                     group.ReupdateNameByIndex();
+                }
+
+                if (element is DSStartNode)
+                {
+                    continue;
                 }
 
                 if (element is DSNode node)
