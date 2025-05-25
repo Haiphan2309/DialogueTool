@@ -3,34 +3,10 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using DialogueSystem.Data;
 
 namespace DialogueSystem.Windows
 {
-    public class DSGroupData
-    {
-        public int Index { get; set; }
-        public Vector2 Position { get; set; }
-        public List<DSNodeData> NodeDatas { get; private set; }
-
-        public DSGroupData() 
-        {
-            NodeDatas = new List<DSNodeData>();
-        }
-        public void AddNodeData(DSNodeData nodeData)
-        {
-            Debug.Log("Add Node data " + nodeData.GetHashCode());
-            nodeData.GroupData = this;
-            NodeDatas.Add(nodeData);
-        }
-
-        public void RemoveNodeData(DSNodeData nodeData)
-        {
-            Debug.Log("Remove node data: " + nodeData.GetHashCode());
-            nodeData.GroupData = null;
-            NodeDatas.Remove(nodeData);
-        }
-    }
-
     public class DSGroup : Group
     {
         public DSGroupData GroupData { get; set; }
@@ -53,6 +29,9 @@ namespace DialogueSystem.Windows
         protected void Draw()
         {
             title = "New NPC";
+
+            Label titleLabel = this.Q<Label>();
+            titleLabel.style.backgroundColor = new Color(0.2f, 0.6f, 1f, 0.3f);
         }
 
         public void ReupdateNameByIndex()

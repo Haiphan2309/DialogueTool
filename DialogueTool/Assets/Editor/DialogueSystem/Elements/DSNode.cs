@@ -3,46 +3,11 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using DialogueSystem.Data;
+using System.ComponentModel;
 
 namespace DialogueSystem.Windows
 {
-    public class DSNodeData
-    {
-        public int Index { get; set; }
-        public Vector2 Position { get; set; }
-        public DSNodeData NextNodeData { get; set; }
-        public List<DSChoiceData> ChoiceDatas { get; set; }
-        public string Text { get; set; }
-        public DSGroupData GroupData { get; set; }
-
-        public DSNodeData()
-        {
-            ChoiceDatas = new List<DSChoiceData>();
-        }
-
-        public void AddChoiceData(DSChoiceData choiceData)
-        {
-            Debug.Log("Add choice data " + choiceData);
-            ChoiceDatas.Add(choiceData);
-        }
-
-        public void RemoveChoiceData(DSChoiceData choiceData)
-        {
-            Debug.Log("Remove choice data " + choiceData);
-            ChoiceDatas.Remove(choiceData);
-        }
-
-    }
-    public class DSChoiceData
-    {
-        public string Text { get; set; }
-        public DSNodeData NextNodeData { get; set; }
-
-        public DSChoiceData(string text)
-        {
-            Text = text;
-        }
-    }
     public class DSNode : Node
     {
         public string NodeName { get; set; }
@@ -117,11 +82,27 @@ namespace DialogueSystem.Windows
                 value = NodeData.Text,
                 multiline = true
             };
+
             //textField.AddToClassList("ds-node__text-field");
             textField.AddToClassList("ds-node__quote-text-field");
 
             textFoldout.Add(textField);
             _customDataContainer.Add(textFoldout);
+
+            EnumField textBoxTypeField = new EnumField("Text Box Type", NodeData.TextBoxType);
+            textBoxTypeField.RegisterValueChangedCallback(evt =>
+            {
+                NodeData.TextBoxType = (TextBoxType)evt.newValue;
+            });
+
+            EnumField emotionField = new EnumField("Emotion", NodeData.TalkingEmotion);
+            emotionField.RegisterValueChangedCallback(evt =>
+            {
+                NodeData.TalkingEmotion = (TalkingEmotion)evt.newValue;
+            });
+
+            _customDataContainer.Add(textBoxTypeField);
+            _customDataContainer.Add(emotionField);
 
             Button addChoiceButton = new Button(AddChoice)
             {
@@ -154,6 +135,7 @@ namespace DialogueSystem.Windows
 
             Button deleteChoiceButton = new Button(()=>
             {
+                _graphView.DeleteElements(outputPort.connections);
                 _choiceContainer.Remove(outputPort);
                 NodeData.RemoveChoiceData(choiceData);
 
@@ -204,18 +186,40 @@ namespace DialogueSystem.Windows
 
         public void DisconnectAllPorts()
         {
-            DisconnectInputPorts();
-            DisconnectOutputPorts();
+            DisconnectAllInputPorts();
+            DisconnectAllOutputPorts();
         }
 
-        private void DisconnectInputPorts()
+        public void DisconnectAllInputPorts()
         {
             DisconnectPorts(inputContainer);
         }
 
-        private void DisconnectOutputPorts()
+        public void DisconnectAllOutputPorts()
         {
             DisconnectPorts(outputContainer);
+            DisconnectPorts(_choiceContainer);
+        }
+
+        public void RemoveOutputPortData(Port portToRemoveData)
+        {
+            foreach (Port port in outputContainer.Children())
+            {
+                if (port == portToRemoveData)
+                {
+                    NodeData.NextNodeData = null;
+                    return;
+                }
+            }
+
+            for (int i = 0; i < _choiceContainer.childCount; i++)
+            {
+                Port port = _choiceContainer.ElementAt(i) as Port;
+                if (portToRemoveData == port)
+                {
+                    NodeData.ChoiceDatas[i].NextNodeData = null;
+                }
+            }
         }
 
         private void DisconnectPorts(VisualElement container)

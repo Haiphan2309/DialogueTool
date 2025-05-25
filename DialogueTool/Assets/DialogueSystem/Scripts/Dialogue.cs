@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using DialogueSystem.Data;
 
 namespace DialogueSystem
 {
@@ -12,16 +13,6 @@ namespace DialogueSystem
     {
         public int NextIndex;
         public string Text;
-    }
-
-    public enum TalkingEmotion
-    {
-        IDLE,
-        HAPPY,
-        ANGRY,
-        SAD,
-        SURPRISE,
-        THINKING,
     }
 
     [Serializable]

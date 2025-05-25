@@ -4,11 +4,15 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using UnityEngine;
+using DialogueSystem.Data;
 
 namespace DialogueSystem.Windows
 {
     public class DSEditorWindow : EditorWindow
     {
+        private DSGraphView m_dsGraphView;
+        private TextField m_fileNameTextField;
+
         [MenuItem("Window/DialogueSystem/Dialouge Editor")]
         public static void Open()
         {
@@ -26,29 +30,35 @@ namespace DialogueSystem.Windows
         {
             Toolbar toolbar = new Toolbar();
 
-            TextField textField = new TextField()
+            m_fileNameTextField = new TextField()
             {
                 value = "DialogueFileName",
                 label = "File name"
             };
 
-            Button saveButton = new Button(Save)
+            Button saveButton = new Button(OnSave)
             {
                 text = "Save"
             };
 
-            Button renameAllElementsButton = new Button(RenameAllElement)
+            Button loadButton = new Button(OnLoad)
+            {
+                text = "Load"
+            };
+
+            Button renameAllElementsButton = new Button(OnRenameAllElement)
             {
                 text = "Rename All Elements"
             };
 
-            Button countUngroupNodeButton = new Button(CountUngroupNode)
+            Button countUngroupNodeButton = new Button(OnCountUngroupNode)
             {
                 text = "Count ungroup node"
             };
 
-            toolbar.Add(textField);
+            toolbar.Add(m_fileNameTextField);
             toolbar.Add(saveButton);
+            toolbar.Add(loadButton);
             toolbar.Add(renameAllElementsButton);
             toolbar.Add(countUngroupNodeButton);
 
@@ -57,9 +67,9 @@ namespace DialogueSystem.Windows
 
         private void AddGraphView()
         {
-            DSGraphView graphView = new DSGraphView(this);
-            graphView.StretchToParentSize();
-            rootVisualElement.Add(graphView);
+            m_dsGraphView = new DSGraphView(this);
+            m_dsGraphView.StretchToParentSize();
+            rootVisualElement.Add(m_dsGraphView);
         }
 
         private void AddStyle()
@@ -68,25 +78,30 @@ namespace DialogueSystem.Windows
             rootVisualElement.styleSheets.Add(styleSheet);
         }
 
-        private void Save()
+        private void OnSave()
         {
-            //todo
+            DSUtils.SaveGraph(m_dsGraphView.DSData, m_fileNameTextField.value);
         }
 
-        private void CountUngroupNode()
+        private void OnLoad()
+        {
+            DSData dsData = DSUtils.LoadGraph(m_fileNameTextField.value);
+        }
+
+        private void OnCountUngroupNode()
         {
             int count = -1;
             foreach (var child in rootVisualElement.Children())
             {
                 if (child is DSGraphView graphView)
                 {
-                    count = graphView.Data.UngroupNodeDatas.Count;
+                    count = graphView.DSData.UngroupNodeDatas.Count;
                 }
             }
             Debug.Log("Ungroup node count: " + count);
         }
 
-        private void RenameAllElement()
+        private void OnRenameAllElement()
         {
             foreach (var child in rootVisualElement.Children())
             {

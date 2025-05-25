@@ -6,93 +6,17 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using DialogueSystem.Data;
 
 namespace DialogueSystem.Windows
 {
-    public class DSData
-    {
-        public List<DSGroupData> GroupDatas { get; private set; }
-        public List<DSNodeData> UngroupNodeDatas { get; private set; }
-
-        public DSData()
-        {
-            GroupDatas = new List<DSGroupData>();
-            UngroupNodeDatas = new List<DSNodeData>();
-        }
-
-        public void AddUngroupNodeData(DSNodeData nodeData)
-        {
-            Debug.Log("Add ungroup node data: " + nodeData.GetHashCode());
-            nodeData.Index = GetNodeCount();
-            UngroupNodeDatas.Add(nodeData);
-        }
-
-        public void RemoveUngroupNodeData(DSNodeData nodeData)
-        {
-            Debug.Log("Remove ungroup node data: " + nodeData.GetHashCode());
-            UngroupNodeDatas.Remove(nodeData);
-            ReIndexNodeData();
-        }
-
-        public void AddGroupData(DSGroupData groupData)
-        {
-            Debug.Log("Add group data " + groupData.Index);
-            groupData.Index = GroupDatas.Count;
-            GroupDatas.Add(groupData);
-        }
-
-        public void RemoveGroupData(DSGroupData groupData)
-        {
-            Debug.Log("Remove Group Data " + groupData.Index);
-            GroupDatas.Remove(groupData);
-            ReIndexGroupData();
-        }
-
-        public void ReIndexGroupData()
-        {
-            for (int i = 0; i < GroupDatas.Count; i++)
-            {
-                GroupDatas[i].Index = i;
-            }
-        }
-
-        public void ReIndexNodeData()
-        {
-            int nodeCount = 0;
-
-            foreach (var group in GroupDatas)
-            {
-                foreach (var node in group.NodeDatas)
-                {
-                    node.Index = nodeCount++;
-                }
-            }
-            
-            foreach(var node in UngroupNodeDatas)
-            {
-                node.Index = nodeCount++;
-            }
-        }
-
-        public int GetNodeCount()
-        {
-            int nodeCount = UngroupNodeDatas.Count;
-
-            foreach (var group in GroupDatas)
-            {
-                nodeCount += group.NodeDatas.Count;
-            }
-
-            return nodeCount;
-        }
-    }
     public class DSGraphView : GraphView
     {
         private DSEditorWindow _editorWindow;
-        public DSData Data;
+        public DSData DSData;
         public DSGraphView(DSEditorWindow editorWindow)
         {
-            Data = new DSData();
+            DSData = new DSData();
             _editorWindow = editorWindow;
 
             AddGridBackground();
@@ -134,7 +58,7 @@ namespace DialogueSystem.Windows
                     DSNode dsNode = (DSNode)element;
 
                     dsGroup.GroupData.RemoveNodeData(dsNode.NodeData);
-                    Data.AddUngroupNodeData(dsNode.NodeData);
+                    DSData.AddUngroupNodeData(dsNode.NodeData);
                 }
             };
         }
@@ -154,7 +78,7 @@ namespace DialogueSystem.Windows
                     DSNode dsNode = (DSNode)element;
 
                     dsGroup.GroupData.AddNodeData(dsNode.NodeData);
-                    Data.RemoveUngroupNodeData(dsNode.NodeData);
+                    DSData.RemoveUngroupNodeData(dsNode.NodeData);
                 }
             };
         }
@@ -172,8 +96,8 @@ namespace DialogueSystem.Windows
                         {
                             group.RemoveElement(member);
                         }
-                        Data.RemoveGroupData(group.GroupData);
-                        Data.ReIndexGroupData();
+                        DSData.RemoveGroupData(group.GroupData);
+                        DSData.ReIndexGroupData();
                     }
 
                     if (selectedElement is DSStartNode)
@@ -190,10 +114,19 @@ namespace DialogueSystem.Windows
                             //this dsGroup should not null!
                             dsGroup.RemoveElement(node);
                         }
-                        Data.RemoveUngroupNodeData(node.NodeData);
-                        Data.ReIndexNodeData();
+                        DSData.RemoveUngroupNodeData(node.NodeData);
+                        DSData.ReIndexNodeData();
 
                         node.DisconnectAllPorts();
+                    }
+
+                    if (selectedElement is Edge edge)
+                    {
+                        DSNode inputNode = (DSNode)edge.input.node;
+                        DSNode outputNode = (DSNode)edge.output.node;
+
+                        outputNode.RemoveOutputPortData(edge.output);
+                        DeleteElements(edge.output.connections);
                     }
 
                     RemoveElement(selectedElement);
@@ -285,7 +218,7 @@ namespace DialogueSystem.Windows
         {
             DSNode node = new DSNode(position, this);
 
-            Data.AddUngroupNodeData(node.NodeData);
+            DSData.AddUngroupNodeData(node.NodeData);
 
             foreach (GraphElement element in selection)
             {
@@ -294,7 +227,7 @@ namespace DialogueSystem.Windows
                     DSGroup group = (DSGroup)element;
                     group.AddElement(node);
                     group.GroupData.AddNodeData(node.NodeData);
-                    Data.RemoveUngroupNodeData(node.NodeData);
+                    DSData.RemoveUngroupNodeData(node.NodeData);
                 }
             }
 
@@ -305,7 +238,7 @@ namespace DialogueSystem.Windows
         {
             DSGroup group = new DSGroup(position, this);
 
-            Data.AddGroupData(group.GroupData);
+            DSData.AddGroupData(group.GroupData);
 
             foreach (GraphElement element in selection)
             {
@@ -314,7 +247,7 @@ namespace DialogueSystem.Windows
                     DSNode node = (DSNode)element;
                     group.AddElement(node);
                     group.GroupData.AddNodeData(node.NodeData);
-                    Data.RemoveUngroupNodeData(node.NodeData);
+                    DSData.RemoveUngroupNodeData(node.NodeData);
                 }
             }    
 

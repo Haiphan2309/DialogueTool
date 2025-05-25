@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DialogueSystem;
+using DialogueSystem.Data;
 
 //You can customize this class like the way you like
 public class BaseNPC : MonoBehaviour
