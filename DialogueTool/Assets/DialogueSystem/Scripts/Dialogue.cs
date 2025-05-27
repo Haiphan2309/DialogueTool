@@ -48,14 +48,6 @@ namespace DialogueSystem
     }
 
     [Serializable]
-    public struct TalkingObjectData
-    {
-        public BaseNPC BaseNPC;
-        public Transform CenterTransform;
-        public float Size;
-    }
-
-    [Serializable]
     public class Dialogue : ISerializationCallbackReceiver
     {
         public TalkingObjectData TalkingObjectData;

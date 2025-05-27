@@ -18,7 +18,7 @@ namespace DialogueSystem.Data
     [Serializable]
     public class DSData
     {
-        public List<DSGroupData> GroupDatas { get; private set; }
+        public List<DSGroupData> GroupDatas { get; private set; } //1 group present for 1 NPC
         public List<DSNodeData> UngroupNodeDatas { get; private set; }
 
         public DSData()
@@ -27,6 +27,7 @@ namespace DialogueSystem.Data
             UngroupNodeDatas = new List<DSNodeData>();
         }
 
+#if UNITY_EDITOR
         public void AddUngroupNodeData(DSNodeData nodeData)
         {
             Debug.Log("Add ungroup node data: " + nodeData.GetHashCode());
@@ -92,6 +93,7 @@ namespace DialogueSystem.Data
 
             return nodeCount;
         }
+#endif
     }
 
     [Serializable]
@@ -105,6 +107,8 @@ namespace DialogueSystem.Data
         {
             NodeDatas = new List<DSNodeData>();
         }
+
+#if UNITY_EDITOR
         public void AddNodeData(DSNodeData nodeData)
         {
             Debug.Log("Add Node data " + nodeData.GetHashCode());
@@ -118,6 +122,7 @@ namespace DialogueSystem.Data
             nodeData.GroupData = null;
             NodeDatas.Remove(nodeData);
         }
+#endif
     }
 
     [Serializable]
@@ -130,6 +135,7 @@ namespace DialogueSystem.Data
         public string Text { get; set; }
         public TextBoxType TextBoxType { get; set; }
         public TalkingEmotion TalkingEmotion { get; set; }
+        public bool IsHaveCallBack {  get; set; }
         public DSGroupData GroupData { get; set; }
 
         public DSNodeData()
@@ -137,6 +143,7 @@ namespace DialogueSystem.Data
             ChoiceDatas = new List<DSChoiceData>();
         }
 
+#if UNITY_EDITOR
         public void AddChoiceData(DSChoiceData choiceData)
         {
             Debug.Log("Add choice data " + choiceData);
@@ -148,6 +155,7 @@ namespace DialogueSystem.Data
             Debug.Log("Remove choice data " + choiceData);
             ChoiceDatas.Remove(choiceData);
         }
+#endif
     }
 
     [Serializable]
@@ -162,8 +170,62 @@ namespace DialogueSystem.Data
         }
     }
 
+    public class TalkingObjectData
+    {
+        public BaseNPC BaseNPC;
+        public Transform CenterTransform;
+        public float Size;
+    }
+
     public class SODialogue : ScriptableObject
     {
         public DSData DSData { get; set; }
+
+        //These data can change in inspector
+        [SerializeField] private List<TalkingObjectData> talkingObjectDatas; //todo: the size of talkingObjectDatas will be the same with the count of groupDatas
+
+        /// <summary>
+        /// This is the Start Node in graph, this node don't have any text data, just have a output port to the first node.
+        /// </summary>
+        /// <returns></returns>
+        public DSNodeData GetStartNodeData()
+        {
+            foreach (var nodeData in DSData.UngroupNodeDatas)
+            {
+                if (nodeData.Index == 0)
+                {
+                    return nodeData;
+                }
+            }
+
+            foreach (var groupData in DSData.GroupDatas)
+            {
+                foreach (var nodeData in groupData.NodeDatas)
+                {
+                    if (nodeData.Index == 0)
+                    {
+                        return nodeData;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public TalkingObjectData GetCurrentTalkingObjectData(DSNodeData nodeData)
+        {
+            if (nodeData.GroupData == null)
+            {
+                return null;
+            }
+
+            if (nodeData.GroupData.Index >= talkingObjectDatas.Count)
+            {
+                Debug.LogError("Out of range when passing groupDataIndex >= talkingObjectDatas.Count");
+                return null;
+            }
+
+            return talkingObjectDatas[nodeData.GroupData.Index];
+        }
     }
 }

@@ -1,3 +1,4 @@
+using DialogueSystem.Data;
 using TMPro;
 using UnityEngine;
 
@@ -8,12 +9,12 @@ namespace DialogueSystem
         private RectTransform _rectTransform;
         [SerializeField] private RectTransform _choosingIcon;
         [SerializeField] private TMP_Text _text;
-        private DialogueChoice _choice;
+        private DSChoiceData _choiceData;
 
-        public void Setup(DialogueChoice choice)
+        public void Setup(DSChoiceData choiceData)
         {
-            _choice = choice;
-            _text.text = choice.Text;
+            _choiceData = choiceData;
+            _text.text = choiceData.Text;
             ActiveChoice(false);
         }
 
@@ -22,9 +23,9 @@ namespace DialogueSystem
             _choosingIcon.gameObject.SetActive(isActive);
         }
 
-        public DialogueChoice GetDialogueChoice()
+        public DSChoiceData GetChoiceData()
         {
-            return _choice;
+            return _choiceData;
         }
     }
 }
