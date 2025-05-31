@@ -34,6 +34,19 @@ namespace DialogueSystem.Windows
             titleLabel.style.backgroundColor = new Color(0.2f, 0.6f, 1f, 0.3f);
         }
 
+        public void SaveData()
+        {
+            GroupData.Name = title;
+            GroupData.Position = GetPosition().position;
+        }
+
+        public void LoadData(DSGroupData groupData)
+        {
+            SetPosition(new Rect(groupData.Position, Vector2.zero));
+            title = groupData.Name;
+            GroupData = groupData;
+        }
+
         public void ReupdateNameByIndex()
         {
             title = "NPC " + GroupData.Index;

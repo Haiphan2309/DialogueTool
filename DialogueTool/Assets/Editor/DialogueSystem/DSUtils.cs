@@ -31,7 +31,17 @@ namespace DialogueSystem.Windows
 
         public static DSData LoadGraph(string soDialogueFileName)
         {
-            return new DSData();
+            string assetPath = $"{path}/{soDialogueFileName}.asset";
+
+            SODialogue soDialogue = AssetDatabase.LoadAssetAtPath<SODialogue>(assetPath);
+
+            if (soDialogue == null)
+            {
+                Debug.LogError($"Can't find SODialogue with path: {assetPath}");
+                return null;
+            }
+
+            return soDialogue.DSData;
         }
     }
 }

@@ -80,12 +80,14 @@ namespace DialogueSystem.Windows
 
         private void OnSave()
         {
+            m_dsGraphView.SaveData();
             DSUtils.SaveGraph(m_dsGraphView.DSData, m_fileNameTextField.value);
         }
 
         private void OnLoad()
         {
             DSData dsData = DSUtils.LoadGraph(m_fileNameTextField.value);
+            m_dsGraphView.LoadData(dsData);
         }
 
         private void OnCountUngroupNode()

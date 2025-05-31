@@ -10,7 +10,6 @@ namespace DialogueSystem.Windows
 {
     public class DSNode : Node
     {
-        public string NodeName { get; set; }
         public DSNodeData NodeData { get; set; }
 
         private VisualElement _customDataContainer;
@@ -20,7 +19,7 @@ namespace DialogueSystem.Windows
 
         public DSNode()
         {
-            //Do not use this constructor
+            //This constructor is unused
         }
 
         public DSNode(Vector2 position, DSGraphView graphView)
@@ -32,7 +31,6 @@ namespace DialogueSystem.Windows
         protected void Setup(Vector2 position, DSGraphView graphView)
         {
             _graphView = graphView;
-            NodeName = "New Node";
             NodeData = new DSNodeData();
             NodeData.Text = "This is an example text.";
             NodeData.ChoiceDatas = new List<DSChoiceData>();
@@ -53,7 +51,7 @@ namespace DialogueSystem.Windows
             //nodeNameTextField.AddToClassList("ds-node__text-field__hidden");
             //nodeNameTextField.AddToClassList("ds-node__filename-text-field");
             //titleContainer.Insert(0, nodeNameTextField);            
-            title = NodeName;
+            title = "New Node";
 
             /* Input Container */
 
@@ -104,7 +102,7 @@ namespace DialogueSystem.Windows
             _customDataContainer.Add(textBoxTypeField);
             _customDataContainer.Add(emotionField);
 
-            Button addChoiceButton = new Button(AddChoice)
+            Button addChoiceButton = new Button(() => AddChoice(new DSChoiceData("An example choosing text.")))
             {
                 text = "Add Choice"
             };
@@ -121,9 +119,69 @@ namespace DialogueSystem.Windows
             RefreshExpandedState();
         }
 
-        private void AddChoice()
+        virtual public void SaveData()
         {
-            DSChoiceData choiceData = new DSChoiceData("An example choosing text.");
+            NodeData.Name = title;
+            NodeData.Position = GetPosition().position;
+
+            foreach (var child in _customDataContainer.Children())
+            {
+                if (child is Foldout foldout && foldout.name == "DialogueTextFoldout")
+                {
+                    var textField = foldout.Q<TextField>();
+                    if (textField != null)
+                    {
+                        NodeData.Text = textField.value; // not work
+                    }
+                }
+            }
+                
+            //todo update text for choice
+        }
+
+        virtual public void LoadData(DSNodeData nodeData)
+        {
+            SetPosition(new Rect(nodeData.Position, Vector2.zero));
+            title = nodeData.Name;
+            foreach (var child in _customDataContainer.Children())
+            {
+                if (child is Foldout foldout && foldout.name == "DialogueTextFoldout")
+                {
+                    var textField = foldout.Q<TextField>();
+                    if (textField != null)
+                    {
+                        textField.value = nodeData.Text;
+                    }
+                }
+
+                if (child is EnumField enumField)
+                {
+                    if (enumField.label == "Text Box Type")
+                    {
+                        enumField.SetValueWithoutNotify(nodeData.TextBoxType);
+                    }
+
+                    if (enumField.label == "Emotion")
+                    {
+                        enumField.SetValueWithoutNotify(nodeData.TalkingEmotion);
+                    }
+                }
+            }
+
+            _choiceContainer.Clear();
+            foreach (var choiceData in nodeData.ChoiceDatas)
+            {
+                AddChoice(choiceData);
+            }
+
+            NodeData = nodeData;
+
+            RefreshExpandedState();
+            RefreshPorts();
+        }
+
+        private void AddChoice(DSChoiceData choiceData)
+        {
             NodeData.AddChoiceData(choiceData);
             Port outputPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
             outputPort.portName = "Choice " + NodeData.ChoiceDatas.Count;

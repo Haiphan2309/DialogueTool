@@ -1,3 +1,5 @@
+using DialogueSystem.Data;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace DialogueSystem.Windows
@@ -19,6 +21,19 @@ namespace DialogueSystem.Windows
             title = "Start";
             inputContainer.Clear();
             extensionContainer.Clear();
+            RefreshExpandedState();
+        }
+
+        override public void SaveData()
+        {
+            base.SaveData();
+        }
+
+        override public void LoadData(DSNodeData nodeData)
+        {
+            SetPosition(new Rect(nodeData.Position, Vector2.zero));
+            title = nodeData.Name;
+            NodeData = nodeData;
         }
     }
 }

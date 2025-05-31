@@ -7,6 +7,8 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using DialogueSystem.Data;
+using System.Text.RegularExpressions;
+using UnityEditor.PackageManager.Requests;
 
 namespace DialogueSystem.Windows
 {
@@ -49,7 +51,7 @@ namespace DialogueSystem.Windows
             {
                 foreach (GraphElement element in elements)
                 {
-                    if (!(element is DSNode))
+                    if (!(element is DSNode) || element is DSStartNode)
                     {
                         continue;
                     }
@@ -69,6 +71,11 @@ namespace DialogueSystem.Windows
             {
                 foreach (GraphElement element in elements)
                 {
+                    if (element is DSStartNode)
+                    {
+                        group.RemoveElement(element);
+                        continue;
+                    }
                     if (!(element is DSNode))
                     {
                         continue;
@@ -242,7 +249,7 @@ namespace DialogueSystem.Windows
 
             foreach (GraphElement element in selection)
             {
-                if (element is DSNode)
+                if (element is DSNode && !(element is DSStartNode))
                 {
                     DSNode node = (DSNode)element;
                     group.AddElement(node);
@@ -324,6 +331,67 @@ namespace DialogueSystem.Windows
                 }
             }
             return null;
+        }
+
+        public void ClearData()
+        {
+            DeleteElements(graphElements.ToList());
+            DSData = new DSData();
+        }
+
+        public void SaveData()
+        {
+            foreach(var element in graphElements)
+            {
+                if (element is DSGroup dsGroup)
+                {
+                    dsGroup.SaveData();
+                }
+
+                if (element is DSNode dsNode)
+                {
+                    dsNode.SaveData();
+                }
+
+                if (element is DSStartNode dsStartNode)
+                {
+                    DSData.SetStartNodeData(dsStartNode.NodeData);
+                }
+            }
+        }
+
+        public void LoadData(DSData dsData)
+        {
+            ClearData();
+
+            DSStartNode startNode = new DSStartNode(DSData.StartNodeData.Position, this);
+            startNode.LoadData(dsData.StartNodeData);
+            AddElement(startNode);
+
+            foreach (var groupData in dsData.GroupDatas)
+            {
+                DSGroup dsGroup = CreateGroup(groupData.Position);
+
+                foreach (var nodeData in groupData.NodeDatas)
+                {
+                    DSNode dsNode = CreateNode(nodeData.Position);
+                    dsNode.LoadData(nodeData);
+                    AddElement(dsNode);
+                    dsGroup.AddElement(dsNode);
+                }
+
+                dsGroup.LoadData(groupData);
+                AddElement(dsGroup);
+            }
+
+            foreach (var nodeData in dsData.UngroupNodeDatas)
+            {
+                DSNode dsNode = CreateNode(nodeData.Position);
+                dsNode.LoadData(nodeData);
+                AddElement(dsNode);
+            }
+
+            DSData = dsData;
         }
     }
 }

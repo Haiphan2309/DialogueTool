@@ -20,11 +20,13 @@ namespace DialogueSystem.Data
     {
         public List<DSGroupData> GroupDatas { get; private set; } //1 group present for 1 NPC
         public List<DSNodeData> UngroupNodeDatas { get; private set; }
+        public DSNodeData StartNodeData { get; private set; }
 
         public DSData()
         {
             GroupDatas = new List<DSGroupData>();
             UngroupNodeDatas = new List<DSNodeData>();
+            StartNodeData = new DSNodeData();
         }
 
 #if UNITY_EDITOR
@@ -93,12 +95,18 @@ namespace DialogueSystem.Data
 
             return nodeCount;
         }
+
+        public void SetStartNodeData(DSNodeData nodeData)
+        {
+            StartNodeData = nodeData;
+        }
 #endif
     }
 
     [Serializable]
     public class DSGroupData
     {
+        public string Name { get; set; }
         public int Index { get; set; }
         public Vector2 Position { get; set; }
         public List<DSNodeData> NodeDatas { get; private set; }
@@ -128,6 +136,7 @@ namespace DialogueSystem.Data
     [Serializable]
     public class DSNodeData
     {
+        public string Name { get; set; }
         public int Index { get; set; }
         public Vector2 Position { get; set; }
         public DSNodeData NextNodeData { get; set; }
