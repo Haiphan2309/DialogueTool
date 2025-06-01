@@ -81,7 +81,11 @@ namespace DialogueSystem.Windows
         private void OnSave()
         {
             m_dsGraphView.SaveData();
-            DSUtils.SaveGraph(m_dsGraphView.DSData, m_fileNameTextField.value);
+
+            //TODO: DEEP COPY the DSData from m_dsGraphView
+            DSData copyDSData = new DSData();
+
+            DSUtils.SaveGraph(copyDSData, m_fileNameTextField.value);
         }
 
         private void OnLoad()

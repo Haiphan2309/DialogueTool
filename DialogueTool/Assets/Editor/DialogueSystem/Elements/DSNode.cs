@@ -4,7 +4,6 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using DialogueSystem.Data;
-using System.ComponentModel;
 
 namespace DialogueSystem.Windows
 {
@@ -126,17 +125,58 @@ namespace DialogueSystem.Windows
 
             foreach (var child in _customDataContainer.Children())
             {
-                if (child is Foldout foldout && foldout.name == "DialogueTextFoldout")
+                if (child is Foldout foldout && foldout.text == "Dialogue Text")
                 {
                     var textField = foldout.Q<TextField>();
                     if (textField != null)
                     {
-                        NodeData.Text = textField.value; // not work
+                        NodeData.Text = textField.value;
                     }
                 }
             }
-                
-            //todo update text for choice
+
+            for (int i = 0; i < _choiceContainer.childCount; i++)
+            {
+                Port port = _choiceContainer.ElementAt(i) as Port;
+                foreach (var portChild in port.Children())
+                {
+                    if (portChild is TextField textField)
+                    {
+                        NodeData.ChoiceDatas[i].Text = textField.value;
+                        break;
+                    }
+                }
+
+                if (!port.connected)
+                {
+                    continue;
+                }
+
+                foreach (Edge edge in port.connections)
+                {
+                    DSNode nextNode = edge.input.node as DSNode;
+                    NodeData.ChoiceDatas[i].NextNodeData = nextNode != null ? nextNode.NodeData : null;
+                    break;
+                }
+            }
+
+            foreach (var child in outputContainer.Children())
+            {
+                if (child is Port port)
+                {
+                    if (!port.connected)
+                    {
+                        continue;
+                    }
+
+                    foreach (Edge edge in port.connections)
+                    {
+                        DSNode nextNode = edge.input.node as DSNode;
+                        NodeData.NextNodeData = nextNode != null ? nextNode.NodeData : null;
+                        break;
+                    }
+                }
+            }
         }
 
         virtual public void LoadData(DSNodeData nodeData)
@@ -145,7 +185,7 @@ namespace DialogueSystem.Windows
             title = nodeData.Name;
             foreach (var child in _customDataContainer.Children())
             {
-                if (child is Foldout foldout && foldout.name == "DialogueTextFoldout")
+                if (child is Foldout foldout && foldout.text == "Dialogue Text")
                 {
                     var textField = foldout.Q<TextField>();
                     if (textField != null)
@@ -291,6 +331,44 @@ namespace DialogueSystem.Windows
 
                 _graphView.DeleteElements(port.connections);
             }
+        }
+
+        public Port GetInputPort()
+        {
+            foreach (Port port in inputContainer.Children())
+            {
+                return port;
+            }
+
+            return null;
+        }
+
+        public Port GetOutputPort()
+        {
+            foreach(var child in outputContainer.Children())
+            {
+                if (child is Port port)
+                {
+                    return port;
+                }
+            }
+
+            return null;
+        }
+
+        public List<Port> GetAllChoicePorts()
+        {
+            List<Port> ports = new List<Port>();
+
+            foreach (var child in _choiceContainer.Children())
+            {
+                if (child is Port port)
+                {
+                    ports.Add(port);
+                }
+            }
+
+            return ports;
         }
     }
 }

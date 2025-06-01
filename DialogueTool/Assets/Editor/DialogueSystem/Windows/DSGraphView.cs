@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 using DialogueSystem.Data;
 using System.Text.RegularExpressions;
 using UnityEditor.PackageManager.Requests;
+using UnityEngine.Android;
 
 namespace DialogueSystem.Windows
 {
@@ -34,7 +35,9 @@ namespace DialogueSystem.Windows
 
         private void Init()
         {
-            AddElement(new DSStartNode(new Vector2(100, 100), this));
+            DSStartNode startNode = new DSStartNode(new Vector2(100, 100), this);
+            AddElement(startNode);
+            DSData.AddUngroupNodeData(startNode.NodeData);
 
             DSGroup group= CreateGroup(new Vector2(230, 150));
             AddElement(group);
@@ -364,9 +367,20 @@ namespace DialogueSystem.Windows
         {
             ClearData();
 
-            DSStartNode startNode = new DSStartNode(DSData.StartNodeData.Position, this);
-            startNode.LoadData(dsData.StartNodeData);
-            AddElement(startNode);
+            foreach (var nodeData in dsData.UngroupNodeDatas)
+            {
+                if (nodeData.Index == 0) //this is start node
+                {
+                    DSStartNode startNode = new DSStartNode(DSData.StartNodeData.Position, this);
+                    startNode.LoadData(dsData.StartNodeData);
+                    AddElement(startNode);
+                    continue;
+                }
+
+                DSNode dsNode = CreateNode(nodeData.Position);
+                dsNode.LoadData(nodeData);
+                AddElement(dsNode);
+            }
 
             foreach (var groupData in dsData.GroupDatas)
             {
@@ -384,11 +398,35 @@ namespace DialogueSystem.Windows
                 AddElement(dsGroup);
             }
 
-            foreach (var nodeData in dsData.UngroupNodeDatas)
+            //Load port connection, do this after done creating all nodes
+            foreach(var element in graphElements)
             {
-                DSNode dsNode = CreateNode(nodeData.Position);
-                dsNode.LoadData(nodeData);
-                AddElement(dsNode);
+                if (element is DSNode dsNode)
+                {
+                    Port outputPort = dsNode.GetOutputPort();
+                    if (dsNode.NodeData.NextNodeData != null)
+                    {
+                        Port inputPort = FindDSNodeBy(dsNode.NodeData.NextNodeData).GetInputPort();
+                        if (inputPort != null)
+                        {
+                            Edge edge = outputPort.ConnectTo(inputPort);
+                            AddElement(edge);
+                        }
+                    }
+
+                    for (int i = 0; i < dsNode.GetAllChoicePorts().Count; i++)
+                    {
+                        if (dsNode.NodeData.ChoiceDatas[i].NextNodeData == null)
+                        {
+                            continue;
+                        }
+
+                        Port choicePort = dsNode.GetAllChoicePorts()[i];
+                        Port choiceInputPort = FindDSNodeBy(dsNode.NodeData.ChoiceDatas[i].NextNodeData).GetInputPort();
+                        Edge edge = choicePort.ConnectTo(choiceInputPort);
+                        AddElement(edge);
+                    }
+                }
             }
 
             DSData = dsData;

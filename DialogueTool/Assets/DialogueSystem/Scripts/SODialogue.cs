@@ -70,18 +70,18 @@ namespace DialogueSystem.Data
         {
             int nodeCount = 0;
 
+            foreach (var node in UngroupNodeDatas)
+            {
+                node.Index = nodeCount++;
+            }
+
             foreach (var group in GroupDatas)
             {
                 foreach (var node in group.NodeDatas)
                 {
                     node.Index = nodeCount++;
                 }
-            }
-
-            foreach (var node in UngroupNodeDatas)
-            {
-                node.Index = nodeCount++;
-            }
+            } 
         }
 
         public int GetNodeCount()
