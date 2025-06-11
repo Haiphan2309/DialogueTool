@@ -20,7 +20,7 @@ namespace DialogueSystem.Data
     {
         public List<DSGroupData> GroupDatas { get; private set; } //1 group present for 1 NPC
         public List<DSNodeData> UngroupNodeDatas { get; private set; }
-        public DSNodeData StartNodeData { get; private set; }
+        public DSNodeData StartNodeData { get; set; }
 
         public DSData()
         {

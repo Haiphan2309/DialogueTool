@@ -371,6 +371,7 @@ namespace DialogueSystem.Windows
             {
                 if (nodeData.Index == 0) //this is start node
                 {
+                    Debug.Log("Create start node");
                     DSStartNode startNode = new DSStartNode(DSData.StartNodeData.Position, this);
                     startNode.LoadData(dsData.StartNodeData);
                     AddElement(startNode);
