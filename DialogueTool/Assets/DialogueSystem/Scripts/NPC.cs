@@ -9,7 +9,6 @@ using DialogueSystem.Data;
 public class NPC : BaseNPC
 {
     [SerializeField] private List<Dialogue> dialogues;
-    [SerializeField] private SODialogue _soDialogue;
 
     [Button]
     public void Talk()

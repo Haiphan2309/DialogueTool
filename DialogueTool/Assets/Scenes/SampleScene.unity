@@ -1095,12 +1095,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
-  _dialogues: []
+  _soDialogue: {fileID: 11400000, guid: 4010aa55b394c2740bcc8267a99c5129, type: 2}
+  _talkingNPCDatas: []
   dialogues:
   - TalkingObjectData:
-      BaseNPC: {fileID: 1134763821}
-      CenterTransform: {fileID: 1203450471}
-      Size: 150
+      Size: 0
+      BaseNPC: {fileID: 0}
+      CenterTransform: {fileID: 0}
     DialogueNodes:
     - Index: 0
       NextIndex: 1
@@ -1170,9 +1171,9 @@ MonoBehaviour:
       TalkingEmotion: 0
     DialogueEvents: []
   - TalkingObjectData:
-      BaseNPC: {fileID: 2111599579}
+      Size: 0
+      BaseNPC: {fileID: 0}
       CenterTransform: {fileID: 0}
-      Size: 150
     DialogueNodes:
     - Index: 0
       NextIndex: 1
@@ -1182,9 +1183,9 @@ MonoBehaviour:
       TalkingEmotion: 0
     DialogueEvents: []
   - TalkingObjectData:
-      BaseNPC: {fileID: 1134763821}
+      Size: 0
+      BaseNPC: {fileID: 0}
       CenterTransform: {fileID: 0}
-      Size: 150
     DialogueNodes:
     - Index: 0
       NextIndex: 1
@@ -2086,7 +2087,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
-  _dialogues: []
+  _soDialogue: {fileID: 0}
+  _talkingNPCDatas: []
 --- !u!1 &2139738254
 GameObject:
   m_ObjectHideFlags: 0

@@ -179,11 +179,12 @@ namespace DialogueSystem.Data
         }
     }
 
+    [Serializable]
     public class TalkingObjectData
     {
-        public BaseNPC BaseNPC;
-        public Transform CenterTransform;
         public float Size;
+        public BaseNPC BaseNPC; //This should be delete, already be defined in baseNPC.cs
+        public Transform CenterTransform; //This should be delete, already be defined in baseNPC.cs
     }
 
     public class SODialogue : ScriptableObject
