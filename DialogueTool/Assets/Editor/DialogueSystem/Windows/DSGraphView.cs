@@ -312,11 +312,16 @@ namespace DialogueSystem.Windows
             }    
         }
 
-        public DSNode FindDSNodeBy(DSNodeData nodeData)
+        public DSNode FindDSNodeBy(int index)
         {
+            if (index == -1)
+            {
+                return null;
+            }
+
             foreach (var element in graphElements)
             {
-                if (element is DSNode node && node.NodeData == nodeData)
+                if (element is DSNode node && node.NodeData.Index == index)
                 {
                     return node;
                 }
@@ -405,9 +410,11 @@ namespace DialogueSystem.Windows
                 if (element is DSNode dsNode)
                 {
                     Port outputPort = dsNode.GetOutputPort();
-                    if (dsNode.NodeData.NextNodeData != null)
+
+                    DSNode nextNode = FindDSNodeBy(dsNode.NodeData.NextNodeIndex);
+                    if (nextNode != null)
                     {
-                        Port inputPort = FindDSNodeBy(dsNode.NodeData.NextNodeData).GetInputPort();
+                        Port inputPort = nextNode.GetInputPort();
                         if (inputPort != null)
                         {
                             Edge edge = outputPort.ConnectTo(inputPort);
@@ -415,15 +422,18 @@ namespace DialogueSystem.Windows
                         }
                     }
 
+                    Debug.Log("nodeindex: " + dsNode.NodeData.Index + " have choice port count: " + dsNode.GetAllChoicePorts().Count);
                     for (int i = 0; i < dsNode.GetAllChoicePorts().Count; i++)
                     {
-                        if (dsNode.NodeData.ChoiceDatas[i].NextNodeData == null)
+                        Debug.Log("Find choice ports with index " + i + " of nodeindex: " + dsNode.NodeData.Index + " and next node data: " + dsNode.NodeData.NextNodeIndex);
+                        DSNode choiceNextNode = FindDSNodeBy(dsNode.NodeData.ChoiceDatas[i].NextNodeIndex);
+                        if (choiceNextNode == null)
                         {
                             continue;
                         }
 
                         Port choicePort = dsNode.GetAllChoicePorts()[i];
-                        Port choiceInputPort = FindDSNodeBy(dsNode.NodeData.ChoiceDatas[i].NextNodeData).GetInputPort();
+                        Port choiceInputPort = choiceNextNode.GetInputPort();
                         Edge edge = choicePort.ConnectTo(choiceInputPort);
                         AddElement(edge);
                     }

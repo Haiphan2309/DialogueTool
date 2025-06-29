@@ -10,6 +10,13 @@ public class NPC : BaseNPC
 {
     [SerializeField] private List<Dialogue> dialogues;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Talk();
+        }
+    }
     [Button]
     public void Talk()
     {

@@ -155,7 +155,7 @@ namespace DialogueSystem.Windows
                 foreach (Edge edge in port.connections)
                 {
                     DSNode nextNode = edge.input.node as DSNode;
-                    NodeData.ChoiceDatas[i].NextNodeData = nextNode != null ? nextNode.NodeData : null;
+                    NodeData.ChoiceDatas[i].NextNodeIndex = nextNode != null ? nextNode.NodeData.Index : -1;
                     break;
                 }
             }
@@ -172,7 +172,7 @@ namespace DialogueSystem.Windows
                     foreach (Edge edge in port.connections)
                     {
                         DSNode nextNode = edge.input.node as DSNode;
-                        NodeData.NextNodeData = nextNode != null ? nextNode.NodeData : null;
+                        NodeData.NextNodeIndex = nextNode != null ? nextNode.NodeData.Index : -1;
                         break;
                     }
                 }
@@ -305,7 +305,7 @@ namespace DialogueSystem.Windows
             {
                 if (port == portToRemoveData)
                 {
-                    NodeData.NextNodeData = null;
+                    NodeData.NextNodeIndex = -1;
                     return;
                 }
             }
@@ -315,7 +315,7 @@ namespace DialogueSystem.Windows
                 Port port = _choiceContainer.ElementAt(i) as Port;
                 if (portToRemoveData == port)
                 {
-                    NodeData.ChoiceDatas[i].NextNodeData = null;
+                    NodeData.ChoiceDatas[i].NextNodeIndex = -1;
                 }
             }
         }

@@ -133,7 +133,7 @@ namespace DialogueSystem
         {
             if (_dialogueState != DialogueState.CHOOSING) //may be not to need this line
             {
-                _currentNodeData = _currentNodeData.NextNodeData;
+                _currentNodeData = _soDialogue.FindDSNodeDataBy(_currentNodeData.NextNodeIndex);
             }
 
             if (_currentNodeData == null)
@@ -201,7 +201,7 @@ namespace DialogueSystem
         private void ChooseChoice()
         {
             DSChoiceData currentChoiceData = _uiChoosingTextBox.GetCurrentChoiceData();
-            _currentNodeData = currentChoiceData.NextNodeData;
+            _currentNodeData = _soDialogue.FindDSNodeDataBy( currentChoiceData.NextNodeIndex);
 
             _uiChoosingTextBox.OnChooseChoice();
         }

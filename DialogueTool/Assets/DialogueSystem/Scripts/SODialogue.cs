@@ -18,15 +18,24 @@ namespace DialogueSystem.Data
     [Serializable]
     public class DSData
     {
-        public List<DSGroupData> GroupDatas { get; private set; } //1 group present for 1 NPC
-        public List<DSNodeData> UngroupNodeDatas { get; private set; }
-        public DSNodeData StartNodeData { get; set; }
+        [SerializeField] private List<DSGroupData> _groupDatas; //1 group present for 1 NPC
+        public List<DSGroupData> GroupDatas => _groupDatas; // read-only
+
+        [SerializeField] private List<DSNodeData> _ungroupNodeDatas;
+        public List<DSNodeData> UngroupNodeDatas => _ungroupNodeDatas;
+
+        [SerializeField] private DSNodeData _startNodeData;
+        public DSNodeData StartNodeData
+        {
+            get => _startNodeData;
+            set => _startNodeData = value;
+        }
 
         public DSData()
         {
-            GroupDatas = new List<DSGroupData>();
-            UngroupNodeDatas = new List<DSNodeData>();
-            StartNodeData = new DSNodeData();
+            _groupDatas = new List<DSGroupData>();
+            _ungroupNodeDatas = new List<DSNodeData>();
+            _startNodeData = new DSNodeData();
         }
 
 #if UNITY_EDITOR
@@ -34,35 +43,35 @@ namespace DialogueSystem.Data
         {
             Debug.Log("Add ungroup node data: " + nodeData.GetHashCode());
             nodeData.Index = GetNodeCount();
-            UngroupNodeDatas.Add(nodeData);
+            _ungroupNodeDatas.Add(nodeData);
         }
 
         public void RemoveUngroupNodeData(DSNodeData nodeData)
         {
             Debug.Log("Remove ungroup node data: " + nodeData.GetHashCode());
-            UngroupNodeDatas.Remove(nodeData);
+            _ungroupNodeDatas.Remove(nodeData);
             ReIndexNodeData();
         }
 
         public void AddGroupData(DSGroupData groupData)
         {
             Debug.Log("Add group data " + groupData.Index);
-            groupData.Index = GroupDatas.Count;
-            GroupDatas.Add(groupData);
+            groupData.Index = _groupDatas.Count;
+            _groupDatas.Add(groupData);
         }
 
         public void RemoveGroupData(DSGroupData groupData)
         {
             Debug.Log("Remove Group Data " + groupData.Index);
-            GroupDatas.Remove(groupData);
+            _groupDatas.Remove(groupData);
             ReIndexGroupData();
         }
 
         public void ReIndexGroupData()
         {
-            for (int i = 0; i < GroupDatas.Count; i++)
+            for (int i = 0; i < _groupDatas.Count; i++)
             {
-                GroupDatas[i].Index = i;
+                _groupDatas[i].Index = i;
             }
         }
 
@@ -70,12 +79,12 @@ namespace DialogueSystem.Data
         {
             int nodeCount = 0;
 
-            foreach (var node in UngroupNodeDatas)
+            foreach (var node in _ungroupNodeDatas)
             {
                 node.Index = nodeCount++;
             }
 
-            foreach (var group in GroupDatas)
+            foreach (var group in _groupDatas)
             {
                 foreach (var node in group.NodeDatas)
                 {
@@ -86,9 +95,9 @@ namespace DialogueSystem.Data
 
         public int GetNodeCount()
         {
-            int nodeCount = UngroupNodeDatas.Count;
+            int nodeCount = _ungroupNodeDatas.Count;
 
-            foreach (var group in GroupDatas)
+            foreach (var group in _groupDatas)
             {
                 nodeCount += group.NodeDatas.Count;
             }
@@ -98,7 +107,7 @@ namespace DialogueSystem.Data
 
         public void SetStartNodeData(DSNodeData nodeData)
         {
-            StartNodeData = nodeData;
+            _startNodeData = nodeData;
         }
 #endif
     }
@@ -106,14 +115,33 @@ namespace DialogueSystem.Data
     [Serializable]
     public class DSGroupData
     {
-        public string Name { get; set; }
-        public int Index { get; set; }
-        public Vector2 Position { get; set; }
-        public List<DSNodeData> NodeDatas { get; private set; }
+        [SerializeField] private string _name;
+        public string Name
+        {
+            get => _name;
+            set => _name = value;
+        }
+
+        [SerializeField] private int _index;
+        public int Index
+        {
+            get => _index;
+            set => _index = value;
+        }
+
+        [SerializeField] private Vector2 _position;
+        public Vector2 Position
+        {
+            get => _position;
+            set => _position = value;
+        }
+
+        [SerializeField] private List<DSNodeData> _nodeDatas;
+        public List<DSNodeData> NodeDatas => _nodeDatas;
 
         public DSGroupData()
         {
-            NodeDatas = new List<DSNodeData>();
+            _nodeDatas = new List<DSNodeData>();
         }
 
 #if UNITY_EDITOR
@@ -121,14 +149,14 @@ namespace DialogueSystem.Data
         {
             Debug.Log("Add Node data " + nodeData.GetHashCode());
             nodeData.GroupData = this;
-            NodeDatas.Add(nodeData);
+            _nodeDatas.Add(nodeData);
         }
 
         public void RemoveNodeData(DSNodeData nodeData)
         {
             Debug.Log("Remove node data: " + nodeData.GetHashCode());
             nodeData.GroupData = null;
-            NodeDatas.Remove(nodeData);
+            _nodeDatas.Remove(nodeData);
         }
 #endif
     }
@@ -136,33 +164,93 @@ namespace DialogueSystem.Data
     [Serializable]
     public class DSNodeData
     {
-        public string Name { get; set; }
-        public int Index { get; set; }
-        public Vector2 Position { get; set; }
-        public DSNodeData NextNodeData { get; set; }
-        public List<DSChoiceData> ChoiceDatas { get; set; }
-        public string Text { get; set; }
-        public TextBoxType TextBoxType { get; set; }
-        public TalkingEmotion TalkingEmotion { get; set; }
-        public bool IsHaveCallBack {  get; set; }
-        public DSGroupData GroupData { get; set; }
+        [SerializeField] private string _name;
+        public string Name
+        {
+            get => _name;
+            set => _name = value;
+        }
+
+        [SerializeField] private int _index;
+        public int Index
+        {
+            get => _index;
+            set => _index = value;
+        }
+
+        [SerializeField] private Vector2 _position;
+        public Vector2 Position
+        {
+            get => _position;
+            set => _position = value;
+        }
+
+        [SerializeField] private int _nextNodeIndex;
+        public int NextNodeIndex
+        {
+            get => _nextNodeIndex;
+            set => _nextNodeIndex = value;
+        }
+
+        [SerializeField] private List<DSChoiceData> _choiceDatas;
+        public List<DSChoiceData> ChoiceDatas
+        {
+            get => _choiceDatas;
+            set => _choiceDatas = value;
+        }
+
+        [SerializeField] private string _text;
+        public string Text
+        {
+            get => _text;
+            set => _text = value;
+        }
+
+        [SerializeField] private TextBoxType _textBoxType;
+        public TextBoxType TextBoxType
+        {
+            get => _textBoxType;
+            set => _textBoxType = value;
+        }
+
+        [SerializeField] private TalkingEmotion _talkingEmotion;
+        public TalkingEmotion TalkingEmotion
+        {
+            get => _talkingEmotion;
+            set => _talkingEmotion = value;
+        }
+
+        [SerializeField] private bool _isHaveCallBack;
+        public bool IsHaveCallBack
+        {
+            get => _isHaveCallBack;
+            set => _isHaveCallBack = value;
+        }
+
+        [SerializeField] private DSGroupData _groupData;
+        public DSGroupData GroupData
+        {
+            get => _groupData;
+            set => _groupData = value;
+        }
 
         public DSNodeData()
         {
-            ChoiceDatas = new List<DSChoiceData>();
+            _choiceDatas = new List<DSChoiceData>();
+            _nextNodeIndex = -1;
         }
 
 #if UNITY_EDITOR
         public void AddChoiceData(DSChoiceData choiceData)
         {
             Debug.Log("Add choice data " + choiceData);
-            ChoiceDatas.Add(choiceData);
+            _choiceDatas.Add(choiceData);
         }
 
         public void RemoveChoiceData(DSChoiceData choiceData)
         {
             Debug.Log("Remove choice data " + choiceData);
-            ChoiceDatas.Remove(choiceData);
+            _choiceDatas.Remove(choiceData);
         }
 #endif
     }
@@ -170,12 +258,24 @@ namespace DialogueSystem.Data
     [Serializable]
     public class DSChoiceData
     {
-        public string Text { get; set; }
-        public DSNodeData NextNodeData { get; set; }
+        [SerializeField] private string _text;
+        public string Text
+        {
+            get => _text;
+            set => _text = value;
+        }
+
+        [SerializeField] private int _nextNodeIndex;
+        public int NextNodeIndex
+        {
+            get => _nextNodeIndex;
+            set => _nextNodeIndex = value;
+        }
 
         public DSChoiceData(string text)
         {
-            Text = text;
+            _nextNodeIndex = -1;
+            _text = text;
         }
     }
 
@@ -189,7 +289,12 @@ namespace DialogueSystem.Data
 
     public class SODialogue : ScriptableObject
     {
-        public DSData DSData { get; set; }
+        [SerializeField] private DSData _dsData;
+        public DSData DSData
+        {
+            get => _dsData;
+            set => _dsData = value;
+        }
 
         //These data can change in inspector
         [SerializeField] private List<TalkingObjectData> talkingObjectDatas; //todo: the size of talkingObjectDatas will be the same with the count of groupDatas
@@ -200,7 +305,7 @@ namespace DialogueSystem.Data
         /// <returns></returns>
         public DSNodeData GetStartNodeData()
         {
-            foreach (var nodeData in DSData.UngroupNodeDatas)
+            foreach (var nodeData in _dsData.UngroupNodeDatas)
             {
                 if (nodeData.Index == 0)
                 {
@@ -208,7 +313,7 @@ namespace DialogueSystem.Data
                 }
             }
 
-            foreach (var groupData in DSData.GroupDatas)
+            foreach (var groupData in _dsData.GroupDatas)
             {
                 foreach (var nodeData in groupData.NodeDatas)
                 {
@@ -236,6 +341,35 @@ namespace DialogueSystem.Data
             }
 
             return talkingObjectDatas[nodeData.GroupData.Index];
+        }
+
+        public DSNodeData FindDSNodeDataBy(int index)
+        {
+            if (index == -1)
+            {
+                return null;
+            }
+
+            foreach (var groupData in _dsData.GroupDatas)
+            {
+                foreach (var nodeData in groupData.NodeDatas)
+                {
+                    if (nodeData.Index == index)
+                    {
+                        return nodeData;
+                    }
+                }
+            }
+
+            foreach(var nodeData in _dsData.UngroupNodeDatas)
+            {
+                if (nodeData.Index == index)
+                {
+                    return nodeData;
+                }
+            }
+
+            return null;
         }
     }
 }

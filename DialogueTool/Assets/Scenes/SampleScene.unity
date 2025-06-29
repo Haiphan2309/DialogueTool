@@ -1096,7 +1096,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
   _soDialogue: {fileID: 11400000, guid: 4010aa55b394c2740bcc8267a99c5129, type: 2}
-  _talkingNPCDatas: []
+  _talkingNPCDatas:
+  - Name: NPC 0
+    BaseNPC: {fileID: 1134763821}
+    CenterTransform: {fileID: 1203450471}
+  - Name: NPC 1
+    BaseNPC: {fileID: 2111599579}
+    CenterTransform: {fileID: 2111599578}
   dialogues:
   - TalkingObjectData:
       Size: 0

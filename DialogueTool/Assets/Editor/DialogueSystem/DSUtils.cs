@@ -60,40 +60,7 @@ namespace DialogueSystem.Windows
                 copyDsData.UngroupNodeDatas.Add(GetCopyDSNodeData(nodeData));
             }
 
-            copyDsData.StartNodeData = FindDSNodeDataBy(copyDsData.UngroupNodeDatas, 0);
-
-            /* deep copy ref data */
-
-            List<DSNodeData> allCopyDsNodeDatas = new List<DSNodeData>();
-
-            foreach(var nodeData in copyDsData.UngroupNodeDatas)
-            {
-                allCopyDsNodeDatas.Add(nodeData);
-            }
-
-            foreach(var groupData in copyDsData.GroupDatas)
-            {
-                foreach(var nodeData in groupData.NodeDatas)
-                {
-                    allCopyDsNodeDatas.Add(nodeData);
-                }
-            }
-
-            foreach(var nodeData in allCopyDsNodeDatas)
-            {
-                if (nodeData.NextNodeData != null)
-                {
-                    nodeData.NextNodeData = FindDSNodeDataBy(allCopyDsNodeDatas, nodeData.NextNodeData.Index); //get NextNodeData from temp next node index
-                }
-                
-                foreach(var choiceData in nodeData.ChoiceDatas)
-                {
-                    if (choiceData.NextNodeData != null)
-                    {
-                        choiceData.NextNodeData = FindDSNodeDataBy(allCopyDsNodeDatas, choiceData.NextNodeData.Index); //get NextNodeData from temp next node index
-                    }
-                }
-            }
+            copyDsData.StartNodeData = copyDsData.UngroupNodeDatas[0];
 
             return copyDsData;
         }
@@ -128,38 +95,17 @@ namespace DialogueSystem.Windows
             copyNodeData.TextBoxType = dsNodeData.TextBoxType;
             copyNodeData.TalkingEmotion = dsNodeData.TalkingEmotion;
             copyNodeData.IsHaveCallBack = dsNodeData.IsHaveCallBack;
-            if (dsNodeData.NextNodeData != null)
-            {
-                copyNodeData.NextNodeData = new DSNodeData();
-                copyNodeData.NextNodeData.Index = dsNodeData.NextNodeData.Index; //store temp NextNodeData to get next node index
-            }
+            copyNodeData.NextNodeIndex = dsNodeData.NextNodeIndex;
 
             foreach (var choiceData in dsNodeData.ChoiceDatas)
             {
                 DSChoiceData copyChoiceData = new DSChoiceData(choiceData.Text);
-                if (choiceData.NextNodeData != null)
-                {
-                    copyChoiceData.NextNodeData = new DSNodeData();
-                    copyChoiceData.NextNodeData.Index = choiceData.NextNodeData.Index; //store temp NextNodeData to get next node index
-                }
+                copyChoiceData.NextNodeIndex = choiceData.NextNodeIndex;
 
                 copyNodeData.ChoiceDatas.Add(copyChoiceData);
             }
 
             return copyNodeData;
-        }
-
-        private static DSNodeData FindDSNodeDataBy(List<DSNodeData> dsNodeDatas, int index)
-        {
-            foreach (var nodeData in dsNodeDatas)
-            {
-                if (nodeData.Index == index)
-                {
-                    return nodeData;
-                }
-            }
-
-            return null;
         }
     }
 }

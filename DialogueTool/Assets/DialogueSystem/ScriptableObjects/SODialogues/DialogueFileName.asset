@@ -12,3 +12,828 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 712f0bb2529b9e042947ea3d5850bffd, type: 3}
   m_Name: DialogueFileName
   m_EditorClassIdentifier: 
+  _dsData:
+    _groupDatas:
+    - _name: NPC 0
+      _index: 0
+      _position: {x: 204.79999, y: 90.399994}
+      _nodeDatas:
+      - _name: Node 2
+        _index: 2
+        _position: {x: 230.4, y: 150.4}
+        _nextNodeIndex: 3
+        _choiceDatas: []
+        _text: This is an example text.
+        _textBoxType: 0
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupData:
+          _name: NPC 0
+          _index: 0
+          _position: {x: 204.79999, y: 90.399994}
+          _nodeDatas:
+          - _name: Node 2
+            _index: 2
+            _position: {x: 230.4, y: 150.4}
+            _nextNodeIndex: 3
+            _choiceDatas: []
+            _text: This is an example text.
+            _textBoxType: 0
+            _talkingEmotion: 0
+            _isHaveCallBack: 0
+            _groupData:
+              _name: NPC 0
+              _index: 0
+              _position: {x: 204.79999, y: 90.399994}
+              _nodeDatas:
+              - _name: Node 2
+                _index: 2
+                _position: {x: 230.4, y: 150.4}
+                _nextNodeIndex: 3
+                _choiceDatas: []
+                _text: This is an example text.
+                _textBoxType: 0
+                _talkingEmotion: 0
+                _isHaveCallBack: 0
+                _groupData:
+                  _name: NPC 0
+                  _index: 0
+                  _position: {x: 204.79999, y: 90.399994}
+                  _nodeDatas:
+                  - _name: Node 2
+                    _index: 2
+                    _position: {x: 230.4, y: 150.4}
+                    _nextNodeIndex: 3
+                    _choiceDatas: []
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 0
+                      _index: 0
+                      _position: {x: 204.79999, y: 90.399994}
+                      _nodeDatas:
+                      - _name: Node 2
+                        _index: 2
+                        _position: {x: 230.4, y: 150.4}
+                        _nextNodeIndex: 3
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+    - _name: NPC 1
+      _index: 1
+      _position: {x: 675.99994, y: 84.8}
+      _nodeDatas:
+      - _name: Node 3
+        _index: 3
+        _position: {x: 701.6, y: 144.8}
+        _nextNodeIndex: -1
+        _choiceDatas:
+        - _text: An example choosing text.
+          _nextNodeIndex: 4
+        _text: This is an example text.
+        _textBoxType: 0
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupData:
+          _name: NPC 1
+          _index: 1
+          _position: {x: 675.99994, y: 84.8}
+          _nodeDatas:
+          - _name: Node 3
+            _index: 3
+            _position: {x: 701.6, y: 144.8}
+            _nextNodeIndex: -1
+            _choiceDatas:
+            - _text: An example choosing text.
+              _nextNodeIndex: 4
+            _text: This is an example text.
+            _textBoxType: 0
+            _talkingEmotion: 0
+            _isHaveCallBack: 0
+            _groupData:
+              _name: NPC 1
+              _index: 1
+              _position: {x: 675.99994, y: 84.8}
+              _nodeDatas:
+              - _name: Node 3
+                _index: 3
+                _position: {x: 701.6, y: 144.8}
+                _nextNodeIndex: -1
+                _choiceDatas:
+                - _text: An example choosing text.
+                  _nextNodeIndex: 4
+                _text: This is an example text.
+                _textBoxType: 0
+                _talkingEmotion: 0
+                _isHaveCallBack: 0
+                _groupData:
+                  _name: NPC 1
+                  _index: 1
+                  _position: {x: 675.99994, y: 84.8}
+                  _nodeDatas:
+                  - _name: Node 3
+                    _index: 3
+                    _position: {x: 701.6, y: 144.8}
+                    _nextNodeIndex: -1
+                    _choiceDatas:
+                    - _text: An example choosing text.
+                      _nextNodeIndex: 4
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 1
+                      _index: 1
+                      _position: {x: 675.99994, y: 84.8}
+                      _nodeDatas:
+                      - _name: Node 3
+                        _index: 3
+                        _position: {x: 701.6, y: 144.8}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                      - _name: Node 4
+                        _index: 4
+                        _position: {x: 1151.2, y: 338.40002}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                  - _name: Node 4
+                    _index: 4
+                    _position: {x: 1151.2, y: 338.40002}
+                    _nextNodeIndex: -1
+                    _choiceDatas: []
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 1
+                      _index: 1
+                      _position: {x: 675.99994, y: 84.8}
+                      _nodeDatas:
+                      - _name: Node 3
+                        _index: 3
+                        _position: {x: 701.6, y: 144.8}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                      - _name: Node 4
+                        _index: 4
+                        _position: {x: 1151.2, y: 338.40002}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+              - _name: Node 4
+                _index: 4
+                _position: {x: 1151.2, y: 338.40002}
+                _nextNodeIndex: -1
+                _choiceDatas: []
+                _text: This is an example text.
+                _textBoxType: 0
+                _talkingEmotion: 0
+                _isHaveCallBack: 0
+                _groupData:
+                  _name: NPC 1
+                  _index: 1
+                  _position: {x: 675.99994, y: 84.8}
+                  _nodeDatas:
+                  - _name: Node 3
+                    _index: 3
+                    _position: {x: 701.6, y: 144.8}
+                    _nextNodeIndex: -1
+                    _choiceDatas:
+                    - _text: An example choosing text.
+                      _nextNodeIndex: 4
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 1
+                      _index: 1
+                      _position: {x: 675.99994, y: 84.8}
+                      _nodeDatas:
+                      - _name: Node 3
+                        _index: 3
+                        _position: {x: 701.6, y: 144.8}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                      - _name: Node 4
+                        _index: 4
+                        _position: {x: 1151.2, y: 338.40002}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                  - _name: Node 4
+                    _index: 4
+                    _position: {x: 1151.2, y: 338.40002}
+                    _nextNodeIndex: -1
+                    _choiceDatas: []
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 1
+                      _index: 1
+                      _position: {x: 675.99994, y: 84.8}
+                      _nodeDatas:
+                      - _name: Node 3
+                        _index: 3
+                        _position: {x: 701.6, y: 144.8}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                      - _name: Node 4
+                        _index: 4
+                        _position: {x: 1151.2, y: 338.40002}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+          - _name: Node 4
+            _index: 4
+            _position: {x: 1151.2, y: 338.40002}
+            _nextNodeIndex: -1
+            _choiceDatas: []
+            _text: This is an example text.
+            _textBoxType: 0
+            _talkingEmotion: 0
+            _isHaveCallBack: 0
+            _groupData:
+              _name: NPC 1
+              _index: 1
+              _position: {x: 675.99994, y: 84.8}
+              _nodeDatas:
+              - _name: Node 3
+                _index: 3
+                _position: {x: 701.6, y: 144.8}
+                _nextNodeIndex: -1
+                _choiceDatas:
+                - _text: An example choosing text.
+                  _nextNodeIndex: 4
+                _text: This is an example text.
+                _textBoxType: 0
+                _talkingEmotion: 0
+                _isHaveCallBack: 0
+                _groupData:
+                  _name: NPC 1
+                  _index: 1
+                  _position: {x: 675.99994, y: 84.8}
+                  _nodeDatas:
+                  - _name: Node 3
+                    _index: 3
+                    _position: {x: 701.6, y: 144.8}
+                    _nextNodeIndex: -1
+                    _choiceDatas:
+                    - _text: An example choosing text.
+                      _nextNodeIndex: 4
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 1
+                      _index: 1
+                      _position: {x: 675.99994, y: 84.8}
+                      _nodeDatas:
+                      - _name: Node 3
+                        _index: 3
+                        _position: {x: 701.6, y: 144.8}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                      - _name: Node 4
+                        _index: 4
+                        _position: {x: 1151.2, y: 338.40002}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                  - _name: Node 4
+                    _index: 4
+                    _position: {x: 1151.2, y: 338.40002}
+                    _nextNodeIndex: -1
+                    _choiceDatas: []
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 1
+                      _index: 1
+                      _position: {x: 675.99994, y: 84.8}
+                      _nodeDatas:
+                      - _name: Node 3
+                        _index: 3
+                        _position: {x: 701.6, y: 144.8}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                      - _name: Node 4
+                        _index: 4
+                        _position: {x: 1151.2, y: 338.40002}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+              - _name: Node 4
+                _index: 4
+                _position: {x: 1151.2, y: 338.40002}
+                _nextNodeIndex: -1
+                _choiceDatas: []
+                _text: This is an example text.
+                _textBoxType: 0
+                _talkingEmotion: 0
+                _isHaveCallBack: 0
+                _groupData:
+                  _name: NPC 1
+                  _index: 1
+                  _position: {x: 675.99994, y: 84.8}
+                  _nodeDatas:
+                  - _name: Node 3
+                    _index: 3
+                    _position: {x: 701.6, y: 144.8}
+                    _nextNodeIndex: -1
+                    _choiceDatas:
+                    - _text: An example choosing text.
+                      _nextNodeIndex: 4
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 1
+                      _index: 1
+                      _position: {x: 675.99994, y: 84.8}
+                      _nodeDatas:
+                      - _name: Node 3
+                        _index: 3
+                        _position: {x: 701.6, y: 144.8}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                      - _name: Node 4
+                        _index: 4
+                        _position: {x: 1151.2, y: 338.40002}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                  - _name: Node 4
+                    _index: 4
+                    _position: {x: 1151.2, y: 338.40002}
+                    _nextNodeIndex: -1
+                    _choiceDatas: []
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 1
+                      _index: 1
+                      _position: {x: 675.99994, y: 84.8}
+                      _nodeDatas:
+                      - _name: Node 3
+                        _index: 3
+                        _position: {x: 701.6, y: 144.8}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                      - _name: Node 4
+                        _index: 4
+                        _position: {x: 1151.2, y: 338.40002}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+      - _name: Node 4
+        _index: 4
+        _position: {x: 1151.2, y: 338.40002}
+        _nextNodeIndex: -1
+        _choiceDatas: []
+        _text: This is an example text.
+        _textBoxType: 0
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupData:
+          _name: NPC 1
+          _index: 1
+          _position: {x: 675.99994, y: 84.8}
+          _nodeDatas:
+          - _name: Node 3
+            _index: 3
+            _position: {x: 701.6, y: 144.8}
+            _nextNodeIndex: -1
+            _choiceDatas:
+            - _text: An example choosing text.
+              _nextNodeIndex: 4
+            _text: This is an example text.
+            _textBoxType: 0
+            _talkingEmotion: 0
+            _isHaveCallBack: 0
+            _groupData:
+              _name: NPC 1
+              _index: 1
+              _position: {x: 675.99994, y: 84.8}
+              _nodeDatas:
+              - _name: Node 3
+                _index: 3
+                _position: {x: 701.6, y: 144.8}
+                _nextNodeIndex: -1
+                _choiceDatas:
+                - _text: An example choosing text.
+                  _nextNodeIndex: 4
+                _text: This is an example text.
+                _textBoxType: 0
+                _talkingEmotion: 0
+                _isHaveCallBack: 0
+                _groupData:
+                  _name: NPC 1
+                  _index: 1
+                  _position: {x: 675.99994, y: 84.8}
+                  _nodeDatas:
+                  - _name: Node 3
+                    _index: 3
+                    _position: {x: 701.6, y: 144.8}
+                    _nextNodeIndex: -1
+                    _choiceDatas:
+                    - _text: An example choosing text.
+                      _nextNodeIndex: 4
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 1
+                      _index: 1
+                      _position: {x: 675.99994, y: 84.8}
+                      _nodeDatas:
+                      - _name: Node 3
+                        _index: 3
+                        _position: {x: 701.6, y: 144.8}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                      - _name: Node 4
+                        _index: 4
+                        _position: {x: 1151.2, y: 338.40002}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                  - _name: Node 4
+                    _index: 4
+                    _position: {x: 1151.2, y: 338.40002}
+                    _nextNodeIndex: -1
+                    _choiceDatas: []
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 1
+                      _index: 1
+                      _position: {x: 675.99994, y: 84.8}
+                      _nodeDatas:
+                      - _name: Node 3
+                        _index: 3
+                        _position: {x: 701.6, y: 144.8}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                      - _name: Node 4
+                        _index: 4
+                        _position: {x: 1151.2, y: 338.40002}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+              - _name: Node 4
+                _index: 4
+                _position: {x: 1151.2, y: 338.40002}
+                _nextNodeIndex: -1
+                _choiceDatas: []
+                _text: This is an example text.
+                _textBoxType: 0
+                _talkingEmotion: 0
+                _isHaveCallBack: 0
+                _groupData:
+                  _name: NPC 1
+                  _index: 1
+                  _position: {x: 675.99994, y: 84.8}
+                  _nodeDatas:
+                  - _name: Node 3
+                    _index: 3
+                    _position: {x: 701.6, y: 144.8}
+                    _nextNodeIndex: -1
+                    _choiceDatas:
+                    - _text: An example choosing text.
+                      _nextNodeIndex: 4
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 1
+                      _index: 1
+                      _position: {x: 675.99994, y: 84.8}
+                      _nodeDatas:
+                      - _name: Node 3
+                        _index: 3
+                        _position: {x: 701.6, y: 144.8}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                      - _name: Node 4
+                        _index: 4
+                        _position: {x: 1151.2, y: 338.40002}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                  - _name: Node 4
+                    _index: 4
+                    _position: {x: 1151.2, y: 338.40002}
+                    _nextNodeIndex: -1
+                    _choiceDatas: []
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 1
+                      _index: 1
+                      _position: {x: 675.99994, y: 84.8}
+                      _nodeDatas:
+                      - _name: Node 3
+                        _index: 3
+                        _position: {x: 701.6, y: 144.8}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                      - _name: Node 4
+                        _index: 4
+                        _position: {x: 1151.2, y: 338.40002}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+          - _name: Node 4
+            _index: 4
+            _position: {x: 1151.2, y: 338.40002}
+            _nextNodeIndex: -1
+            _choiceDatas: []
+            _text: This is an example text.
+            _textBoxType: 0
+            _talkingEmotion: 0
+            _isHaveCallBack: 0
+            _groupData:
+              _name: NPC 1
+              _index: 1
+              _position: {x: 675.99994, y: 84.8}
+              _nodeDatas:
+              - _name: Node 3
+                _index: 3
+                _position: {x: 701.6, y: 144.8}
+                _nextNodeIndex: -1
+                _choiceDatas:
+                - _text: An example choosing text.
+                  _nextNodeIndex: 4
+                _text: This is an example text.
+                _textBoxType: 0
+                _talkingEmotion: 0
+                _isHaveCallBack: 0
+                _groupData:
+                  _name: NPC 1
+                  _index: 1
+                  _position: {x: 675.99994, y: 84.8}
+                  _nodeDatas:
+                  - _name: Node 3
+                    _index: 3
+                    _position: {x: 701.6, y: 144.8}
+                    _nextNodeIndex: -1
+                    _choiceDatas:
+                    - _text: An example choosing text.
+                      _nextNodeIndex: 4
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 1
+                      _index: 1
+                      _position: {x: 675.99994, y: 84.8}
+                      _nodeDatas:
+                      - _name: Node 3
+                        _index: 3
+                        _position: {x: 701.6, y: 144.8}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                      - _name: Node 4
+                        _index: 4
+                        _position: {x: 1151.2, y: 338.40002}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                  - _name: Node 4
+                    _index: 4
+                    _position: {x: 1151.2, y: 338.40002}
+                    _nextNodeIndex: -1
+                    _choiceDatas: []
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 1
+                      _index: 1
+                      _position: {x: 675.99994, y: 84.8}
+                      _nodeDatas:
+                      - _name: Node 3
+                        _index: 3
+                        _position: {x: 701.6, y: 144.8}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                      - _name: Node 4
+                        _index: 4
+                        _position: {x: 1151.2, y: 338.40002}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+              - _name: Node 4
+                _index: 4
+                _position: {x: 1151.2, y: 338.40002}
+                _nextNodeIndex: -1
+                _choiceDatas: []
+                _text: This is an example text.
+                _textBoxType: 0
+                _talkingEmotion: 0
+                _isHaveCallBack: 0
+                _groupData:
+                  _name: NPC 1
+                  _index: 1
+                  _position: {x: 675.99994, y: 84.8}
+                  _nodeDatas:
+                  - _name: Node 3
+                    _index: 3
+                    _position: {x: 701.6, y: 144.8}
+                    _nextNodeIndex: -1
+                    _choiceDatas:
+                    - _text: An example choosing text.
+                      _nextNodeIndex: 4
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 1
+                      _index: 1
+                      _position: {x: 675.99994, y: 84.8}
+                      _nodeDatas:
+                      - _name: Node 3
+                        _index: 3
+                        _position: {x: 701.6, y: 144.8}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                      - _name: Node 4
+                        _index: 4
+                        _position: {x: 1151.2, y: 338.40002}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                  - _name: Node 4
+                    _index: 4
+                    _position: {x: 1151.2, y: 338.40002}
+                    _nextNodeIndex: -1
+                    _choiceDatas: []
+                    _text: This is an example text.
+                    _textBoxType: 0
+                    _talkingEmotion: 0
+                    _isHaveCallBack: 0
+                    _groupData:
+                      _name: NPC 1
+                      _index: 1
+                      _position: {x: 675.99994, y: 84.8}
+                      _nodeDatas:
+                      - _name: Node 3
+                        _index: 3
+                        _position: {x: 701.6, y: 144.8}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+                      - _name: Node 4
+                        _index: 4
+                        _position: {x: 1151.2, y: 338.40002}
+                        _nextNodeIndex: -1
+                        _text: This is an example text.
+                        _textBoxType: 0
+                        _talkingEmotion: 0
+                        _isHaveCallBack: 0
+    _ungroupNodeDatas:
+    - _name: Start
+      _index: 0
+      _position: {x: 72.8, y: 100}
+      _nextNodeIndex: 2
+      _choiceDatas: []
+      _text: This is an example text.
+      _textBoxType: 0
+      _talkingEmotion: 0
+      _isHaveCallBack: 0
+      _groupData:
+        _name: 
+        _index: 0
+        _position: {x: 0, y: 0}
+        _nodeDatas: []
+    - _name: Node 1
+      _index: 1
+      _position: {x: 230.4, y: 454.40002}
+      _nextNodeIndex: 3
+      _choiceDatas: []
+      _text: This is an example text.
+      _textBoxType: 0
+      _talkingEmotion: 0
+      _isHaveCallBack: 0
+      _groupData:
+        _name: 
+        _index: 0
+        _position: {x: 0, y: 0}
+        _nodeDatas: []
+    _startNodeData:
+      _name: Start
+      _index: 0
+      _position: {x: 72.8, y: 100}
+      _nextNodeIndex: 2
+      _choiceDatas: []
+      _text: This is an example text.
+      _textBoxType: 0
+      _talkingEmotion: 0
+      _isHaveCallBack: 0
+      _groupData:
+        _name: 
+        _index: 0
+        _position: {x: 0, y: 0}
+        _nodeDatas: []
+  talkingObjectDatas: []
