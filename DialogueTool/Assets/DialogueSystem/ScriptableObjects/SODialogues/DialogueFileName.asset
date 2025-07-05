@@ -24,7 +24,7 @@ MonoBehaviour:
         _nextNodeIndex: 3
         _choiceDatas: []
         _text: This is an example text.
-        _textBoxType: 0
+        _textBoxType: 1
         _talkingEmotion: 0
         _isHaveCallBack: 0
         _groupData:
@@ -38,7 +38,7 @@ MonoBehaviour:
             _nextNodeIndex: 3
             _choiceDatas: []
             _text: This is an example text.
-            _textBoxType: 0
+            _textBoxType: 1
             _talkingEmotion: 0
             _isHaveCallBack: 0
             _groupData:
@@ -52,7 +52,7 @@ MonoBehaviour:
                 _nextNodeIndex: 3
                 _choiceDatas: []
                 _text: This is an example text.
-                _textBoxType: 0
+                _textBoxType: 1
                 _talkingEmotion: 0
                 _isHaveCallBack: 0
                 _groupData:
@@ -66,7 +66,7 @@ MonoBehaviour:
                     _nextNodeIndex: 3
                     _choiceDatas: []
                     _text: This is an example text.
-                    _textBoxType: 0
+                    _textBoxType: 1
                     _talkingEmotion: 0
                     _isHaveCallBack: 0
                     _groupData:
@@ -79,12 +79,12 @@ MonoBehaviour:
                         _position: {x: 230.4, y: 150.4}
                         _nextNodeIndex: 3
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 1
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
     - _name: NPC 1
       _index: 1
-      _position: {x: 675.99994, y: 84.8}
+      _position: {x: 676, y: 84.8}
       _nodeDatas:
       - _name: Node 3
         _index: 3
@@ -94,13 +94,13 @@ MonoBehaviour:
         - _text: An example choosing text.
           _nextNodeIndex: 4
         _text: This is an example text.
-        _textBoxType: 0
+        _textBoxType: 2
         _talkingEmotion: 0
         _isHaveCallBack: 0
         _groupData:
           _name: NPC 1
           _index: 1
-          _position: {x: 675.99994, y: 84.8}
+          _position: {x: 676, y: 84.8}
           _nodeDatas:
           - _name: Node 3
             _index: 3
@@ -110,13 +110,13 @@ MonoBehaviour:
             - _text: An example choosing text.
               _nextNodeIndex: 4
             _text: This is an example text.
-            _textBoxType: 0
+            _textBoxType: 2
             _talkingEmotion: 0
             _isHaveCallBack: 0
             _groupData:
               _name: NPC 1
               _index: 1
-              _position: {x: 675.99994, y: 84.8}
+              _position: {x: 676, y: 84.8}
               _nodeDatas:
               - _name: Node 3
                 _index: 3
@@ -126,13 +126,13 @@ MonoBehaviour:
                 - _text: An example choosing text.
                   _nextNodeIndex: 4
                 _text: This is an example text.
-                _textBoxType: 0
+                _textBoxType: 2
                 _talkingEmotion: 0
                 _isHaveCallBack: 0
                 _groupData:
                   _name: NPC 1
                   _index: 1
-                  _position: {x: 675.99994, y: 84.8}
+                  _position: {x: 676, y: 84.8}
                   _nodeDatas:
                   - _name: Node 3
                     _index: 3
@@ -142,20 +142,20 @@ MonoBehaviour:
                     - _text: An example choosing text.
                       _nextNodeIndex: 4
                     _text: This is an example text.
-                    _textBoxType: 0
+                    _textBoxType: 2
                     _talkingEmotion: 0
                     _isHaveCallBack: 0
                     _groupData:
                       _name: NPC 1
                       _index: 1
-                      _position: {x: 675.99994, y: 84.8}
+                      _position: {x: 676, y: 84.8}
                       _nodeDatas:
                       - _name: Node 3
                         _index: 3
                         _position: {x: 701.6, y: 144.8}
                         _nextNodeIndex: -1
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 2
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
                       - _name: Node 4
@@ -178,14 +178,14 @@ MonoBehaviour:
                     _groupData:
                       _name: NPC 1
                       _index: 1
-                      _position: {x: 675.99994, y: 84.8}
+                      _position: {x: 676, y: 84.8}
                       _nodeDatas:
                       - _name: Node 3
                         _index: 3
                         _position: {x: 701.6, y: 144.8}
                         _nextNodeIndex: -1
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 2
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
                       - _name: Node 4
@@ -208,7 +208,7 @@ MonoBehaviour:
                 _groupData:
                   _name: NPC 1
                   _index: 1
-                  _position: {x: 675.99994, y: 84.8}
+                  _position: {x: 676, y: 84.8}
                   _nodeDatas:
                   - _name: Node 3
                     _index: 3
@@ -218,20 +218,20 @@ MonoBehaviour:
                     - _text: An example choosing text.
                       _nextNodeIndex: 4
                     _text: This is an example text.
-                    _textBoxType: 0
+                    _textBoxType: 2
                     _talkingEmotion: 0
                     _isHaveCallBack: 0
                     _groupData:
                       _name: NPC 1
                       _index: 1
-                      _position: {x: 675.99994, y: 84.8}
+                      _position: {x: 676, y: 84.8}
                       _nodeDatas:
                       - _name: Node 3
                         _index: 3
                         _position: {x: 701.6, y: 144.8}
                         _nextNodeIndex: -1
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 2
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
                       - _name: Node 4
@@ -254,14 +254,14 @@ MonoBehaviour:
                     _groupData:
                       _name: NPC 1
                       _index: 1
-                      _position: {x: 675.99994, y: 84.8}
+                      _position: {x: 676, y: 84.8}
                       _nodeDatas:
                       - _name: Node 3
                         _index: 3
                         _position: {x: 701.6, y: 144.8}
                         _nextNodeIndex: -1
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 2
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
                       - _name: Node 4
@@ -284,7 +284,7 @@ MonoBehaviour:
             _groupData:
               _name: NPC 1
               _index: 1
-              _position: {x: 675.99994, y: 84.8}
+              _position: {x: 676, y: 84.8}
               _nodeDatas:
               - _name: Node 3
                 _index: 3
@@ -294,13 +294,13 @@ MonoBehaviour:
                 - _text: An example choosing text.
                   _nextNodeIndex: 4
                 _text: This is an example text.
-                _textBoxType: 0
+                _textBoxType: 2
                 _talkingEmotion: 0
                 _isHaveCallBack: 0
                 _groupData:
                   _name: NPC 1
                   _index: 1
-                  _position: {x: 675.99994, y: 84.8}
+                  _position: {x: 676, y: 84.8}
                   _nodeDatas:
                   - _name: Node 3
                     _index: 3
@@ -310,20 +310,20 @@ MonoBehaviour:
                     - _text: An example choosing text.
                       _nextNodeIndex: 4
                     _text: This is an example text.
-                    _textBoxType: 0
+                    _textBoxType: 2
                     _talkingEmotion: 0
                     _isHaveCallBack: 0
                     _groupData:
                       _name: NPC 1
                       _index: 1
-                      _position: {x: 675.99994, y: 84.8}
+                      _position: {x: 676, y: 84.8}
                       _nodeDatas:
                       - _name: Node 3
                         _index: 3
                         _position: {x: 701.6, y: 144.8}
                         _nextNodeIndex: -1
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 2
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
                       - _name: Node 4
@@ -346,14 +346,14 @@ MonoBehaviour:
                     _groupData:
                       _name: NPC 1
                       _index: 1
-                      _position: {x: 675.99994, y: 84.8}
+                      _position: {x: 676, y: 84.8}
                       _nodeDatas:
                       - _name: Node 3
                         _index: 3
                         _position: {x: 701.6, y: 144.8}
                         _nextNodeIndex: -1
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 2
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
                       - _name: Node 4
@@ -376,7 +376,7 @@ MonoBehaviour:
                 _groupData:
                   _name: NPC 1
                   _index: 1
-                  _position: {x: 675.99994, y: 84.8}
+                  _position: {x: 676, y: 84.8}
                   _nodeDatas:
                   - _name: Node 3
                     _index: 3
@@ -386,20 +386,20 @@ MonoBehaviour:
                     - _text: An example choosing text.
                       _nextNodeIndex: 4
                     _text: This is an example text.
-                    _textBoxType: 0
+                    _textBoxType: 2
                     _talkingEmotion: 0
                     _isHaveCallBack: 0
                     _groupData:
                       _name: NPC 1
                       _index: 1
-                      _position: {x: 675.99994, y: 84.8}
+                      _position: {x: 676, y: 84.8}
                       _nodeDatas:
                       - _name: Node 3
                         _index: 3
                         _position: {x: 701.6, y: 144.8}
                         _nextNodeIndex: -1
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 2
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
                       - _name: Node 4
@@ -422,14 +422,14 @@ MonoBehaviour:
                     _groupData:
                       _name: NPC 1
                       _index: 1
-                      _position: {x: 675.99994, y: 84.8}
+                      _position: {x: 676, y: 84.8}
                       _nodeDatas:
                       - _name: Node 3
                         _index: 3
                         _position: {x: 701.6, y: 144.8}
                         _nextNodeIndex: -1
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 2
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
                       - _name: Node 4
@@ -452,7 +452,7 @@ MonoBehaviour:
         _groupData:
           _name: NPC 1
           _index: 1
-          _position: {x: 675.99994, y: 84.8}
+          _position: {x: 676, y: 84.8}
           _nodeDatas:
           - _name: Node 3
             _index: 3
@@ -462,13 +462,13 @@ MonoBehaviour:
             - _text: An example choosing text.
               _nextNodeIndex: 4
             _text: This is an example text.
-            _textBoxType: 0
+            _textBoxType: 2
             _talkingEmotion: 0
             _isHaveCallBack: 0
             _groupData:
               _name: NPC 1
               _index: 1
-              _position: {x: 675.99994, y: 84.8}
+              _position: {x: 676, y: 84.8}
               _nodeDatas:
               - _name: Node 3
                 _index: 3
@@ -478,13 +478,13 @@ MonoBehaviour:
                 - _text: An example choosing text.
                   _nextNodeIndex: 4
                 _text: This is an example text.
-                _textBoxType: 0
+                _textBoxType: 2
                 _talkingEmotion: 0
                 _isHaveCallBack: 0
                 _groupData:
                   _name: NPC 1
                   _index: 1
-                  _position: {x: 675.99994, y: 84.8}
+                  _position: {x: 676, y: 84.8}
                   _nodeDatas:
                   - _name: Node 3
                     _index: 3
@@ -494,20 +494,20 @@ MonoBehaviour:
                     - _text: An example choosing text.
                       _nextNodeIndex: 4
                     _text: This is an example text.
-                    _textBoxType: 0
+                    _textBoxType: 2
                     _talkingEmotion: 0
                     _isHaveCallBack: 0
                     _groupData:
                       _name: NPC 1
                       _index: 1
-                      _position: {x: 675.99994, y: 84.8}
+                      _position: {x: 676, y: 84.8}
                       _nodeDatas:
                       - _name: Node 3
                         _index: 3
                         _position: {x: 701.6, y: 144.8}
                         _nextNodeIndex: -1
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 2
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
                       - _name: Node 4
@@ -530,14 +530,14 @@ MonoBehaviour:
                     _groupData:
                       _name: NPC 1
                       _index: 1
-                      _position: {x: 675.99994, y: 84.8}
+                      _position: {x: 676, y: 84.8}
                       _nodeDatas:
                       - _name: Node 3
                         _index: 3
                         _position: {x: 701.6, y: 144.8}
                         _nextNodeIndex: -1
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 2
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
                       - _name: Node 4
@@ -560,7 +560,7 @@ MonoBehaviour:
                 _groupData:
                   _name: NPC 1
                   _index: 1
-                  _position: {x: 675.99994, y: 84.8}
+                  _position: {x: 676, y: 84.8}
                   _nodeDatas:
                   - _name: Node 3
                     _index: 3
@@ -570,20 +570,20 @@ MonoBehaviour:
                     - _text: An example choosing text.
                       _nextNodeIndex: 4
                     _text: This is an example text.
-                    _textBoxType: 0
+                    _textBoxType: 2
                     _talkingEmotion: 0
                     _isHaveCallBack: 0
                     _groupData:
                       _name: NPC 1
                       _index: 1
-                      _position: {x: 675.99994, y: 84.8}
+                      _position: {x: 676, y: 84.8}
                       _nodeDatas:
                       - _name: Node 3
                         _index: 3
                         _position: {x: 701.6, y: 144.8}
                         _nextNodeIndex: -1
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 2
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
                       - _name: Node 4
@@ -606,14 +606,14 @@ MonoBehaviour:
                     _groupData:
                       _name: NPC 1
                       _index: 1
-                      _position: {x: 675.99994, y: 84.8}
+                      _position: {x: 676, y: 84.8}
                       _nodeDatas:
                       - _name: Node 3
                         _index: 3
                         _position: {x: 701.6, y: 144.8}
                         _nextNodeIndex: -1
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 2
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
                       - _name: Node 4
@@ -636,7 +636,7 @@ MonoBehaviour:
             _groupData:
               _name: NPC 1
               _index: 1
-              _position: {x: 675.99994, y: 84.8}
+              _position: {x: 676, y: 84.8}
               _nodeDatas:
               - _name: Node 3
                 _index: 3
@@ -646,13 +646,13 @@ MonoBehaviour:
                 - _text: An example choosing text.
                   _nextNodeIndex: 4
                 _text: This is an example text.
-                _textBoxType: 0
+                _textBoxType: 2
                 _talkingEmotion: 0
                 _isHaveCallBack: 0
                 _groupData:
                   _name: NPC 1
                   _index: 1
-                  _position: {x: 675.99994, y: 84.8}
+                  _position: {x: 676, y: 84.8}
                   _nodeDatas:
                   - _name: Node 3
                     _index: 3
@@ -662,20 +662,20 @@ MonoBehaviour:
                     - _text: An example choosing text.
                       _nextNodeIndex: 4
                     _text: This is an example text.
-                    _textBoxType: 0
+                    _textBoxType: 2
                     _talkingEmotion: 0
                     _isHaveCallBack: 0
                     _groupData:
                       _name: NPC 1
                       _index: 1
-                      _position: {x: 675.99994, y: 84.8}
+                      _position: {x: 676, y: 84.8}
                       _nodeDatas:
                       - _name: Node 3
                         _index: 3
                         _position: {x: 701.6, y: 144.8}
                         _nextNodeIndex: -1
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 2
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
                       - _name: Node 4
@@ -698,14 +698,14 @@ MonoBehaviour:
                     _groupData:
                       _name: NPC 1
                       _index: 1
-                      _position: {x: 675.99994, y: 84.8}
+                      _position: {x: 676, y: 84.8}
                       _nodeDatas:
                       - _name: Node 3
                         _index: 3
                         _position: {x: 701.6, y: 144.8}
                         _nextNodeIndex: -1
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 2
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
                       - _name: Node 4
@@ -728,7 +728,7 @@ MonoBehaviour:
                 _groupData:
                   _name: NPC 1
                   _index: 1
-                  _position: {x: 675.99994, y: 84.8}
+                  _position: {x: 676, y: 84.8}
                   _nodeDatas:
                   - _name: Node 3
                     _index: 3
@@ -738,20 +738,20 @@ MonoBehaviour:
                     - _text: An example choosing text.
                       _nextNodeIndex: 4
                     _text: This is an example text.
-                    _textBoxType: 0
+                    _textBoxType: 2
                     _talkingEmotion: 0
                     _isHaveCallBack: 0
                     _groupData:
                       _name: NPC 1
                       _index: 1
-                      _position: {x: 675.99994, y: 84.8}
+                      _position: {x: 676, y: 84.8}
                       _nodeDatas:
                       - _name: Node 3
                         _index: 3
                         _position: {x: 701.6, y: 144.8}
                         _nextNodeIndex: -1
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 2
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
                       - _name: Node 4
@@ -774,14 +774,14 @@ MonoBehaviour:
                     _groupData:
                       _name: NPC 1
                       _index: 1
-                      _position: {x: 675.99994, y: 84.8}
+                      _position: {x: 676, y: 84.8}
                       _nodeDatas:
                       - _name: Node 3
                         _index: 3
                         _position: {x: 701.6, y: 144.8}
                         _nextNodeIndex: -1
                         _text: This is an example text.
-                        _textBoxType: 0
+                        _textBoxType: 2
                         _talkingEmotion: 0
                         _isHaveCallBack: 0
                       - _name: Node 4
@@ -836,4 +836,3 @@ MonoBehaviour:
         _index: 0
         _position: {x: 0, y: 0}
         _nodeDatas: []
-  talkingObjectDatas: []

@@ -27,8 +27,8 @@ namespace DialogueSystem
         }
 
         private SODialogue _soDialogue;
-        private DSNodeData _firstNodeData;
         private DSNodeData _currentNodeData;
+        private List<TalkingNPCData> _talkingNPCDatas;
 
         [SerializeField] private UIDialogueTextBox _uiDialogueTextBox;
         [SerializeField] private UIChoosingTextBox _uiChoosingTextBox;
@@ -93,18 +93,18 @@ namespace DialogueSystem
 
             if (_dialogueState != DialogueState.FINISH)
             {
-                TalkingObjectData talkingObjectData = _soDialogue.GetCurrentTalkingObjectData(_currentNodeData);
-                if (talkingObjectData != null)
+                TalkingNPCData talkingNPCData = GetCurrentTalkingNPCData(_currentNodeData);
+                if (talkingNPCData != null)
                 {
-                    if (!talkingObjectData.CenterTransform)
+                    if (!talkingNPCData.CenterTransform)
                     {
-                        talkingObjectData.CenterTransform = talkingObjectData.BaseNPC ? talkingObjectData.BaseNPC.transform : null;
+                        talkingNPCData.CenterTransform = talkingNPCData.BaseNPC ? talkingNPCData.BaseNPC.transform : null;
                     }
 
-                    if (talkingObjectData.CenterTransform)
+                    if (talkingNPCData.CenterTransform)
                     {
-                        _uiChoosingTextBox.UpdatePos(talkingObjectData.CenterTransform.transform.position, talkingObjectData.Size);
-                        _uiDialogueTextBox.UpdatePos(talkingObjectData.CenterTransform.transform.position, talkingObjectData.Size);
+                        _uiChoosingTextBox.UpdatePos(talkingNPCData.CenterTransform.transform.position, talkingNPCData.Size);
+                        _uiDialogueTextBox.UpdatePos(talkingNPCData.CenterTransform.transform.position, talkingNPCData.Size);
                     }
                 }
                 else
@@ -114,9 +114,10 @@ namespace DialogueSystem
             }
         }
 
-        public void SetDialogue(SODialogue soDialogue)
+        public void SetDialogue(SODialogue soDialogue, List<TalkingNPCData> talkingNPCDatas = null)
         {
             _soDialogue = soDialogue;
+            _talkingNPCDatas = talkingNPCDatas;
 
             _currentNodeData = _soDialogue.GetStartNodeData();
 
@@ -142,15 +143,15 @@ namespace DialogueSystem
                 return;
             }
 
-            TalkingObjectData talkingObjectData = _soDialogue.GetCurrentTalkingObjectData(_currentNodeData);
-            if (talkingObjectData != null)
+            TalkingNPCData talkingNPCData = GetCurrentTalkingNPCData(_currentNodeData);
+            if (talkingNPCData != null)
             {
-                if (!talkingObjectData.CenterTransform)
+                if (!talkingNPCData.CenterTransform)
                 {
-                    talkingObjectData.CenterTransform = talkingObjectData.BaseNPC ? talkingObjectData.BaseNPC.transform : null;
+                    talkingNPCData.CenterTransform = talkingNPCData.BaseNPC ? talkingNPCData.BaseNPC.transform : null;
                 }
-                Vector3 objectPos = talkingObjectData.CenterTransform ? talkingObjectData.CenterTransform.transform.position : Vector3.zero;
-                _uiDialogueTextBox.Setup("", _currentNodeData.TextBoxType, objectPos, talkingObjectData.Size);
+                Vector3 objectPos = talkingNPCData.CenterTransform ? talkingNPCData.CenterTransform.transform.position : Vector3.zero;
+                _uiDialogueTextBox.Setup("", _currentNodeData.TextBoxType, objectPos, talkingNPCData.Size);
             }
             else
             {
@@ -179,15 +180,15 @@ namespace DialogueSystem
 
         private void ActiveChoosing(List<DSChoiceData> choiceDatas)
         {
-            TalkingObjectData talkingObjectData = _soDialogue.GetCurrentTalkingObjectData(_currentNodeData);
-            if (talkingObjectData != null)
+            TalkingNPCData talkingNPCData = GetCurrentTalkingNPCData(_currentNodeData);
+            if (talkingNPCData != null)
             {
-                if (!talkingObjectData.CenterTransform)
+                if (!talkingNPCData.CenterTransform)
                 {
-                    talkingObjectData.CenterTransform = talkingObjectData.BaseNPC ? talkingObjectData.BaseNPC.transform : null;
+                    talkingNPCData.CenterTransform = talkingNPCData.BaseNPC ? talkingNPCData.BaseNPC.transform : null;
                 }
-                Vector3 objectPos = talkingObjectData.CenterTransform ? talkingObjectData.CenterTransform.transform.position : Vector3.zero;
-                _uiChoosingTextBox.Setup(choiceDatas, _uiDialogueTextBox, objectPos, talkingObjectData.Size);
+                Vector3 objectPos = talkingNPCData.CenterTransform ? talkingNPCData.CenterTransform.transform.position : Vector3.zero;
+                _uiChoosingTextBox.Setup(choiceDatas, _uiDialogueTextBox, objectPos, talkingNPCData.Size);
             }
             else
             {
@@ -271,6 +272,22 @@ namespace DialogueSystem
             }
 
             EndTalking();
+        }
+
+        private TalkingNPCData GetCurrentTalkingNPCData(DSNodeData nodeData)
+        {
+            if (nodeData.GroupData == null)
+            {
+                return null;
+            }
+
+            if (nodeData.GroupData.Index >= _talkingNPCDatas.Count)
+            {
+                Debug.LogError("Out of range when passing groupDataIndex >= talkingNPCDatas.Count");
+                return null;
+            }
+
+            return _talkingNPCDatas[nodeData.GroupData.Index];
         }
     }
 }

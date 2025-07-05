@@ -10,6 +10,7 @@ using System;
 public class TalkingNPCData
 {
     [HideInInspector] public string Name;
+    public float Size; //Size of NPC
     public BaseNPC BaseNPC;
     public Transform CenterTransform;
 }
@@ -18,7 +19,7 @@ public class BaseNPC : MonoBehaviour
 {
     [SerializeField] protected Animator _animator;
     [SerializeField] protected SODialogue _soDialogue;
-    [SerializeField] private List<TalkingNPCData> _talkingNPCDatas; //todo: the size of _talkingNPCDatas will be the same with the count of groupDatas
+    [SerializeField] protected List<TalkingNPCData> _talkingNPCDatas; //todo: the size of _talkingNPCDatas will be the same with the count of groupDatas
     public void DoTalkAnim(TalkingEmotion emotion)
     {
         if (_animator == null)

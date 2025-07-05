@@ -279,14 +279,6 @@ namespace DialogueSystem.Data
         }
     }
 
-    [Serializable]
-    public class TalkingObjectData
-    {
-        public float Size;
-        public BaseNPC BaseNPC; //This should be delete, already be defined in baseNPC.cs
-        public Transform CenterTransform; //This should be delete, already be defined in baseNPC.cs
-    }
-
     public class SODialogue : ScriptableObject
     {
         [SerializeField] private DSData _dsData;
@@ -295,9 +287,6 @@ namespace DialogueSystem.Data
             get => _dsData;
             set => _dsData = value;
         }
-
-        //These data can change in inspector
-        [SerializeField] private List<TalkingObjectData> talkingObjectDatas; //todo: the size of talkingObjectDatas will be the same with the count of groupDatas
 
         /// <summary>
         /// This is the Start Node in graph, this node don't have any text data, just have a output port to the first node.
@@ -325,22 +314,6 @@ namespace DialogueSystem.Data
             }
 
             return null;
-        }
-
-        public TalkingObjectData GetCurrentTalkingObjectData(DSNodeData nodeData)
-        {
-            if (nodeData.GroupData == null)
-            {
-                return null;
-            }
-
-            if (nodeData.GroupData.Index >= talkingObjectDatas.Count)
-            {
-                Debug.LogError("Out of range when passing groupDataIndex >= talkingObjectDatas.Count");
-                return null;
-            }
-
-            return talkingObjectDatas[nodeData.GroupData.Index];
         }
 
         public DSNodeData FindDSNodeDataBy(int index)
