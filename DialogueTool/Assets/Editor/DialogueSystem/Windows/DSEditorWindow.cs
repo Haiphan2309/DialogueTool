@@ -51,16 +51,10 @@ namespace DialogueSystem.Windows
                 text = "Rename All Elements"
             };
 
-            Button countUngroupNodeButton = new Button(OnCountUngroupNode)
-            {
-                text = "Count ungroup node"
-            };
-
             toolbar.Add(m_fileNameTextField);
             toolbar.Add(saveButton);
             toolbar.Add(loadButton);
             toolbar.Add(renameAllElementsButton);
-            toolbar.Add(countUngroupNodeButton);
 
             rootVisualElement.Add(toolbar);
         }
@@ -88,19 +82,6 @@ namespace DialogueSystem.Windows
         {
             DSData dsData = DSUtils.LoadGraph(m_fileNameTextField.value);
             m_dsGraphView.LoadData(dsData);
-        }
-
-        private void OnCountUngroupNode()
-        {
-            int count = -1;
-            foreach (var child in rootVisualElement.Children())
-            {
-                if (child is DSGraphView graphView)
-                {
-                    count = graphView.DSData.UngroupNodeDatas.Count;
-                }
-            }
-            Debug.Log("Ungroup node count: " + count);
         }
 
         private void OnRenameAllElement()

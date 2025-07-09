@@ -65,7 +65,7 @@ namespace DialogueSystem.Windows
             return copyDsData;
         }
 
-        private static DSGroupData GetCopyDSGroupData(DSGroupData dsGroupData)
+        public static DSGroupData GetCopyDSGroupData(DSGroupData dsGroupData)
         {
             DSGroupData copyGroupData = new DSGroupData();
 
@@ -84,7 +84,7 @@ namespace DialogueSystem.Windows
             return copyGroupData;
         }
 
-        private static DSNodeData GetCopyDSNodeData(DSNodeData dsNodeData)
+        public static DSNodeData GetCopyDSNodeData(DSNodeData dsNodeData)
         {
             DSNodeData copyNodeData = new DSNodeData();
 

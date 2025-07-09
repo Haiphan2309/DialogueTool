@@ -29,6 +29,8 @@ namespace DialogueSystem.Windows
             OnGroupElementsAdded();
             OnGroupElementsRemoved();
             OnElementsDeleted();
+            OnElementsCutOrCopy();
+            OnElementsPatse();
 
             Init();
         }
@@ -46,6 +48,75 @@ namespace DialogueSystem.Windows
             AddElement(node);
 
             group.AddElement(node);
+        }
+
+        private void OnElementsCutOrCopy()
+        {
+            serializeGraphElements = (elements) =>
+            {
+                Debug.Log("COPY");
+                var nodes = elements.OfType<DSNode>().ToList();
+                var groups = elements.OfType<DSGroup>().ToList();
+
+                List<string> data = new();
+
+                foreach (var node in nodes)
+                {
+                    data.Add(JsonUtility.ToJson(node.NodeData));
+                }
+
+                foreach (var group in groups)
+                {
+                    data.Add(JsonUtility.ToJson(group.GroupData));
+                }
+
+                return string.Join("\n", data); // This is what gets stored in Unity's internal clipboard
+            };
+
+        }
+
+        private void OnElementsPatse()
+        {
+            unserializeAndPaste = (operationName, dataStr) =>
+            {
+                Debug.Log("PASTE");
+                string[] dataLines = dataStr.Split('\n');
+
+                List<GraphElement> createdElements = new();
+
+                foreach (var line in dataLines)
+                {
+                    if (string.IsNullOrWhiteSpace(line)) continue;
+
+                    // First try node
+                    DSNodeData nodeData = JsonUtility.FromJson<DSNodeData>(line);
+                    if (nodeData != null)
+                    {
+                        nodeData.Position += new Vector2(30, 30); // offset to avoid overlap
+                        DSNode newNode = CreateNode(nodeData.Position);
+                        newNode.LoadData(nodeData);
+                        DSData.AddUngroupNodeData(nodeData);
+                        AddElement(newNode);
+                        createdElements.Add(newNode);
+                        continue;
+                    }
+
+                    // Then try group
+                    DSGroupData groupData = JsonUtility.FromJson<DSGroupData>(line);
+                    if (groupData != null)
+                    {
+                        groupData.Position += new Vector2(30, 30);
+                        DSGroup newGroup = CreateGroup(groupData.Position);
+                        newGroup.LoadData(groupData);
+                        DSData.AddGroupData(groupData);
+                        AddElement(newGroup);
+                        createdElements.Add(newGroup);
+                    }
+                }
+
+               // return createdElements;
+            };
+
         }
 
         private void OnGroupElementsRemoved()
