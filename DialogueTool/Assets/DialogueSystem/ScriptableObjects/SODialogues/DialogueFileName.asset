@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 712f0bb2529b9e042947ea3d5850bffd, type: 3}
+  m_Name: DialogueFileName
+  m_EditorClassIdentifier: 
+  _dsData:
+    _groupDatas:
+    - _name: NPC 0
+      _index: 0
+      _position: {x: 220.8, y: 212.80005}
+      _nodeDatas:
+      - _name: Node 1
+        _index: 1
+        _position: {x: 246.4, y: 272.80002}
+        _nextNodeIndex: 2
+        _choiceDatas: []
+        _text: This is an example text.
+        _textBoxType: 0
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupDataIndex: 0
+    _ungroupedNodeDatas:
+    - _name: Start
+      _index: 0
+      _position: {x: 100, y: 100}
+      _nextNodeIndex: -1
+      _choiceDatas: []
+      _text: This is an example text.
+      _textBoxType: 0
+      _talkingEmotion: 0
+      _isHaveCallBack: 0
+      _groupDataIndex: -1
+    - _name: Node 2
+      _index: 2
+      _position: {x: 715.2, y: 256.80002}
+      _nextNodeIndex: -1
+      _choiceDatas: []
+      _text: This is an example text.
+      _textBoxType: 0
+      _talkingEmotion: 0
+      _isHaveCallBack: 0
+      _groupDataIndex: -1
+    _startNodeData:
+      _name: Start
+      _index: 0
+      _position: {x: 100, y: 100}
+      _nextNodeIndex: -1
+      _choiceDatas: []
+      _text: This is an example text.
+      _textBoxType: 0
+      _talkingEmotion: 0
+      _isHaveCallBack: 0
+      _groupDataIndex: -1

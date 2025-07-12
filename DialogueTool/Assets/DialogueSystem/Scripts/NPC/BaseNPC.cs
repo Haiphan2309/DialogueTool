@@ -2,12 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DialogueSystem;
+using DialogueSystem.Data;
+using System;
 
 //You can customize this class like the way you like
+[Serializable]
+public class TalkingNPCData
+{
+    [HideInInspector] public string Name;
+    public float Size; //Size of NPC
+    public BaseNPC BaseNPC;
+    public Transform CenterTransform;
+}
+
 public class BaseNPC : MonoBehaviour
 {
     [SerializeField] protected Animator _animator;
-    [SerializeField] protected List<Dialogue> _dialogues;
+    [SerializeField] protected SODialogue _soDialogue;
+    [SerializeField] protected List<TalkingNPCData> _talkingNPCDatas; //todo: the size of _talkingNPCDatas will be the same with the count of groupDatas
     public void DoTalkAnim(TalkingEmotion emotion)
     {
         if (_animator == null)

@@ -1,3 +1,4 @@
+using DialogueSystem.Data;
 using GDC.Managers;
 using GDC.Utils;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace DialogueSystem
 
         private int _currentChoiceIndex;
 
-        public void Setup(List<DialogueChoice> choices , UIDialogueTextBox uiDialogueTextBox, Vector3 objectWorldPos, float objectSize)
+        public void Setup(List<DSChoiceData> choiceDatas , UIDialogueTextBox uiDialogueTextBox, Vector3 objectWorldPos, float objectSize)
         {
             _rectTransform = GetComponent<RectTransform>();
             _uiDialogueTextBox = uiDialogueTextBox;
@@ -39,10 +40,10 @@ namespace DialogueSystem
             _uiTextBoxChoices.Clear();
             UIUtils.ClearAllChild(_content);
 
-            foreach (var choice in choices)
+            foreach (var choiceData in choiceDatas)
             {
                 UITextBoxChoice uiTextBoxChoice = Instantiate(ConfigManager.Instance.TextBoxConfig.ChoosingTextBoxConfig.UITextBoxChoicePrefab, _content);
-                uiTextBoxChoice.Setup(choice);
+                uiTextBoxChoice.Setup(choiceData);
                 _uiTextBoxChoices.Add(uiTextBoxChoice);
             }
 
@@ -170,9 +171,9 @@ namespace DialogueSystem
             _uiTextBoxChoices[index].ActiveChoice(true);
         }
 
-        public DialogueChoice GetCurrentChoice()
+        public DSChoiceData GetCurrentChoiceData()
         {
-            return _uiTextBoxChoices[_currentChoiceIndex].GetDialogueChoice();
+            return _uiTextBoxChoices[_currentChoiceIndex].GetChoiceData();
         }
 
         public void OnChooseChoice()

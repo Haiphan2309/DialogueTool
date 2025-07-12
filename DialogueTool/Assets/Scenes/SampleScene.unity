@@ -1095,104 +1095,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
-  _dialogues: []
-  dialogues:
-  - TalkingObjectData:
-      BaseNPC: {fileID: 1134763821}
-      CenterTransform: {fileID: 1203450471}
-      Size: 150
-    DialogueNodes:
-    - Index: 0
-      NextIndex: 1
-      Text: "Sau \u0111\xE2y xin ph\xE9p \u0111\u01B0\u1EE3c test t\xEDnh n\u0103ng
-        dialogue c\xF3 l\u1EF1a ch\u1ECDn! B\u1EA1n s\u1EBD ch\u1ECDn l\u1EF1a ch\u1ECDn
-        n\xE0o?"
-      Choices:
-      - NextIndex: 1
-        Text: "T\xF4i ch\u1ECDn l\u1EF1a ch\u1ECDn dialog d\u1EA1ng h\xE9t!"
-      - NextIndex: 2
-        Text: "T\xF4i ch\u1ECDn dialog d\u1EA1ng suy ngh\u0129"
-      TextBoxType: 0
-      TalkingEmotion: 0
-    - Index: 1
-      NextIndex: 3
-      Text: "T\xD4I S\u1EBC H\xC9T V\xC0O M\u1EB6T B\u1EA0N!"
-      Choices: []
-      TextBoxType: 1
-      TalkingEmotion: 0
-    - Index: 2
-      NextIndex: 3
-      Text: "hmm... m\xECnh c\u1EA7n suy ngh\u0129 th\xEAm m\u1ED9t ch\xFAt.."
-      Choices: []
-      TextBoxType: 2
-      TalkingEmotion: 0
-    - Index: 3
-      NextIndex: 4
-      Text: 'HO
-
-        HO
-
-        HO
-
-        HO
-
-        HO
-
-        HO
-
-        HO
-
-        HO'
-      Choices: []
-      TextBoxType: 0
-      TalkingEmotion: 0
-    - Index: 4
-      NextIndex: 5
-      Text: "C\xE1c d\u1EA5u c\xE2u nh\u01B0 . , ! s\u1EBD c\xF3 \u0111\u1ED9 delay
-        \nd\xE0i h\u01A1n khi th\u1EF1c hi\u1EC7n ch\u1EA1y c\xE1c k\xED t\u1EF1."
-      Choices: []
-      TextBoxType: 0
-      TalkingEmotion: 0
-    - Index: 5
-      NextIndex: 6
-      Text: "B\u1EA1n c\u0169ng c\xF3 th\xEA skip vi\u1EC7c in ra c\xE1c k\xED t\u1EF1
-        l\xE2n \nl\u01B0\u1EE3t th\xE0nh in ra 1 l\xE2n lu\xF4n t\u1EA5t c\u1EA3
-        k\xED t\u1EF1 trong text \nbox b\u1EB1ng c\xE1ch nh\u1EA3 n\xFAt TALK."
-      Choices: []
-      TextBoxType: 0
-      TalkingEmotion: 0
-    - Index: 6
-      NextIndex: 7
-      Text: "N\u1EBFu nh\u1EA5n gi\u1EEF n\xFAt TALK, c\xE1c k\xED t\u1EF1 s\u1EBD
-        \u0111\u01B0\u1EE3c in ra v\u01A1i t\xF4c \u0111\u1ED9 nhanh h\u01A1n!"
-      Choices: []
-      TextBoxType: 1
-      TalkingEmotion: 0
-    DialogueEvents: []
-  - TalkingObjectData:
-      BaseNPC: {fileID: 2111599579}
-      CenterTransform: {fileID: 0}
-      Size: 150
-    DialogueNodes:
-    - Index: 0
-      NextIndex: 1
-      Text: Really
-      Choices: []
-      TextBoxType: 0
-      TalkingEmotion: 0
-    DialogueEvents: []
-  - TalkingObjectData:
-      BaseNPC: {fileID: 1134763821}
-      CenterTransform: {fileID: 0}
-      Size: 150
-    DialogueNodes:
-    - Index: 0
-      NextIndex: 1
-      Text: Yessss :>
-      Choices: []
-      TextBoxType: 1
-      TalkingEmotion: 0
-    DialogueEvents: []
+  _soDialogue: {fileID: 11400000, guid: 4010aa55b394c2740bcc8267a99c5129, type: 2}
+  _talkingNPCDatas:
+  - Name: NPC 0
+    Size: 0
+    BaseNPC: {fileID: 1134763821}
+    CenterTransform: {fileID: 1203450471}
+  - Name: NPC 1
+    Size: 0
+    BaseNPC: {fileID: 2111599579}
+    CenterTransform: {fileID: 2111599578}
 --- !u!4 &1134763822
 Transform:
   m_ObjectHideFlags: 0
@@ -2086,7 +1998,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
-  _dialogues: []
+  _soDialogue: {fileID: 0}
+  _talkingNPCDatas: []
 --- !u!1 &2139738254
 GameObject:
   m_ObjectHideFlags: 0
