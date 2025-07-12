@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DialogueSystem.Data;
 using UnityEditor;
+using System;
 
 namespace DialogueSystem.Windows
 {
@@ -55,12 +56,12 @@ namespace DialogueSystem.Windows
                 copyDsData.GroupDatas.Add(GetCopyDSGroupData(groupData));
             }
 
-            foreach(var nodeData in dsData.UngroupNodeDatas)
+            foreach(var nodeData in dsData.UngroupedNodeDatas)
             {
-                copyDsData.UngroupNodeDatas.Add(GetCopyDSNodeData(nodeData));
+                copyDsData.UngroupedNodeDatas.Add(GetCopyDSNodeData(nodeData));
             }
 
-            copyDsData.StartNodeData = copyDsData.UngroupNodeDatas[0];
+            copyDsData.StartNodeData = copyDsData.UngroupedNodeDatas[0];
 
             return copyDsData;
         }
@@ -76,7 +77,6 @@ namespace DialogueSystem.Windows
             foreach (var nodeData in dsGroupData.NodeDatas)
             {
                 DSNodeData dsNodeData = GetCopyDSNodeData(nodeData);
-                dsNodeData.GroupData = copyGroupData;
 
                 copyGroupData.NodeDatas.Add(dsNodeData);
             }
@@ -96,6 +96,7 @@ namespace DialogueSystem.Windows
             copyNodeData.TalkingEmotion = dsNodeData.TalkingEmotion;
             copyNodeData.IsHaveCallBack = dsNodeData.IsHaveCallBack;
             copyNodeData.NextNodeIndex = dsNodeData.NextNodeIndex;
+            copyNodeData.GroupDataIndex = dsNodeData.GroupDataIndex;
 
             foreach (var choiceData in dsNodeData.ChoiceDatas)
             {
@@ -106,6 +107,30 @@ namespace DialogueSystem.Windows
             }
 
             return copyNodeData;
+        }
+    }
+
+    [Serializable]
+    public class Wrapper<T>
+    {
+        [SerializeField] private string _type;
+        public string Type
+        {
+            get => _type;
+            set => _type = value;
+        }
+
+        [SerializeField] private T _data;
+        public T Data
+        {
+            get => _data;
+            set => _data = value;
+        }
+
+        public Wrapper(string type, T data)
+        {
+            _type = type;
+            _data = data;
         }
     }
 }

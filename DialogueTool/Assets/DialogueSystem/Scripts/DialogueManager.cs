@@ -276,18 +276,18 @@ namespace DialogueSystem
 
         private TalkingNPCData GetCurrentTalkingNPCData(DSNodeData nodeData)
         {
-            if (nodeData.GroupData == null)
+            if (nodeData.GroupDataIndex == -1)
             {
                 return null;
             }
 
-            if (nodeData.GroupData.Index >= _talkingNPCDatas.Count)
+            if (nodeData.GroupDataIndex >= _talkingNPCDatas.Count)
             {
                 Debug.LogError("Out of range when passing groupDataIndex >= talkingNPCDatas.Count");
                 return null;
             }
 
-            return _talkingNPCDatas[nodeData.GroupData.Index];
+            return _talkingNPCDatas[nodeData.GroupDataIndex];
         }
     }
 }

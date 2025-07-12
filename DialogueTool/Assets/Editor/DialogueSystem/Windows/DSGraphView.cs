@@ -26,8 +26,8 @@ namespace DialogueSystem.Windows
             AddStyle();
             AddManipulators();
 
-            OnGroupElementsAdded();
-            OnGroupElementsRemoved();
+            OngroupedElementsAdded();
+            OngroupedElementsRemoved();
             OnElementsDeleted();
             OnElementsCutOrCopy();
             OnElementsPatse();
@@ -39,7 +39,7 @@ namespace DialogueSystem.Windows
         {
             DSStartNode startNode = new DSStartNode(new Vector2(100, 100), this);
             AddElement(startNode);
-            DSData.AddUngroupNodeData(startNode.NodeData);
+            DSData.AddUngroupedNodeData(startNode.NodeData);
 
             DSGroup group= CreateGroup(new Vector2(230, 150));
             AddElement(group);
@@ -62,17 +62,18 @@ namespace DialogueSystem.Windows
 
                 foreach (var node in nodes)
                 {
-                    data.Add(JsonUtility.ToJson(node.NodeData));
+                    node.SaveData();
+                    data.Add(JsonUtility.ToJson(new Wrapper<DSNodeData>("DSNodeData", node.NodeData)));
                 }
 
                 foreach (var group in groups)
                 {
-                    data.Add(JsonUtility.ToJson(group.GroupData));
+                    group.SaveData();
+                    data.Add(JsonUtility.ToJson(new Wrapper<DSGroupData>("DSGroupData", group.GroupData)));
                 }
 
                 return string.Join("\n", data); // This is what gets stored in Unity's internal clipboard
             };
-
         }
 
         private void OnElementsPatse()
@@ -82,44 +83,95 @@ namespace DialogueSystem.Windows
                 Debug.Log("PASTE");
                 string[] dataLines = dataStr.Split('\n');
 
-                List<GraphElement> createdElements = new();
+                List<DSNode> groupedNodes = new List<DSNode>();
 
                 foreach (var line in dataLines)
                 {
-                    if (string.IsNullOrWhiteSpace(line)) continue;
-
-                    // First try node
-                    DSNodeData nodeData = JsonUtility.FromJson<DSNodeData>(line);
-                    if (nodeData != null)
+                    Debug.Log("line: " + line);
+                    if (string.IsNullOrWhiteSpace(line))
                     {
-                        nodeData.Position += new Vector2(30, 30); // offset to avoid overlap
-                        DSNode newNode = CreateNode(nodeData.Position);
-                        newNode.LoadData(nodeData);
-                        DSData.AddUngroupNodeData(nodeData);
-                        AddElement(newNode);
-                        createdElements.Add(newNode);
                         continue;
                     }
 
-                    // Then try group
-                    DSGroupData groupData = JsonUtility.FromJson<DSGroupData>(line);
-                    if (groupData != null)
+                    Wrapper<DSNodeData> nodeWrapper = JsonUtility.FromJson<Wrapper<DSNodeData>>(line);
+                    if (nodeWrapper != null && nodeWrapper.Type == "DSNodeData")
                     {
+                        var nodeData = nodeWrapper.Data;
+                        nodeData.Name += " (Copy)";
+                        nodeData.Position += new Vector2(30, 30); // offset to avoid overlap
+
+                        if (nodeData.Index == 0) //this is start node
+                        {
+                            Debug.Log("Can't copy start node");
+                            continue;
+                        }
+
+                        //remove all port link
+                        nodeData.NextNodeIndex = -1;
+                        foreach (var choiceData in nodeData.ChoiceDatas)
+                        {
+                            choiceData.NextNodeIndex = -1;
+                        }
+
+                        DSNode newNode = CreateNode(nodeData.Position);
+                        var newIndex = newNode.NodeData.Index;
+                        var newPosition = newNode.NodeData.Position;
+                        newNode.LoadData(nodeData); //It's change index and position equal copyed element
+                        newNode.NodeData.Index = newIndex;
+                        newNode.NodeData.Position = newPosition;
+                        
+                        AddElement(newNode);
+
+                        if (nodeData.GroupDataIndex != -1)
+                        {
+                            groupedNodes.Add(newNode);
+                        }
+
+                        continue;
+                    }
+
+                    Wrapper<DSGroupData> groupWrapper = JsonUtility.FromJson<Wrapper<DSGroupData>>(line);
+                    if (groupWrapper != null && groupWrapper.Type == "DSGroupData")
+                    {
+                        var groupData = groupWrapper.Data;
+                        groupData.Name += " (Copy)";
                         groupData.Position += new Vector2(30, 30);
+
+                        var oldIndex = groupData.Index;
+
                         DSGroup newGroup = CreateGroup(groupData.Position);
-                        newGroup.LoadData(groupData);
-                        DSData.AddGroupData(groupData);
+                        var newIndex = newGroup.GroupData.Index;
+                        var newPosition = newGroup.GroupData.Position;
+                        newGroup.LoadData(groupData); //It's change index and position equal copyed element
+                        newGroup.GroupData.Index = newIndex;
+                        newGroup.GroupData.Position = newPosition;
                         AddElement(newGroup);
-                        createdElements.Add(newGroup);
+
+                        groupData.NodeDatas.Clear();
+
+                        for (int i = groupedNodes.Count - 1; i >= 0; i--)
+                        {
+                            var node = groupedNodes[i];
+                            if (node.NodeData.GroupDataIndex == oldIndex)
+                            {
+                                newGroup.AddElement(node);
+                                groupedNodes.RemoveAt(i);
+                            }
+                        }
                     }
                 }
 
-               // return createdElements;
+                //After all node were grouped, remain nodes in groupedNodes don't find the group will be reset groupDataIndex
+                //(because the missing group doesn't copied;
+                foreach (var node in groupedNodes)
+                {
+                    node.NodeData.GroupDataIndex = -1;
+                }
             };
 
         }
 
-        private void OnGroupElementsRemoved()
+        private void OngroupedElementsRemoved()
         {
             elementsRemovedFromGroup = (group, elements) =>
             {
@@ -134,12 +186,12 @@ namespace DialogueSystem.Windows
                     DSNode dsNode = (DSNode)element;
 
                     dsGroup.GroupData.RemoveNodeData(dsNode.NodeData);
-                    DSData.AddUngroupNodeData(dsNode.NodeData);
+                    DSData.AddUngroupedNodeData(dsNode.NodeData);
                 }
             };
         }
 
-        private void OnGroupElementsAdded()
+        private void OngroupedElementsAdded()
         {
             elementsAddedToGroup = (group, elements) =>
             {
@@ -159,7 +211,7 @@ namespace DialogueSystem.Windows
                     DSNode dsNode = (DSNode)element;
 
                     dsGroup.GroupData.AddNodeData(dsNode.NodeData);
-                    DSData.RemoveUngroupNodeData(dsNode.NodeData);
+                    DSData.RemoveUngroupedNodeData(dsNode.NodeData);
                 }
             };
         }
@@ -189,13 +241,12 @@ namespace DialogueSystem.Windows
 
                     if (selectedElement is DSNode node)
                     {
-                        if (node.NodeData.GroupData != null)
+                        if (node.NodeData.GroupDataIndex != -1)
                         {
-                            DSGroup dsGroup = FindDSGroupBy(node.NodeData.GroupData);
-                            //this dsGroup should not null!
+                            DSGroup dsGroup = FindDSGroupBy(node.NodeData.GroupDataIndex); //this dsGroup should not null!
                             dsGroup.RemoveElement(node);
                         }
-                        DSData.RemoveUngroupNodeData(node.NodeData);
+                        DSData.RemoveUngroupedNodeData(node.NodeData);
                         DSData.ReIndexNodeData();
 
                         node.DisconnectAllPorts();
@@ -252,7 +303,7 @@ namespace DialogueSystem.Windows
 
             this.AddManipulator(CreateNodeContextualMenu());
             this.AddManipulator(CreateGroupContextualMenu());
-            this.AddManipulator(CreateUnGroupContextualMenu());
+            this.AddManipulator(CreateUngroupedContextualMenu());
         }
 
         private void AddStyle()
@@ -286,10 +337,10 @@ namespace DialogueSystem.Windows
             return contextualMenuManipulator;
         }
 
-        private IManipulator CreateUnGroupContextualMenu()
+        private IManipulator CreateUngroupedContextualMenu()
         {
             ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction("Ungroup", actionEvent => UnGroup())
+                menuEvent => menuEvent.menu.AppendAction("Ungrouped", actionEvent => Ungrouped())
             );
 
             return contextualMenuManipulator;
@@ -299,7 +350,7 @@ namespace DialogueSystem.Windows
         {
             DSNode node = new DSNode(position, this);
 
-            DSData.AddUngroupNodeData(node.NodeData);
+            DSData.AddUngroupedNodeData(node.NodeData);
 
             foreach (GraphElement element in selection)
             {
@@ -308,7 +359,7 @@ namespace DialogueSystem.Windows
                     DSGroup group = (DSGroup)element;
                     group.AddElement(node);
                     group.GroupData.AddNodeData(node.NodeData);
-                    DSData.RemoveUngroupNodeData(node.NodeData);
+                    DSData.RemoveUngroupedNodeData(node.NodeData);
                 }
             }
 
@@ -328,20 +379,20 @@ namespace DialogueSystem.Windows
                     DSNode node = (DSNode)element;
                     group.AddElement(node);
                     group.GroupData.AddNodeData(node.NodeData);
-                    DSData.RemoveUngroupNodeData(node.NodeData);
+                    DSData.RemoveUngroupedNodeData(node.NodeData);
                 }
             }    
 
             return group;
         }
 
-        private void UnGroup()
+        private void Ungrouped()
         {
             foreach (GraphElement element in selection)
             {
-                if (element is DSNode node && node.NodeData.GroupData != null)
+                if (element is DSNode node && node.NodeData.GroupDataIndex != -1)
                 {
-                    DSGroup group = FindDSGroupBy(node.NodeData.GroupData);
+                    DSGroup group = FindDSGroupBy(node.NodeData.GroupDataIndex);
                     //group should not be null
                     group.RemoveElement(node);
                 }
@@ -400,11 +451,11 @@ namespace DialogueSystem.Windows
             return null;
         }
 
-        public DSGroup FindDSGroupBy(DSGroupData groupData)
+        public DSGroup FindDSGroupBy(int index)
         {
             foreach (var element in graphElements)
             {
-                if (element is DSGroup group && group.GroupData == groupData)
+                if (element is DSGroup group && group.GroupData.Index == index)
                 {
                     return group;
                 }
@@ -443,13 +494,13 @@ namespace DialogueSystem.Windows
         {
             ClearData();
 
-            foreach (var nodeData in dsData.UngroupNodeDatas)
+            foreach (var nodeData in dsData.UngroupedNodeDatas)
             {
                 if (nodeData.Index == 0) //this is start node
                 {
                     Debug.Log("Create start node");
-                    DSStartNode startNode = new DSStartNode(DSData.StartNodeData.Position, this);
-                    startNode.LoadData(dsData.StartNodeData);
+                    DSStartNode startNode = new DSStartNode(nodeData.Position, this);
+                    startNode.LoadData(nodeData);
                     AddElement(startNode);
                     continue;
                 }
@@ -493,10 +544,10 @@ namespace DialogueSystem.Windows
                         }
                     }
 
-                    Debug.Log("nodeindex: " + dsNode.NodeData.Index + " have choice port count: " + dsNode.GetAllChoicePorts().Count);
+                    //Debug.Log("nodeindex: " + dsNode.NodeData.Index + " have choice port count: " + dsNode.GetAllChoicePorts().Count);
                     for (int i = 0; i < dsNode.GetAllChoicePorts().Count; i++)
                     {
-                        Debug.Log("Find choice ports with index " + i + " of nodeindex: " + dsNode.NodeData.Index + " and next node data: " + dsNode.NodeData.NextNodeIndex);
+                        //Debug.Log("Find choice ports with index " + i + " of nodeindex: " + dsNode.NodeData.Index + " and next node data: " + dsNode.NodeData.NextNodeIndex);
                         DSNode choiceNextNode = FindDSNodeBy(dsNode.NodeData.ChoiceDatas[i].NextNodeIndex);
                         if (choiceNextNode == null)
                         {
