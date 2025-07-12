@@ -119,6 +119,7 @@ namespace DialogueSystem.Windows
                         newNode.LoadData(nodeData); //It's change index and position equal copyed element
                         newNode.NodeData.Index = newIndex;
                         newNode.NodeData.Position = newPosition;
+                        DSData.UngroupedNodeDatas[^1] = newNode.NodeData;
                         
                         AddElement(newNode);
 
@@ -145,6 +146,7 @@ namespace DialogueSystem.Windows
                         newGroup.LoadData(groupData); //It's change index and position equal copyed element
                         newGroup.GroupData.Index = newIndex;
                         newGroup.GroupData.Position = newPosition;
+                        DSData.GroupDatas[^1] = newGroup.GroupData;
                         AddElement(newGroup);
 
                         groupData.NodeDatas.Clear();
