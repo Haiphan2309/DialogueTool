@@ -17,10 +17,18 @@ namespace DialogueSystem.Windows
     {
         private DSEditorWindow _editorWindow;
         public DSData DSData;
+
+        private Vector2 _lastMousePosition;
+
         public DSGraphView(DSEditorWindow editorWindow)
         {
             DSData = new DSData();
             _editorWindow = editorWindow;
+
+            RegisterCallback<MouseMoveEvent>(evt =>
+            {
+                _lastMousePosition = evt.mousePosition;
+            });
 
             AddGridBackground();
             AddStyle();
@@ -85,6 +93,36 @@ namespace DialogueSystem.Windows
 
                 List<DSNode> groupedNodes = new List<DSNode>();
 
+                /*cacluate average position*/
+                Vector2 center = Vector2.zero;
+                int elementCount = 0;
+                foreach (var line in dataLines)
+                {
+                    Debug.Log("line: " + line);
+                    if (string.IsNullOrWhiteSpace(line))
+                    {
+                        continue;
+                    }
+
+                    Wrapper<DSNodeData> nodeWrapper = JsonUtility.FromJson<Wrapper<DSNodeData>>(line);
+                    if (nodeWrapper != null && nodeWrapper.Type == "DSNodeData")
+                    {
+                        center += nodeWrapper.Data.Position;
+                        elementCount++;
+                        continue;
+                    }
+
+                    Wrapper<DSGroupData> groupWrapper = JsonUtility.FromJson<Wrapper<DSGroupData>>(line);
+                    if (groupWrapper != null && groupWrapper.Type == "DSGroupData")
+                    {
+                        center += groupWrapper.Data.Position;
+                        elementCount++;
+                    }
+                }
+                center /= elementCount;
+                Vector2 offset = contentViewContainer.WorldToLocal(_lastMousePosition) - center; 
+
+                /*Parse data*/
                 foreach (var line in dataLines)
                 {
                     Debug.Log("line: " + line);
@@ -98,7 +136,7 @@ namespace DialogueSystem.Windows
                     {
                         var nodeData = nodeWrapper.Data;
                         nodeData.Name += " (Copy)";
-                        nodeData.Position += new Vector2(30, 30); // offset to avoid overlap
+                        nodeData.Position += offset;
 
                         if (nodeData.Index == 0) //this is start node
                         {
@@ -136,7 +174,7 @@ namespace DialogueSystem.Windows
                     {
                         var groupData = groupWrapper.Data;
                         groupData.Name += " (Copy)";
-                        groupData.Position += new Vector2(30, 30);
+                        groupData.Position += offset;
 
                         var oldIndex = groupData.Index;
 
@@ -163,8 +201,8 @@ namespace DialogueSystem.Windows
                     }
                 }
 
-                //After all node were grouped, remain nodes in groupedNodes don't find the group will be reset groupDataIndex
-                //(because the missing group doesn't copied;
+                /*After all node were grouped, remain nodes in groupedNodes don't find the group will be reset groupDataIndex
+                (because the missing group doesn't copied*/
                 foreach (var node in groupedNodes)
                 {
                     node.NodeData.GroupDataIndex = -1;
@@ -324,7 +362,7 @@ namespace DialogueSystem.Windows
         private IManipulator CreateNodeContextualMenu()
         {
             ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction("Add Node", actionEvent => AddElement(CreateNode(GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))))
+                menuEvent => menuEvent.menu.AppendAction("Add Node", actionEvent => AddElement(CreateNode(contentViewContainer.WorldToLocal(_lastMousePosition))))
             );
 
             return contextualMenuManipulator;
@@ -333,7 +371,7 @@ namespace DialogueSystem.Windows
         private IManipulator CreateGroupContextualMenu()
         {
             ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction("Add Group", actionEvent => AddElement(CreateGroup(GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))))
+                menuEvent => menuEvent.menu.AppendAction("Add Group", actionEvent => AddElement(CreateGroup(contentViewContainer.WorldToLocal(_lastMousePosition))))
             );
 
             return contextualMenuManipulator;
@@ -399,20 +437,6 @@ namespace DialogueSystem.Windows
                     group.RemoveElement(node);
                 }
             }
-        }
-
-        public Vector2 GetLocalMousePosition(Vector2 mousePosition, bool isSearchWindow = false)
-        {
-            Vector2 worldMousePosition = mousePosition;
-
-            if (isSearchWindow)
-            {
-                worldMousePosition = _editorWindow.rootVisualElement.ChangeCoordinatesTo(_editorWindow.rootVisualElement.parent, mousePosition - _editorWindow.position.position);
-            }
-
-            Vector2 localMousePosition = contentViewContainer.WorldToLocal(worldMousePosition);
-
-            return localMousePosition;
         }
 
         public void RenameAllElement()
