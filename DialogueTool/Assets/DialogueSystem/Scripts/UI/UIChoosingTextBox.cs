@@ -16,13 +16,21 @@ namespace DialogueSystem
 
         private int _currentChoiceIndex;
 
-        public void Setup(List<DSChoiceData> choiceDatas , UIDialogueTextBox uiDialogueTextBox, Vector3 objectWorldPos, float objectSize)
+        /// <summary>
+        /// Setup for text box have NPC attach
+        /// </summary>
+        /// <param name="choiceDatas"></param>
+        /// <param name="uiDialogueTextBox"></param>
+        /// <param name="objectWorldPos"></param>
+        /// <param name="objectSize"></param>
+        /// <param name="isNeedToConvertLocalPos"></param>
+        public void Setup(List<DSChoiceData> choiceDatas, UIDialogueTextBox uiDialogueTextBox, Vector3 objectWorldPos, float objectSize, bool isNeedToConvertLocalPos = true)
         {
             _rectTransform = GetComponent<RectTransform>();
             _uiDialogueTextBox = uiDialogueTextBox;
 
             Vector2 resultPos = Vector2.zero;
-            if (TrySetPosition(objectWorldPos, objectSize, out resultPos))
+            if (TrySetPosition(objectWorldPos, objectSize, out resultPos, isNeedToConvertLocalPos))
             {
                 _rectTransform.anchoredPosition = resultPos;
             }
@@ -52,6 +60,17 @@ namespace DialogueSystem
             ActiveChoice(_currentChoiceIndex);
         }
 
+        /// <summary>
+        /// Setup when text box have no NPC attach
+        /// </summary>
+        /// <param name="choiceDatas"></param>
+        /// <param name="uiDialogueTextBox"></param>
+        /// <param name="textBoxAnchorPos"></param>
+        public void Setup(List<DSChoiceData> choiceDatas, UIDialogueTextBox uiDialogueTextBox)
+        {
+            Setup(choiceDatas, uiDialogueTextBox, uiDialogueTextBox.transform.position, 0.0f);
+        }
+
         public void UpdatePos(Vector3 objectWorldPos, float objectSize)
         {
             if (gameObject.activeSelf == false)
@@ -61,6 +80,20 @@ namespace DialogueSystem
 
             Vector2 resultPos = Vector2.zero;
             if (TrySetPosition(objectWorldPos, objectSize, out resultPos))
+            {
+                _rectTransform.anchoredPosition = resultPos;
+            }
+        }
+
+        public void UpdatePos()
+        {
+            if (gameObject.activeSelf == false)
+            {
+                return;
+            }
+
+            Vector2 resultPos = Vector2.zero;
+            if (TrySetPosition(_uiDialogueTextBox.transform.position, 0.0f, out resultPos))
             {
                 _rectTransform.anchoredPosition = resultPos;
             }
@@ -76,23 +109,32 @@ namespace DialogueSystem
             gameObject.SetActive(false);
         }
 
-        private bool TrySetPosition(Vector3 objectWorldPos, float objectSize, out Vector2 resultPos)
+        private bool TrySetPosition(Vector3 objectWorldPos, float objectSize, out Vector2 resultPos, bool isNeedToConvertLocalPos = true)
         {
             RectTransform dialogueContainerRect = transform.parent.GetComponent<RectTransform>();
-            if (!UIUtils.ConvertWorldPosToLocalRectPos(objectWorldPos, dialogueContainerRect, out resultPos))
-            {
-                return false;
-            }
+            Vector2 objectLocalPos = Vector2.zero;
 
-            Vector2 objectScreenPos = (Vector2)Camera.main.WorldToScreenPoint(objectWorldPos);
-            // Convert screen position to local position in canvas
-            Vector2 objectLocalPos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                dialogueContainerRect,
-                objectScreenPos,
-                Camera.main,
-                out objectLocalPos
-            );
+            if (isNeedToConvertLocalPos)
+            {
+                if (!UIUtils.ConvertWorldPosToLocalRectPos(objectWorldPos, dialogueContainerRect, out resultPos))
+                {
+                    return false;
+                }
+
+                Vector2 objectScreenPos = (Vector2)Camera.main.WorldToScreenPoint(objectWorldPos);
+                // Convert screen position to local position in canvas
+                
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    dialogueContainerRect,
+                    objectScreenPos,
+                    Camera.main,
+                    out objectLocalPos
+                );
+            }
+            else
+            {
+                resultPos = Vector2.zero;
+            }
 
             Vector2 containerSize = dialogueContainerRect.rect.size; //Smaller than canvas size a little
             bool isOverSizeUp = _uiDialogueTextBox.GetComponent<RectTransform>().anchoredPosition.y + _uiDialogueTextBox.GetSize().y / 2 + GetSize().y > containerSize.y / 2;
@@ -178,7 +220,7 @@ namespace DialogueSystem
 
         public void OnChooseChoice()
         {
-            Hide();
+            Destroy(this.gameObject);
         }
     }
 }

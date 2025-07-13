@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 712f0bb2529b9e042947ea3d5850bffd, type: 3}
+  m_Name: SampleDialogue
+  m_EditorClassIdentifier: 
+  _dsData:
+    _groupDatas:
+    - _name: NPC 0
+      _index: 0
+      _position: {x: -43.2, y: -192.8}
+      _nodeDatas:
+      - _name: Node 1
+        _index: 1
+        _position: {x: -17.6, y: -132.8}
+        _nextNodeIndex: 4
+        _choiceDatas: []
+        _text: Hi, I will introduce about a Dialogue Tool! This tool will help with
+          bubble chat style!
+        _textBoxType: 0
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupDataIndex: 0
+      - _name: Node 2
+        _index: 2
+        _position: {x: 871.2, y: -132.8}
+        _nextNodeIndex: -1
+        _choiceDatas:
+        - _text: Let talking with surprise bubble chat!
+          _nextNodeIndex: -1
+        - _text: Let thinking something.
+          _nextNodeIndex: -1
+        - _text: Nah, just continue like normal.
+          _nextNodeIndex: -1
+        _text: First, this is a example for a choosing system. Let choosing something.
+        _textBoxType: 0
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupDataIndex: 0
+    - _name: NPC 1
+      _index: 1
+      _position: {x: 389.6, y: 239.20001}
+      _nodeDatas:
+      - _name: Node 4
+        _index: 4
+        _position: {x: 415.2, y: 299.2}
+        _nextNodeIndex: 2
+        _choiceDatas: []
+        _text: Oh, that's nice!
+        _textBoxType: 0
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupDataIndex: 1
+      - _name: Node 4
+        _index: 4
+        _position: {x: 415.2, y: 299.2}
+        _nextNodeIndex: 2
+        _choiceDatas: []
+        _text: Oh, that's nice!
+        _textBoxType: 0
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupDataIndex: 1
+    _ungroupedNodeDatas:
+    - _name: Start
+      _index: 0
+      _position: {x: -173.6, y: -132}
+      _nextNodeIndex: 1
+      _choiceDatas: []
+      _text: This is an example text.
+      _textBoxType: 0
+      _talkingEmotion: 0
+      _isHaveCallBack: 0
+      _groupDataIndex: -1
+    _startNodeData:
+      _name: Start
+      _index: 0
+      _position: {x: -173.6, y: -132}
+      _nextNodeIndex: 1
+      _choiceDatas: []
+      _text: This is an example text.
+      _textBoxType: 0
+      _talkingEmotion: 0
+      _isHaveCallBack: 0
+      _groupDataIndex: -1
