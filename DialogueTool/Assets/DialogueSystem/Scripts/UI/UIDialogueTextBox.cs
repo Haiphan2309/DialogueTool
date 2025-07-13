@@ -29,7 +29,7 @@ namespace DialogueSystem
             _rectTransform = GetComponent<RectTransform>();
             _textBoxType = textBoxType;
 
-            _background.sprite = ConfigManager.Instance.TextBoxConfig.GetTextBoxSpriteConfig(textBoxType).TextBoxSprite;
+            _background.sprite = DialogueManager.Instance.TextBoxConfig.GetTextBoxSpriteConfig(textBoxType).TextBoxSprite;
             _background.type = Image.Type.Tiled;
 
             SetText(text);
@@ -59,7 +59,7 @@ namespace DialogueSystem
             _rectTransform = GetComponent<RectTransform>();
             _textBoxType = textBoxType;
 
-            _background.sprite = ConfigManager.Instance.TextBoxConfig.GetTextBoxSpriteConfig(textBoxType).TextBoxSprite;
+            _background.sprite = DialogueManager.Instance.TextBoxConfig.GetTextBoxSpriteConfig(textBoxType).TextBoxSprite;
             _background.type = Image.Type.Tiled;
 
             SetText(text);
@@ -120,7 +120,7 @@ namespace DialogueSystem
 
         private void SetDefaultPosition() //When the text box have no NPC attach
         {
-            Vector2 resultPos = ConfigManager.Instance.TextBoxConfig.DefaultAnchorPosition;
+            Vector2 resultPos = DialogueManager.Instance.TextBoxConfig.DefaultAnchorPosition;
 
             RectTransform dialogueContainerRect = transform.parent.GetComponent<RectTransform>();
             Vector2 containerSize = dialogueContainerRect.rect.size; //Smaller than canvas size a little
@@ -168,7 +168,7 @@ namespace DialogueSystem
             float minY = -containerSize.y / 2 + GetSize().y / 2;
             float maxY = containerSize.y / 2 - GetSize().y / 2;
 
-            float arrowSize = ConfigManager.Instance.TextBoxConfig.TextBoxArrowConfig.ArrowSize;
+            float arrowSize = DialogueManager.Instance.TextBoxConfig.TextBoxArrowConfig.ArrowSize;
 
             if (!isOverSizeUp && !isObjectPassLeftBorder && !isObjectPassRightBorder)
             {
@@ -221,12 +221,12 @@ namespace DialogueSystem
                 return;
             }
 
-            TextBoxArrowPositionConfig arrowPositionConfig = ConfigManager.Instance.TextBoxConfig.TextBoxArrowConfig.GetArrowPositionConfig(textBoxType, arrowType);
+            TextBoxArrowPositionConfig arrowPositionConfig = DialogueManager.Instance.TextBoxConfig.TextBoxArrowConfig.GetArrowPositionConfig(textBoxType, arrowType);
             _textBoxArrow.rotation = Quaternion.Euler(0, 0, arrowPositionConfig.DegreeZ);
             _textBoxArrow.anchorMax = arrowPositionConfig.AnchorMax;
             _textBoxArrow.anchorMin = arrowPositionConfig.AnchorMin;
-            float paddingBorder = ConfigManager.Instance.TextBoxConfig.TextBoxArrowConfig.PaddingBorder;
-            float mutiplePaddingLeanObject = ConfigManager.Instance.TextBoxConfig.TextBoxArrowConfig.MutiplePaddingLeanObject;
+            float paddingBorder = DialogueManager.Instance.TextBoxConfig.TextBoxArrowConfig.PaddingBorder;
+            float mutiplePaddingLeanObject = DialogueManager.Instance.TextBoxConfig.TextBoxArrowConfig.MutiplePaddingLeanObject;
             Vector2 clampLocalPos = new Vector2(
                 Mathf.Clamp(objectLocalPos.x, -GetSize().x / 2 + paddingBorder, GetSize().x / 2 - paddingBorder),
                 Mathf.Clamp(objectLocalPos.y, -GetSize().y / 2 + paddingBorder, GetSize().y / 2 - paddingBorder)
@@ -239,7 +239,7 @@ namespace DialogueSystem
                 case ArrowType.UP:
                     if (isArrowOverlapObject)
                     {
-                        if (GetSize().x - objectSize * mutiplePaddingLeanObject < ConfigManager.Instance.TextBoxConfig.TextBoxArrowConfig.ArrowSize) //mean not have enough size for text box arrow
+                        if (GetSize().x - objectSize * mutiplePaddingLeanObject < DialogueManager.Instance.TextBoxConfig.TextBoxArrowConfig.ArrowSize) //mean not have enough size for text box arrow
                         {
                             isActive = false;
                             break;
@@ -258,7 +258,7 @@ namespace DialogueSystem
                 case ArrowType.RIGHT:
                     if (isArrowOverlapObject)
                     {
-                        if (GetSize().y - objectSize * mutiplePaddingLeanObject < ConfigManager.Instance.TextBoxConfig.TextBoxArrowConfig.ArrowSize) //mean not have enough size for text box arrow
+                        if (GetSize().y - objectSize * mutiplePaddingLeanObject < DialogueManager.Instance.TextBoxConfig.TextBoxArrowConfig.ArrowSize) //mean not have enough size for text box arrow
                         {
                             isActive = false;
                             break;
@@ -280,7 +280,7 @@ namespace DialogueSystem
 
             _textBoxArrow.gameObject.SetActive(isActive);
 
-            TextBoxArrowSpriteConfig spriteConfig = ConfigManager.Instance.TextBoxConfig.TextBoxArrowConfig.GetArrowSpriteConfig(textBoxType);
+            TextBoxArrowSpriteConfig spriteConfig = DialogueManager.Instance.TextBoxConfig.TextBoxArrowConfig.GetArrowSpriteConfig(textBoxType);
             _textBoxArrow.GetComponent<Image>().sprite = isArrowOverlapObject ? spriteConfig.LeanSprite : spriteConfig.NormalSprite;
         }
 

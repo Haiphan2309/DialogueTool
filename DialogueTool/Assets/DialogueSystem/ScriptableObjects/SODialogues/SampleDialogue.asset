@@ -21,7 +21,7 @@ MonoBehaviour:
       - _name: Node 1
         _index: 1
         _position: {x: -17.6, y: -132.8}
-        _nextNodeIndex: 4
+        _nextNodeIndex: 3
         _choiceDatas: []
         _text: Hi, I will introduce about a Dialogue Tool! This tool will help with
           bubble chat style!
@@ -35,7 +35,7 @@ MonoBehaviour:
         _nextNodeIndex: -1
         _choiceDatas:
         - _text: Let talking with surprise bubble chat!
-          _nextNodeIndex: -1
+          _nextNodeIndex: 5
         - _text: Let thinking something.
           _nextNodeIndex: -1
         - _text: Nah, just continue like normal.
@@ -47,10 +47,10 @@ MonoBehaviour:
         _groupDataIndex: 0
     - _name: NPC 1
       _index: 1
-      _position: {x: 389.6, y: 239.20001}
+      _position: {x: 389.60004, y: 220.80005}
       _nodeDatas:
-      - _name: Node 4
-        _index: 4
+      - _name: Node 3
+        _index: 3
         _position: {x: 415.2, y: 299.2}
         _nextNodeIndex: 2
         _choiceDatas: []
@@ -65,6 +65,16 @@ MonoBehaviour:
         _nextNodeIndex: 2
         _choiceDatas: []
         _text: Oh, that's nice!
+        _textBoxType: 0
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupDataIndex: 1
+      - _name: Node 5
+        _index: 5
+        _position: {x: 1412, y: 280.80002}
+        _nextNodeIndex: -1
+        _choiceDatas: []
+        _text: Like this?
         _textBoxType: 0
         _talkingEmotion: 0
         _isHaveCallBack: 0

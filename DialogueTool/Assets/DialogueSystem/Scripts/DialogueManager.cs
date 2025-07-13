@@ -21,6 +21,9 @@ namespace DialogueSystem
     {
         public static DialogueManager Instance { get; private set; }
 
+        [SerializeField] private TextBoxConfig _textBoxConfig;
+        public TextBoxConfig TextBoxConfig { get => _textBoxConfig; }
+
         private DialogueState _dialogueState;
         public DialogueState DialogueState
         {
@@ -164,7 +167,7 @@ namespace DialogueSystem
             {
                 Destroy(_uiDialogueTextBox.gameObject);
             }
-            _uiDialogueTextBox = Instantiate(ConfigManager.Instance.TextBoxConfig.UIDialogueTextBoxPrefab, _dialogueContainer);
+            _uiDialogueTextBox = Instantiate(_textBoxConfig.UIDialogueTextBoxPrefab, _dialogueContainer);
 
             TalkingNPCData talkingNPCData = GetCurrentTalkingNPCData(_currentNodeData);
             if (talkingNPCData != null)
@@ -211,7 +214,7 @@ namespace DialogueSystem
             {
                 Destroy(_uiChoosingTextBox.gameObject);
             }
-            _uiChoosingTextBox = Instantiate(ConfigManager.Instance.TextBoxConfig.ChoosingTextBoxConfig.UIChoosingTextBoxPrefab, _dialogueContainer);
+            _uiChoosingTextBox = Instantiate(_textBoxConfig.ChoosingTextBoxConfig.UIChoosingTextBoxPrefab, _dialogueContainer);
 
             TalkingNPCData talkingNPCData = GetCurrentTalkingNPCData(_currentNodeData);
             if (talkingNPCData != null)

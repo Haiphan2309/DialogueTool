@@ -50,7 +50,7 @@ namespace DialogueSystem
 
             foreach (var choiceData in choiceDatas)
             {
-                UITextBoxChoice uiTextBoxChoice = Instantiate(ConfigManager.Instance.TextBoxConfig.ChoosingTextBoxConfig.UITextBoxChoicePrefab, _content);
+                UITextBoxChoice uiTextBoxChoice = Instantiate(DialogueManager.Instance.TextBoxConfig.ChoosingTextBoxConfig.UITextBoxChoicePrefab, _content);
                 uiTextBoxChoice.Setup(choiceData);
                 _uiTextBoxChoices.Add(uiTextBoxChoice);
             }
