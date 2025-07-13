@@ -28,7 +28,7 @@ namespace DialogueSystem
         public ArrowType ArrowType;
         public float DegreeZ;
         public Vector2 AnchorPos;
-        public Vector2 AnchorMax; //It's for anchor (neo) in UI canvas
+        public Vector2 AnchorMax; //It's for anchor in UI canvas
         public Vector2 AnchorMin;
     }
 
@@ -83,16 +83,10 @@ namespace DialogueSystem
 
     ////////////////////////////////////////////////////////////////////////////////////////////// Text box config
 
-    //[Serializable]
-    //public class PreferHorizontalConfig //Using for prefer custom size of textbox, not dynamic follow text length
-    //{
-    //    public int MinTextLength;
-    //    public float HorizontalSize;
-    //}
-
     [Serializable]
     public class ChoosingTextBoxConfig
     {
+        public UIChoosingTextBox UIChoosingTextBoxPrefab;
         public UITextBoxChoice UITextBoxChoicePrefab;
     }
 
@@ -100,6 +94,8 @@ namespace DialogueSystem
     [CreateAssetMenu(menuName = "Config/DialogueSystem/TextBoxConfig")]
     public class TextBoxConfig : ScriptableObject
     {
+        public UIDialogueTextBox UIDialogueTextBoxPrefab;
+
         public Vector2 MinSize;
         public Vector2 MaxSize;
 
@@ -117,6 +113,8 @@ namespace DialogueSystem
 
         [SerializeField] private List<TextBoxSpriteConfig> _textBoxSprtieConfigs;
 
+        public Vector2 DefaultAnchorPosition;
+
         public TextBoxSpriteConfig GetTextBoxSpriteConfig(TextBoxType textBoxType)
         {
             foreach (var config in _textBoxSprtieConfigs)
@@ -128,30 +126,5 @@ namespace DialogueSystem
             }
             return null;
         }
-
-        //[Header("Sort ascending by minTextLength")]
-        //[SerializeField] private List<PreferHorizontalConfig> m_preferHorizontalConfigs;
-        //public List<PreferHorizontalConfig> PreferHorizontalConfigs
-        //{
-        //    get => m_preferHorizontalConfigs;
-        //    private set => m_preferHorizontalConfigs = value;
-        //}
-
-        //public float GetPreferHorizontalSize(string text)
-        //{
-        //    float result = MinSize.x;
-        //    foreach (var config in m_preferHorizontalConfigs)
-        //    {
-        //        if (text.Length > config.MinTextLength)
-        //        {
-        //            result = config.MinTextLength;
-        //        }
-        //        else
-        //        {
-        //            break;
-        //        }
-        //    }
-        //    return result;
-        //}
     }
 }

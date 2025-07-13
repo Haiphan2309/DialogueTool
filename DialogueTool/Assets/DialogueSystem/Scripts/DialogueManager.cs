@@ -1,8 +1,10 @@
 using DialogueSystem.Data;
+using GDC.Managers;
 using Sirenix.Serialization;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.UI;
 
 namespace DialogueSystem
@@ -30,8 +32,10 @@ namespace DialogueSystem
         private DSNodeData _currentNodeData;
         private List<TalkingNPCData> _talkingNPCDatas;
 
-        [SerializeField] private UIDialogueTextBox _uiDialogueTextBox;
-        [SerializeField] private UIChoosingTextBox _uiChoosingTextBox;
+        [SerializeField] private RectTransform _dialogueContainer;
+
+        private UIDialogueTextBox _uiDialogueTextBox;
+        private UIChoosingTextBox _uiChoosingTextBox;
 
         [SerializeField] private Color _nameColor;
 
@@ -103,13 +107,28 @@ namespace DialogueSystem
 
                     if (talkingNPCData.CenterTransform)
                     {
-                        _uiChoosingTextBox.UpdatePos(talkingNPCData.CenterTransform.transform.position, talkingNPCData.Size);
-                        _uiDialogueTextBox.UpdatePos(talkingNPCData.CenterTransform.transform.position, talkingNPCData.Size);
+                        if (_uiDialogueTextBox)
+                        {
+                            _uiDialogueTextBox.UpdatePos(talkingNPCData.CenterTransform.transform.position, talkingNPCData.Size);
+                        }
+
+                        if (_uiChoosingTextBox)
+                        {
+                            _uiChoosingTextBox.UpdatePos(talkingNPCData.CenterTransform.transform.position, talkingNPCData.Size);
+                        }
                     }
                 }
                 else
                 {
-                    //todo: a default position for _uidDialogueTextbox
+                    if (_uiDialogueTextBox)
+                    {
+                        _uiDialogueTextBox.UpdatePos();
+                    }
+
+                    if (_uiChoosingTextBox)
+                    {
+                        _uiChoosingTextBox.UpdatePos();
+                    }
                 }
             }
         }
@@ -126,8 +145,6 @@ namespace DialogueSystem
                 _dialogueState = DialogueState.TALKING;
                 DisplayDialogue();
             }
-
-            //SoundManager.Instance.PlaySound(AudioPlayer.SoundID.SFX_INTERACT);
         }
 
         public void DisplayDialogue()
@@ -143,6 +160,12 @@ namespace DialogueSystem
                 return;
             }
 
+            if (_uiDialogueTextBox != null)
+            {
+                Destroy(_uiDialogueTextBox.gameObject);
+            }
+            _uiDialogueTextBox = Instantiate(ConfigManager.Instance.TextBoxConfig.UIDialogueTextBoxPrefab, _dialogueContainer);
+
             TalkingNPCData talkingNPCData = GetCurrentTalkingNPCData(_currentNodeData);
             if (talkingNPCData != null)
             {
@@ -155,8 +178,7 @@ namespace DialogueSystem
             }
             else
             {
-                Debug.Log("Talking data object is null");
-                //todo
+                _uiDialogueTextBox.Setup("", _currentNodeData.TextBoxType);
             }
 
             if (_talkCor != null)
@@ -166,8 +188,13 @@ namespace DialogueSystem
             _talkCor = StartCoroutine(CorTypeSentence(_currentNodeData));
         }
 
+        /// <summary>
+        /// This use for trigger event after the node having event just end
+        /// </summary>
         private void CheckDialogueEvent()
         {
+            //Not implement yet!
+
             //foreach (var dialogueEvent in _dialogues[_currentDialogueIndex].DialogueEvents)
             //{
             //    if (dialogueEvent.Index == _currentNodeIndex)
@@ -180,6 +207,12 @@ namespace DialogueSystem
 
         private void ActiveChoosing(List<DSChoiceData> choiceDatas)
         {
+            if (_uiChoosingTextBox != null)
+            {
+                Destroy(_uiChoosingTextBox.gameObject);
+            }
+            _uiChoosingTextBox = Instantiate(ConfigManager.Instance.TextBoxConfig.ChoosingTextBoxConfig.UIChoosingTextBoxPrefab, _dialogueContainer);
+
             TalkingNPCData talkingNPCData = GetCurrentTalkingNPCData(_currentNodeData);
             if (talkingNPCData != null)
             {
@@ -192,8 +225,7 @@ namespace DialogueSystem
             }
             else
             {
-                Debug.Log("Talking object data is null when active choosing");
-                //todo
+                _uiChoosingTextBox.Setup(choiceDatas, _uiDialogueTextBox);
             }
             
             _dialogueState = DialogueState.CHOOSING;

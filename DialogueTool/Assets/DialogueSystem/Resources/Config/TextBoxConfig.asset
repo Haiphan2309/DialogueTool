@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70dedb5563c56c94db9faa9556386dc7, type: 3}
   m_Name: TextBoxConfig
   m_EditorClassIdentifier: 
+  UIDialogueTextBoxPrefab: {fileID: 4790235521388110051, guid: e107e6595c634e24b91792128eeef33d, type: 3}
   MinSize: {x: 45, y: 40}
   MaxSize: {x: 1500, y: 500}
   _textBoxArrowConfig:
@@ -102,6 +103,7 @@ MonoBehaviour:
     PaddingBorder: 60
     MutiplePaddingLeanObject: 1.2
   _choosingTextBoxConfig:
+    UIChoosingTextBoxPrefab: {fileID: 1632037875873641477, guid: ad00f9a21a37dff49831c5af0a257610, type: 3}
     UITextBoxChoicePrefab: {fileID: 1687323253785181340, guid: 73639a8777210be4daa2d1ffc4b5c89f, type: 3}
   _textBoxSprtieConfigs:
   - TextBoxType: 0
@@ -110,3 +112,4 @@ MonoBehaviour:
     TextBoxSprite: {fileID: 21300000, guid: 09b5c9d6bc493164a8313490de6e4f41, type: 3}
   - TextBoxType: 1
     TextBoxSprite: {fileID: 21300000, guid: fcd41447a0f877b48a91e3c917604561, type: 3}
+  DefaultAnchorPosition: {x: 0, y: -9999}

@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dsData:
     _groupDatas:
-    - _name: NPC 0
+    - _name: New NPC
       _index: 0
-      _position: {x: 220.8, y: 212.80005}
+      _position: {x: 316.8, y: 88.8}
       _nodeDatas:
-      - _name: Node 1
+      - _name: New Node
         _index: 1
-        _position: {x: 246.4, y: 272.80002}
+        _position: {x: 342.4, y: 148.8}
         _nextNodeIndex: 2
         _choiceDatas: []
         _text: This is an example text.
@@ -32,19 +32,31 @@ MonoBehaviour:
     - _name: Start
       _index: 0
       _position: {x: 100, y: 100}
-      _nextNodeIndex: -1
+      _nextNodeIndex: 1
       _choiceDatas: []
       _text: This is an example text.
       _textBoxType: 0
       _talkingEmotion: 0
       _isHaveCallBack: 0
       _groupDataIndex: -1
-    - _name: Node 2
+    - _name: New Node
       _index: 2
-      _position: {x: 715.2, y: 256.80002}
+      _position: {x: 968.8, y: 216}
       _nextNodeIndex: -1
-      _choiceDatas: []
-      _text: This is an example text.
+      _choiceDatas:
+      - _text: An example choosing text.
+        _nextNodeIndex: -1
+      - _text: An example choosing text.
+        _nextNodeIndex: -1
+      - _text: An example choosing text.
+        _nextNodeIndex: -1
+      _text: 'dsasssssssssssssssssssssssssssssssssssssssssssssssssssssdsd
+
+        sdsdddddddddddddddddddddddddddddddddddddddd
+
+        sdsdddddddddddddddddddddddddddddddddddddd
+
+        sdsds'
       _textBoxType: 0
       _talkingEmotion: 0
       _isHaveCallBack: 0
@@ -53,7 +65,7 @@ MonoBehaviour:
       _name: Start
       _index: 0
       _position: {x: 100, y: 100}
-      _nextNodeIndex: -1
+      _nextNodeIndex: 1
       _choiceDatas: []
       _text: This is an example text.
       _textBoxType: 0

@@ -1,6 +1,8 @@
 using GDC.Managers;
 using GDC.Utils;
+using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +17,13 @@ namespace DialogueSystem
 
         private TextBoxType _textBoxType;
 
+        /// <summary>
+        /// Setup when text box have NPC attach
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="textBoxType"></param>
+        /// <param name="objectWorldPos"></param>
+        /// <param name="objectSize"></param>
         public void Setup(string text, TextBoxType textBoxType, Vector3 objectWorldPos, float objectSize)
         {
             _rectTransform = GetComponent<RectTransform>();
@@ -40,6 +49,31 @@ namespace DialogueSystem
             Hide();
         }
 
+        /// <summary>
+        /// Setup when text box have no NPC attach
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="textBoxType"></param>
+        public void Setup(string text, TextBoxType textBoxType)
+        {
+            _rectTransform = GetComponent<RectTransform>();
+            _textBoxType = textBoxType;
+
+            _background.sprite = ConfigManager.Instance.TextBoxConfig.GetTextBoxSpriteConfig(textBoxType).TextBoxSprite;
+            _background.type = Image.Type.Tiled;
+
+            SetText(text);
+            SetDefaultPosition();
+            _textBoxArrow.gameObject.SetActive(false);
+
+            Show();
+        }
+
+        /// <summary>
+        /// Update pos when text box have NPC attach
+        /// </summary>
+        /// <param name="objectWorldPos"></param>
+        /// <param name="objectSize"></param>
         public void UpdatePos(Vector3 objectWorldPos, float objectSize)
         {
             if (gameObject.activeSelf == false)
@@ -54,24 +88,52 @@ namespace DialogueSystem
             {
                 _rectTransform.anchoredPosition = resultPos;
                 TrySetTextBoxArrow(objectWorldPos, objectSize, _textBoxType, arrowType, isArrowOverlapObject);
-                Show();
             }
+        }
+
+        /// <summary>
+        /// Update pos when text box have no NPC attach
+        /// </summary>
+        public void UpdatePos()
+        {
+            if (gameObject.activeSelf == false)
+            {
+                return;
+            }
+
+            SetDefaultPosition();
         }
 
         public void Show()
         {
-            gameObject.SetActive(true);
         }
 
         public void Hide()
         {
-            gameObject.SetActive(false);
+            Destroy(this.gameObject);
         }
 
         public void SetText(string text)
         {
             _text.text = text;
         }
+
+        private void SetDefaultPosition() //When the text box have no NPC attach
+        {
+            Vector2 resultPos = ConfigManager.Instance.TextBoxConfig.DefaultAnchorPosition;
+
+            RectTransform dialogueContainerRect = transform.parent.GetComponent<RectTransform>();
+            Vector2 containerSize = dialogueContainerRect.rect.size; //Smaller than canvas size a little
+            float minX = -containerSize.x / 2 + GetSize().x / 2;
+            float maxX = containerSize.x / 2 - GetSize().x / 2;
+            float minY = -containerSize.y / 2 + GetSize().y / 2;
+            float maxY = containerSize.y / 2 - GetSize().y / 2;
+
+            resultPos.x = Mathf.Clamp(resultPos.x, minX, maxX);
+            resultPos.y = Mathf.Clamp(resultPos.y, minY, maxY);
+
+            _rectTransform.anchoredPosition = resultPos;
+        }    
 
         private bool TrySetPosition(Vector3 objectWorldPos, float objectSize, out Vector2 resultPos, ref ArrowType arrowType, ref bool isArrowOverlapObject)
         {
