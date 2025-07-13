@@ -1,5 +1,4 @@
 using DialogueSystem.Data;
-using GDC.Managers;
 using GDC.Utils;
 using System.Collections.Generic;
 using UnityEngine;

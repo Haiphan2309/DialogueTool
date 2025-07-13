@@ -1,10 +1,7 @@
 using DialogueSystem.Data;
-using GDC.Managers;
-using Sirenix.Serialization;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 using UnityEngine.UI;
 
 namespace DialogueSystem

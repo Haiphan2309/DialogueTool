@@ -1,15 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using DialogueSystem.Data;
-using System.Text.RegularExpressions;
-using UnityEditor.PackageManager.Requests;
-using UnityEngine.Android;
 
 namespace DialogueSystem.Windows
 {
