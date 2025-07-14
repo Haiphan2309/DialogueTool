@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c7218a63f36db3240934f0c45b478554
+guid: dd01a9c7fd4a82f459e99abe889da577
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -45,7 +45,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 24
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PoisonSlime_0
+      name: IceSlime_0
       rect:
         serializedVersion: 2
         x: 0
@@ -137,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 94724e3070a37094898a47266efa8497
-      internalID: -1384452852
+      spriteID: dec6859dc03c0d847b215347fa5ce3a1
+      internalID: -1771129647
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonSlime_1
+      name: IceSlime_1
       rect:
         serializedVersion: 2
         x: 24
@@ -158,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 80616efbb29dbce4eb112896339be573
-      internalID: -536488906
+      spriteID: 7595f9d1ab3e44d4399176d77c8fa6e6
+      internalID: 482916721
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonSlime_2
+      name: IceSlime_2
       rect:
         serializedVersion: 2
         x: 0
@@ -179,14 +179,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7839b7c321b83f949a59a5487f08d840
-      internalID: -1686808037
+      spriteID: 6d998d852004e7c49833c6b90db4bd67
+      internalID: 776147329
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonSlime_3
+      name: IceSlime_3
       rect:
         serializedVersion: 2
         x: 24
@@ -200,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce0cfd6ce2176ef499703eaebc26e6c3
-      internalID: -952127524
+      spriteID: a2ef8fa8a27c9074b8c9e8d07715ee7b
+      internalID: -1976545896
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonSlime_4
+      name: IceSlime_4
       rect:
         serializedVersion: 2
         x: 48
@@ -221,14 +221,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24b79d9f7a4e73a4d9431712a5edae99
-      internalID: -415055186
+      spriteID: 8a8b8939b17883e478697cdc944f1d52
+      internalID: -1862178378
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonSlime_5
+      name: IceSlime_5
       rect:
         serializedVersion: 2
         x: 0
@@ -242,14 +242,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a16d6b796ff94b649a26fba514e1adcf
-      internalID: 1958325016
+      spriteID: 04cfce9b4e20532419adbc7d1ca954b9
+      internalID: 95938516
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonSlime_6
+      name: IceSlime_6
       rect:
         serializedVersion: 2
         x: 24
@@ -263,14 +263,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b6c5b3caec7ecf4459da443a4c983357
-      internalID: -121257828
+      spriteID: 8fbc6b779992e3a49ab427792bafc1a2
+      internalID: 749496755
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PoisonSlime_7
+      name: IceSlime_7
       rect:
         serializedVersion: 2
         x: 48
@@ -284,8 +284,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 18cd704a26ee3f542930d5c674861d14
-      internalID: 266470202
+      spriteID: 04573507a26193249aa2705594f1c0ff
+      internalID: 1344266588
       vertices: []
       indices: 
       edges: []
@@ -301,14 +301,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PoisonSlime_0: -1384452852
-      PoisonSlime_1: -536488906
-      PoisonSlime_2: -1686808037
-      PoisonSlime_3: -952127524
-      PoisonSlime_4: -415055186
-      PoisonSlime_5: 1958325016
-      PoisonSlime_6: -121257828
-      PoisonSlime_7: 266470202
+      IceSlime_0: -1771129647
+      IceSlime_1: 482916721
+      IceSlime_2: 776147329
+      IceSlime_3: -1976545896
+      IceSlime_4: -1862178378
+      IceSlime_5: 95938516
+      IceSlime_6: 749496755
+      IceSlime_7: 1344266588
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

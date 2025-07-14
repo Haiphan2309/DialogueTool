@@ -149,7 +149,7 @@ namespace DialogueSystem
 
         public void DisplayDialogue()
         {
-            if (_dialogueState != DialogueState.CHOOSING) //may be not to need this line
+            if (_dialogueState != DialogueState.CHOOSING)
             {
                 _currentNodeData = _soDialogue.FindDSNodeDataBy(_currentNodeData.NextNodeIndex);
             }
@@ -175,6 +175,11 @@ namespace DialogueSystem
                 }
                 Vector3 objectPos = talkingNPCData.CenterTransform ? talkingNPCData.CenterTransform.transform.position : Vector3.zero;
                 _uiDialogueTextBox.Setup("", _currentNodeData.TextBoxType, objectPos, talkingNPCData.Size);
+
+                if (talkingNPCData.BaseNPC != null)
+                {
+                    talkingNPCData.BaseNPC.DoTalkAnim(_currentNodeData.TalkingEmotion);
+                }
             }
             else
             {
@@ -234,7 +239,7 @@ namespace DialogueSystem
         private void ChooseChoice()
         {
             DSChoiceData currentChoiceData = _uiChoosingTextBox.GetCurrentChoiceData();
-            _currentNodeData = _soDialogue.FindDSNodeDataBy( currentChoiceData.NextNodeIndex);
+            _currentNodeData = _soDialogue.FindDSNodeDataBy(currentChoiceData.NextNodeIndex);
 
             _uiChoosingTextBox.OnChooseChoice();
         }
@@ -257,6 +262,12 @@ namespace DialogueSystem
             else
             {
                 CheckDialogueEvent();
+            }
+
+            TalkingNPCData talkingNPCData = GetCurrentTalkingNPCData(_currentNodeData);
+            if (talkingNPCData != null && talkingNPCData.BaseNPC != null)
+            {
+                talkingNPCData.BaseNPC.StopTalkAnim();
             }
         }
 

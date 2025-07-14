@@ -42,12 +42,12 @@ MonoBehaviour:
           _nextNodeIndex: -1
         _text: First, this is a example for a choosing system. Let choosing something.
         _textBoxType: 0
-        _talkingEmotion: 0
+        _talkingEmotion: 3
         _isHaveCallBack: 0
         _groupDataIndex: 0
     - _name: NPC 1
       _index: 1
-      _position: {x: 389.60004, y: 220.80005}
+      _position: {x: 389.6, y: 220.80002}
       _nodeDatas:
       - _name: Node 3
         _index: 3
@@ -66,7 +66,7 @@ MonoBehaviour:
         _choiceDatas: []
         _text: Oh, that's nice!
         _textBoxType: 0
-        _talkingEmotion: 0
+        _talkingEmotion: 4
         _isHaveCallBack: 0
         _groupDataIndex: 1
       - _name: Node 5
@@ -75,8 +75,8 @@ MonoBehaviour:
         _nextNodeIndex: -1
         _choiceDatas: []
         _text: Like this?
-        _textBoxType: 0
-        _talkingEmotion: 0
+        _textBoxType: 1
+        _talkingEmotion: 2
         _isHaveCallBack: 0
         _groupDataIndex: 1
     _ungroupedNodeDatas:
