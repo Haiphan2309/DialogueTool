@@ -16,12 +16,12 @@ MonoBehaviour:
     _groupDatas:
     - _name: New NPC
       _index: 0
-      _position: {x: 316.8, y: 88.8}
+      _position: {x: 204.79999, y: 90.399994}
       _nodeDatas:
       - _name: New Node
         _index: 1
-        _position: {x: 342.4, y: 148.8}
-        _nextNodeIndex: 2
+        _position: {x: 230.4, y: 150.4}
+        _nextNodeIndex: -1
         _choiceDatas: []
         _text: This is an example text.
         _textBoxType: 0
@@ -32,31 +32,9 @@ MonoBehaviour:
     - _name: Start
       _index: 0
       _position: {x: 100, y: 100}
-      _nextNodeIndex: 1
+      _nextNodeIndex: -1
       _choiceDatas: []
       _text: This is an example text.
-      _textBoxType: 0
-      _talkingEmotion: 0
-      _isHaveCallBack: 0
-      _groupDataIndex: -1
-    - _name: New Node
-      _index: 2
-      _position: {x: 968.8, y: 216}
-      _nextNodeIndex: -1
-      _choiceDatas:
-      - _text: An example choosing text.
-        _nextNodeIndex: -1
-      - _text: An example choosing text.
-        _nextNodeIndex: -1
-      - _text: An example choosing text.
-        _nextNodeIndex: -1
-      _text: 'dsasssssssssssssssssssssssssssssssssssssssssssssssssssssdsd
-
-        sdsdddddddddddddddddddddddddddddddddddddddd
-
-        sdsdddddddddddddddddddddddddddddddddddddd
-
-        sdsds'
       _textBoxType: 0
       _talkingEmotion: 0
       _isHaveCallBack: 0
@@ -65,7 +43,7 @@ MonoBehaviour:
       _name: Start
       _index: 0
       _position: {x: 100, y: 100}
-      _nextNodeIndex: 1
+      _nextNodeIndex: -1
       _choiceDatas: []
       _text: This is an example text.
       _textBoxType: 0

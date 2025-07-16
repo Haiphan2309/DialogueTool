@@ -57,15 +57,15 @@ namespace DialogueSystem
             switch (_dialogueState)
             {
                 case DialogueState.TALKING:
-                    if (Input.GetKeyDown(KeyCode.F)) //watch out this case, it's might be call right after SetDialogue()
+                    if (Input.GetKeyDown(KeyCode.Z))
                     {
                         SkipTalking();
                     }
-                    if (Input.GetKey(KeyCode.F))
+                    if (Input.GetKey(KeyCode.Z))
                     {
                         _isTalkingSpeedUp = true;
                     }
-                    if (Input.GetKeyUp(KeyCode.F))
+                    if (Input.GetKeyUp(KeyCode.Z))
                     {
                         _isTalkingSpeedUp = false;
                     }
@@ -79,14 +79,14 @@ namespace DialogueSystem
                     {
                         _uiChoosingTextBox.ActiveDownChoice();
                     }
-                    if (Input.GetKeyDown(KeyCode.F))
+                    if (Input.GetKeyDown(KeyCode.Z))
                     {
                         ChooseChoice();
                         DisplayDialogue();
                     }
                     break;
                 case DialogueState.PAUSE:
-                    if (Input.GetKeyDown(KeyCode.F))
+                    if (Input.GetKeyDown(KeyCode.Z))
                     {
                         DisplayDialogue();
                     }

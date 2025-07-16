@@ -16,12 +16,12 @@ MonoBehaviour:
     _groupDatas:
     - _name: NPC 0
       _index: 0
-      _position: {x: -43.2, y: -192.8}
+      _position: {x: -23.2, y: -690.39996}
       _nodeDatas:
-      - _name: Node 1
-        _index: 1
-        _position: {x: -17.6, y: -132.8}
-        _nextNodeIndex: 3
+      - _name: Node 3
+        _index: 3
+        _position: {x: 2.4, y: -79.2}
+        _nextNodeIndex: 13
         _choiceDatas: []
         _text: Hi, I will introduce about a Dialogue Tool! This tool will help with
           bubble chat style!
@@ -29,63 +29,253 @@ MonoBehaviour:
         _talkingEmotion: 0
         _isHaveCallBack: 0
         _groupDataIndex: 0
-      - _name: Node 2
-        _index: 2
-        _position: {x: 871.2, y: -132.8}
+      - _name: Node 4
+        _index: 4
+        _position: {x: 828, y: -132}
         _nextNodeIndex: -1
         _choiceDatas:
         - _text: Let talking with surprise bubble chat!
           _nextNodeIndex: 5
         - _text: Let thinking something.
-          _nextNodeIndex: -1
+          _nextNodeIndex: 6
         - _text: Nah, just continue like normal.
-          _nextNodeIndex: -1
+          _nextNodeIndex: 7
         _text: First, this is a example for a choosing system. Let choosing something.
+        _textBoxType: 0
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupDataIndex: 0
+      - _name: Node 5
+        _index: 5
+        _position: {x: 1328.8, y: -630.39996}
+        _nextNodeIndex: 15
+        _choiceDatas: []
+        _text: You mean the bubble chat will display like this?
+        _textBoxType: 1
+        _talkingEmotion: 2
+        _isHaveCallBack: 0
+        _groupDataIndex: 0
+      - _name: Node 6
+        _index: 6
+        _position: {x: 1328.8, y: -364}
+        _nextNodeIndex: 15
+        _choiceDatas: []
+        _text: Hmmmm I will think about what will the bubble chat display...
+        _textBoxType: 2
+        _talkingEmotion: 3
+        _isHaveCallBack: 0
+        _groupDataIndex: 0
+      - _name: Node 7
+        _index: 7
+        _position: {x: 1328.8, y: -60}
+        _nextNodeIndex: 15
+        _choiceDatas: []
+        _text: Okay... this is normal dialogue's bubble chat
         _textBoxType: 0
         _talkingEmotion: 3
         _isHaveCallBack: 0
         _groupDataIndex: 0
+      - _name: Node 8
+        _index: 8
+        _position: {x: 2282.4, y: -60}
+        _nextNodeIndex: 16
+        _choiceDatas: []
+        _text: I haven't finished yet, the bubble chat can be also dynamic reposition
+          depend to where we are!
+        _textBoxType: 0
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupDataIndex: 0
+      - _name: Node 9
+        _index: 9
+        _position: {x: 3166.4, y: -57.6}
+        _nextNodeIndex: 10
+        _choiceDatas: []
+        _text: Yeah! It's also can be scaled to any size depend on the text we input
+          to the node of bubble chat!
+        _textBoxType: 0
+        _talkingEmotion: 3
+        _isHaveCallBack: 0
+        _groupDataIndex: 0
+      - _name: Node 10
+        _index: 10
+        _position: {x: 3599.2, y: -57.6}
+        _nextNodeIndex: 17
+        _choiceDatas: []
+        _text: Addtionally, holding "TALK" button will speed up the text too!
+        _textBoxType: 0
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupDataIndex: 0
+      - _name: Node 11
+        _index: 11
+        _position: {x: 5661.6, y: -70.399994}
+        _nextNodeIndex: 21
+        _choiceDatas: []
+        _text: STOP SPAM!
+        _textBoxType: 1
+        _talkingEmotion: 2
+        _isHaveCallBack: 0
+        _groupDataIndex: 0
+      - _name: Node 12
+        _index: 12
+        _position: {x: 6462.4, y: -70.399994}
+        _nextNodeIndex: 22
+        _choiceDatas: []
+        _text: 'By the way, when you have , . ? ! in the text, the text render speed
+          will slow down
+
+          at that letter too.'
+        _textBoxType: 0
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupDataIndex: 0
     - _name: NPC 1
       _index: 1
-      _position: {x: 389.6, y: 220.80002}
+      _position: {x: 389.6001, y: 231.99997}
       _nodeDatas:
-      - _name: Node 3
-        _index: 3
+      - _name: Node 13
+        _index: 13
         _position: {x: 415.2, y: 299.2}
-        _nextNodeIndex: 2
+        _nextNodeIndex: 4
         _choiceDatas: []
         _text: Oh, that's nice!
         _textBoxType: 0
         _talkingEmotion: 0
         _isHaveCallBack: 0
         _groupDataIndex: 1
-      - _name: Node 4
-        _index: 4
+      - _name: Node 14
+        _index: 14
         _position: {x: 415.2, y: 299.2}
-        _nextNodeIndex: 2
+        _nextNodeIndex: 4
         _choiceDatas: []
         _text: Oh, that's nice!
         _textBoxType: 0
         _talkingEmotion: 4
         _isHaveCallBack: 0
         _groupDataIndex: 1
-      - _name: Node 5
-        _index: 5
-        _position: {x: 1412, y: 280.80002}
-        _nextNodeIndex: -1
+      - _name: Node 15
+        _index: 15
+        _position: {x: 1856, y: 299.2}
+        _nextNodeIndex: 8
         _choiceDatas: []
-        _text: Like this?
+        _text: Oh.. the bubble chat really did like that!
+        _textBoxType: 0
+        _talkingEmotion: 4
+        _isHaveCallBack: 0
+        _groupDataIndex: 1
+      - _name: Node 16
+        _index: 16
+        _position: {x: 2720.8, y: 299.2}
+        _nextNodeIndex: 9
+        _choiceDatas: []
+        _text: 'Wow
+
+          Wow
+
+          Wow
+
+          Wow
+
+          Wow
+
+          Wow'
+        _textBoxType: 0
+        _talkingEmotion: 4
+        _isHaveCallBack: 0
+        _groupDataIndex: 1
+      - _name: Node 17
+        _index: 17
+        _position: {x: 4016, y: 302.40002}
+        _nextNodeIndex: 18
+        _choiceDatas: []
+        _text: Also pressing "TALK" button while talking will skip the dialogue too,
+          right?
+        _textBoxType: 0
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupDataIndex: 1
+      - _name: Node 18
+        _index: 18
+        _position: {x: 4416.8, y: 302.40002}
+        _nextNodeIndex: 19
+        _choiceDatas: []
+        _text: "Like this: sdf sdf dsj nskdj f dskfjsdn fk nnkjsdjfnk skn ds\n dsnfk
+          nsdjfnk nsdfn kndsjn nskd nnjdsfnkdjs kjns kjdsf \n sdkjfn kjdsnf kjnsfn
+          ksndnfj jskdfnk jsdnfjskd kfskjd fnds\n nksjdfnkj sndkjfnjndsfkdsnfkjskjdnfkjdsknkjsdfnkjdfsndsn\nfsndkjfndskndsjkfnkjsnnfdkndsnfnsdfjnskdjfndskfnksnd\nkjdsnfkjdsnfjfnjdsk!"
         _textBoxType: 1
-        _talkingEmotion: 2
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupDataIndex: 1
+      - _name: Node 19
+        _index: 19
+        _position: {x: 4836, y: 302.40002}
+        _nextNodeIndex: 20
+        _choiceDatas: []
+        _text: "asdqwh i fakbfh dbsds jj jsdb ds\n dskf bsdf dbssb\ndfsdf ds\nf 
+          weopkpo kpogkgpkpg\nsdf hdsb fkdsbfk bkdsbh fkhds bkdsfba dsk bff\na dkj
+          kakefn"
+        _textBoxType: 1
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupDataIndex: 1
+      - _name: Node 20
+        _index: 20
+        _position: {x: 5238.4, y: 302.40002}
+        _nextNodeIndex: 11
+        _choiceDatas: []
+        _text: ' da1fd3 f1a 531f5aw65f8 41a531f 531a5f5311351531313115'
+        _textBoxType: 1
+        _talkingEmotion: 0
+        _isHaveCallBack: 0
+        _groupDataIndex: 1
+      - _name: Node 21
+        _index: 21
+        _position: {x: 6064, y: 302.40002}
+        _nextNodeIndex: 12
+        _choiceDatas: []
+        _text: Sorry...
+        _textBoxType: 0
+        _talkingEmotion: 3
+        _isHaveCallBack: 0
+        _groupDataIndex: 1
+      - _name: Node 22
+        _index: 22
+        _position: {x: 6911.2, y: 292}
+        _nextNodeIndex: 1
+        _choiceDatas: []
+        _text: Hm........ Oh I see!
+        _textBoxType: 0
+        _talkingEmotion: 0
         _isHaveCallBack: 0
         _groupDataIndex: 1
     _ungroupedNodeDatas:
     - _name: Start
       _index: 0
       _position: {x: -173.6, y: -132}
-      _nextNodeIndex: 1
+      _nextNodeIndex: 3
       _choiceDatas: []
       _text: This is an example text.
+      _textBoxType: 0
+      _talkingEmotion: 0
+      _isHaveCallBack: 0
+      _groupDataIndex: -1
+    - _name: Node 1
+      _index: 1
+      _position: {x: 7379.2, y: 112}
+      _nextNodeIndex: 2
+      _choiceDatas: []
+      _text: '* That is the first demo of the dialogue tool. Hope you guy like that. '
+      _textBoxType: 0
+      _talkingEmotion: 0
+      _isHaveCallBack: 0
+      _groupDataIndex: -1
+    - _name: Node 2
+      _index: 2
+      _position: {x: 7806.4, y: 112}
+      _nextNodeIndex: -1
+      _choiceDatas: []
+      _text: '* Thank you for watching!'
       _textBoxType: 0
       _talkingEmotion: 0
       _isHaveCallBack: 0
@@ -94,7 +284,7 @@ MonoBehaviour:
       _name: Start
       _index: 0
       _position: {x: -173.6, y: -132}
-      _nextNodeIndex: 1
+      _nextNodeIndex: 3
       _choiceDatas: []
       _text: This is an example text.
       _textBoxType: 0
