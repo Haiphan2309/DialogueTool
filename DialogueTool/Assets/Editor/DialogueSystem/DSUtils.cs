@@ -14,17 +14,24 @@ namespace DialogueSystem.Windows
         const string path = "Assets/DialogueSystem/ScriptableObjects/SODialogues";
         public static void SaveGraph(DSData dsData, string fileName)
         {
-            SODialogue soDialogue = ScriptableObject.CreateInstance<SODialogue>();
-            soDialogue.DSData = GetCopyDSData(dsData);
+            string assetPath = $"{path}/{fileName}.asset";
 
-            if (!AssetDatabase.IsValidFolder(path))
+            SODialogue soDialogue = AssetDatabase.LoadAssetAtPath<SODialogue>(assetPath);
+
+            if (soDialogue == null)
             {
-                Debug.LogError($"Path '{path}' is not a valid folder in Assets");
-                return;
+                soDialogue = ScriptableObject.CreateInstance<SODialogue>();
+                AssetDatabase.CreateAsset(soDialogue, assetPath);
+                Debug.Log($"Created new SODialogue at {assetPath}");
+            }
+            else
+            {
+                Debug.Log($"Overwriting existing SODialogue at {assetPath}");
             }
 
-            string assetPath = $"{path}/{fileName}.asset";
-            AssetDatabase.CreateAsset(soDialogue, assetPath);
+            soDialogue.DSData = GetCopyDSData(dsData);
+
+            EditorUtility.SetDirty(soDialogue);
             AssetDatabase.SaveAssets();
 
             Debug.Log($"Saved dialogue to {assetPath}");
