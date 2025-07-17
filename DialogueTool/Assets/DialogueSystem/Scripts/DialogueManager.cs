@@ -37,8 +37,6 @@ namespace DialogueSystem
         private UIDialogueTextBox _uiDialogueTextBox;
         private UIChoosingTextBox _uiChoosingTextBox;
 
-        [SerializeField] private Color _nameColor;
-
         private Coroutine _talkCor;
 
         bool _isTalkingSpeedUp;
@@ -288,26 +286,21 @@ namespace DialogueSystem
             _dialogueState = DialogueState.TALKING;
             string str = "";
             _uiDialogueTextBox.SetText(str);
+
+            bool isActiveSpecialTextColor = false;
+
             foreach (char letter in nodeData.Text.ToCharArray())
             {
-                if (letter == '&')
-                {
-                    string hexColor = ColorUtility.ToHtmlStringRGB(_nameColor);
-                    //str += $"<color=#{hexColor}>{SaveLoadManager.Instance.GameData.PlayerName}</color>";
-                }
-                else
-                {
-                    str += letter;
-                }
+                str += letter;
 
-                float sec = 0.02f; //default
+                float sec = _textBoxConfig.DefaultTalkingSpeedDelay;
                 if (_isTalkingSpeedUp)
                 {
-                    sec = 0.01f;
+                    sec = _textBoxConfig.FastTalkingSpeedDelay;
                 }
 
                 if (letter == '.' || letter == ',' || letter == '!' || letter == '?')
-                    yield return new WaitForSecondsRealtime(sec * 8);
+                    yield return new WaitForSecondsRealtime(sec * _textBoxConfig.SlowTalkingSpeedDelayMutil);
                 else
                     yield return new WaitForSecondsRealtime(sec);
 

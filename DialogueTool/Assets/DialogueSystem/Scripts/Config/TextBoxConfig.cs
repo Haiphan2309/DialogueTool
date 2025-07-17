@@ -115,6 +115,16 @@ namespace DialogueSystem
 
         public Vector2 DefaultAnchorPosition;
 
+        public Color NPCTextBoxColor;
+        public Color NonNPCTextBoxColor;
+
+        public Color NPCTextColor;
+        public Color NonNPCTextColor;
+
+        public float DefaultTalkingSpeedDelay;
+        public float FastTalkingSpeedDelay;
+        public float SlowTalkingSpeedDelayMutil;
+
         public TextBoxSpriteConfig GetTextBoxSpriteConfig(TextBoxType textBoxType)
         {
             foreach (var config in _textBoxSprtieConfigs)

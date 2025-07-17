@@ -70,7 +70,7 @@ MonoBehaviour:
         _position: {x: 1328.8, y: -60}
         _nextNodeIndex: 15
         _choiceDatas: []
-        _text: Okay... this is normal dialogue's bubble chat
+        _text: Okay... this is normal dialogue's bubble chat.
         _textBoxType: 0
         _talkingEmotion: 3
         _isHaveCallBack: 0
@@ -122,17 +122,18 @@ MonoBehaviour:
         _position: {x: 6462.4, y: -70.399994}
         _nextNodeIndex: 22
         _choiceDatas: []
-        _text: 'By the way, when you have , . ? ! in the text, the text render speed
-          will slow down
+        _text: 'By the way, when you have some special letter such as ", . ? !" in
+          the text,
 
-          at that letter too.'
+          the text render speed will slow down at that letter
+          too.'
         _textBoxType: 0
         _talkingEmotion: 0
         _isHaveCallBack: 0
         _groupDataIndex: 0
     - _name: NPC 1
       _index: 1
-      _position: {x: 389.6001, y: 231.99997}
+      _position: {x: 389.60004, y: 232}
       _nodeDatas:
       - _name: Node 13
         _index: 13

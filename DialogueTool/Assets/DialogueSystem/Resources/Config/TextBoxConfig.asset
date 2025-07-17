@@ -113,3 +113,11 @@ MonoBehaviour:
   - TextBoxType: 1
     TextBoxSprite: {fileID: 21300000, guid: fcd41447a0f877b48a91e3c917604561, type: 3}
   DefaultAnchorPosition: {x: 0, y: -9999}
+  NPCTextBoxColor: {r: 1, g: 1, b: 1, a: 1}
+  NonNPCTextBoxColor: {r: 0.4867924, g: 0.33398092, b: 0.1533855, a: 1}
+  NPCTextColor: {r: 0.16981131, g: 0.10091131, b: 0, a: 1}
+  NonNPCTextColor: {r: 0.8415094, g: 0.76612085, b: 0.6906728, a: 1}
+  SpecialTextColor: {r: 1, g: 0.2245282, b: 0.54033905, a: 1}
+  DefaultTalkingSpeedDelay: 0.02
+  FastTalkingSpeedDelay: 0.01
+  SlowTalkingSpeedDelayMutil: 8

@@ -29,6 +29,9 @@ namespace DialogueSystem
             _background.sprite = DialogueManager.Instance.TextBoxConfig.GetTextBoxSpriteConfig(textBoxType).TextBoxSprite;
             _background.type = Image.Type.Tiled;
 
+            _text.color = DialogueManager.Instance.TextBoxConfig.NPCTextColor;
+            _background.color = DialogueManager.Instance.TextBoxConfig.NPCTextBoxColor;
+
             SetText(text);
 
             Vector2 resultPos = Vector2.zero;
@@ -58,6 +61,9 @@ namespace DialogueSystem
 
             _background.sprite = DialogueManager.Instance.TextBoxConfig.GetTextBoxSpriteConfig(textBoxType).TextBoxSprite;
             _background.type = Image.Type.Tiled;
+
+            _text.color = DialogueManager.Instance.TextBoxConfig.NonNPCTextColor;
+            _background.color = DialogueManager.Instance.TextBoxConfig.NonNPCTextBoxColor;
 
             SetText(text);
             SetDefaultPosition();
