@@ -11,12 +11,11 @@ namespace DialogueSystem.Windows
 {
     public static class DSUtils
     {
-        const string path = "Assets/DialogueSystem/ScriptableObjects/SODialogues";
+        const string assetFolderName = "DialogueDatas";
+        const string assetPath = "Assets/DialogueSystem/Resources/" + assetFolderName;
         public static void SaveGraph(DSData dsData, string fileName)
         {
-            string assetPath = $"{path}/{fileName}.asset";
-
-            SODialogue soDialogue = AssetDatabase.LoadAssetAtPath<SODialogue>(assetPath);
+            SODialogue soDialogue = Resources.Load<SODialogue>($"{assetFolderName}/{fileName}");
 
             if (soDialogue == null)
             {
@@ -37,11 +36,9 @@ namespace DialogueSystem.Windows
             Debug.Log($"Saved dialogue to {assetPath}");
         }
 
-        public static DSData LoadGraph(string soDialogueFileName)
+        public static DSData LoadGraph(string fileName)
         {
-            string assetPath = $"{path}/{soDialogueFileName}.asset";
-
-            SODialogue soDialogue = AssetDatabase.LoadAssetAtPath<SODialogue>(assetPath);
+            SODialogue soDialogue = Resources.Load<SODialogue>($"{assetFolderName}/{fileName}");
 
             if (soDialogue == null)
             {
