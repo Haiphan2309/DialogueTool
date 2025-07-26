@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using DialogueSystem.UI;
 
-namespace DialogueSystem
+namespace DialogueSystem.Config
 {
     ///////////////////////////////////////////////////////////// Pivot config
     public enum TextBoxType

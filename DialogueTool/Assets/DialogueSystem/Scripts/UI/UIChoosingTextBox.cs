@@ -1,9 +1,9 @@
 using DialogueSystem.Data;
-using GDC.Utils;
+using DialogueSystem.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DialogueSystem
+namespace DialogueSystem.UI
 {
     public class UIChoosingTextBox : MonoBehaviour
     {

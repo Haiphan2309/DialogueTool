@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DialogueSystem.Config;
 
-namespace DialogueSystem
+namespace DialogueSystem.UI
 {
     public enum DialogueState
     {

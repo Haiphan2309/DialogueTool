@@ -2,7 +2,7 @@ using DialogueSystem.Data;
 using TMPro;
 using UnityEngine;
 
-namespace DialogueSystem
+namespace DialogueSystem.UI
 {
     public class UITextBoxChoice : MonoBehaviour
     {
