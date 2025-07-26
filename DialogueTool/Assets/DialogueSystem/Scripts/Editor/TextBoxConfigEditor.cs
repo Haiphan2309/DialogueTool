@@ -1,7 +1,6 @@
 using UnityEditor;
-using System.Collections.Generic;
 
-namespace DialogueSystem
+namespace DialogueSystem.Config
 {
     [CustomEditor(typeof(TextBoxConfig))]
     public class TextBoxConfigEditor : Editor

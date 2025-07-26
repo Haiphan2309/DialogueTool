@@ -1,9 +1,10 @@
-using GDC.Utils;
+using DialogueSystem.Utils;
+using DialogueSystem.Config;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DialogueSystem
+namespace DialogueSystem.UI
 {
     public class UIDialogueTextBox : MonoBehaviour
     {
