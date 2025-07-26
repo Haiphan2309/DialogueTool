@@ -18,7 +18,7 @@ This **Dialogue Tool** helps you build a dialogue system with **bubble-style cha
 
 ## 📸 Screenshot:
 <img width="938" height="525" alt="4" src="https://github.com/user-attachments/assets/d11de7b5-53b4-4440-b1c5-f7f6d309909a" />
-<img width="937" height="520" alt="3" src="https://github.com/user-attachments/assets/09577203-8338-47d8-afcd-06a78c040299" />
+<img width="1511" height="835" alt="image" src="https://github.com/user-attachments/assets/f2df04b4-e943-4a4c-a7e3-7e2a3d9f7731" />
 <img width="1899" height="931" alt="2" src="https://github.com/user-attachments/assets/1bfe53d9-f2fd-48cb-9c63-dd8dfd1bb324" />
 <img width="935" height="524" alt="1" src="https://github.com/user-attachments/assets/cf7f3bf6-3888-4f16-b993-f7f19aa757f1" />
 
