@@ -133,7 +133,7 @@ MonoBehaviour:
         _groupDataIndex: 0
     - _name: NPC 1
       _index: 1
-      _position: {x: 389.60004, y: 232}
+      _position: {x: 389.6, y: 232}
       _nodeDatas:
       - _name: Node 13
         _index: 13
