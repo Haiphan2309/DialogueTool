@@ -1,6 +1,6 @@
 # 💬 Dialogue Tool – Bubble Chat Style Dialogue System
 
-This **Dialogue Tool** helps you build a dialogue system with **bubble-style chat**, inspired by **manga/comic** or **Mario & Luigi**-style RPGs. It automatically adjusts the **position and direction of the dialogue box arrows** to avoid overlapping with the speaking character and to stay within the camera view.
+This **Dialogue Tool** helps you build a dialogue system with **bubble-style chat**, inspired by **manga/comic** or **Mario & Luigi**-style RPGs. It automatically adjusts the **position of dialogue text box and direction of the dialogue box arrows** to avoid overlapping with the speaking character and to stay within the camera view.
 
 ---
 
@@ -17,19 +17,23 @@ This **Dialogue Tool** helps you build a dialogue system with **bubble-style cha
 ---
 
 ## 📸 Screenshot:
-<img width="1029" height="579" alt="image" src="https://github.com/user-attachments/assets/572ac4d0-da61-48e4-a5f4-c87a2cfb252c" />
-
-<img width="1035" height="577" alt="image" src="https://github.com/user-attachments/assets/6d16ac7c-e35a-4d68-a19f-fcffd5bc65ce" />
-
-<img width="1033" height="574" alt="image" src="https://github.com/user-attachments/assets/3d9d9a06-a478-4f27-a772-43cb6514e896" />
-
-<img width="1037" height="575" alt="image" src="https://github.com/user-attachments/assets/df7244ec-34aa-46f0-8680-bca825dd9d09" />
+<img width="938" height="525" alt="4" src="https://github.com/user-attachments/assets/d11de7b5-53b4-4440-b1c5-f7f6d309909a" />
+<img width="937" height="520" alt="3" src="https://github.com/user-attachments/assets/09577203-8338-47d8-afcd-06a78c040299" />
+<img width="1899" height="931" alt="2" src="https://github.com/user-attachments/assets/1bfe53d9-f2fd-48cb-9c63-dd8dfd1bb324" />
+<img width="935" height="524" alt="1" src="https://github.com/user-attachments/assets/cf7f3bf6-3888-4f16-b993-f7f19aa757f1" />
 
 <img width="1835" height="893" alt="image" src="https://github.com/user-attachments/assets/57e1ab36-ea6d-41f9-88d8-df2b295c5709" />
-
 <img width="1919" height="1007" alt="image" src="https://github.com/user-attachments/assets/b02e58da-aafc-4a9e-94a9-ba7f35739279" />
 
 ---
+
+## Feature
+
+- You can set mutil talking NPCs in a single dialogue.
+- The text box automatically adjusts the **position of dialogue text box and direction of the dialogue box arrows** to avoid overlapping with the speaking character and to stay within the camera view.
+- Press **TALK** key when talking to skip the dialogue text box.
+- Hold **TALK** key to speed up talking speed.
+- When talking, if dialogue text meet special letter like **. ? ! ...**, the talking speed will slower then usual.
 
 ## 🛠️ How to Use
 
@@ -92,16 +96,16 @@ const string assetPath = "Assets/DialogueSystem/Resources/" + assetFolderName;
 
 To use the dialogue tool in your scene, follow these steps:
 
-### 1. Attach the `NPC.cs` Script
+### 1. Attach the `BaseNPC` element to NPC object
 
-- Add the `NPC.cs` script to each NPC GameObject.
-- You can customize `NPC.cs` as needed to define how dialogue is triggered (e.g., on key press or collider trigger).
+- Add the `SampleNPC.cs` script to each NPC GameObject, which inherit from BaseNPC.
+- You can customize `SampleNPC.cs` as needed to define how dialogue is triggered (e.g., on key press or collider trigger).
 
 ### 2. Assign the Dialogue Asset
 
 - Drag and drop your `SODialogue.asset` (created using the editor) into the `SODialogue` field of the `NPC` component.
 
-### 3. Configure `talkingNPCDatas`
+### 3. Configure `Talking NPC Datas`
 
 After assigning a `SODialogue`, a new section called `Talking NPC Datas` will appear. The number of elements matches the number of `NPC Group`s in the dialogue graph.
 
@@ -116,7 +120,7 @@ Each element contains:
 ### 4. Dialogue Activation
 
 - By default, you can test the dialogue system by pressing the **Z key**.
-- You can customize this in `NPC.cs` or `DialogueManager.cs`.
+- You can customize this in `SampleNPC.cs` or `DialogueManager.cs`.
 
 ---
 
